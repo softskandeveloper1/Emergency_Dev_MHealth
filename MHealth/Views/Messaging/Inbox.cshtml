@@ -1,0 +1,182 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model PaginatedList<mp_notification>
+@{
+    ViewBag.Title = "Inbox";
+}
+
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Inbox</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">
+                    Inbox
+                </div>
+                <div class="btn-actions-pane-right">
+
+                    <form method="get" action="@Url.Action("Inbox","Messaging")">
+                        <div class="input-group">
+
+                            <input type="text" name="quer" class="form-control" placeholder="search.....">
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="inbox-body">
+                        <div class="mail-option">
+                            <div class="mb-2 mr-2 btn-group">
+                                <button class="btn btn-outline-info">All</button>
+                                <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle-split dropdown-toggle btn btn-outline-info">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                    <button type="button" tabindex="0" class="dropdown-item">Unread</button>
+                                    <button type="button" tabindex="0" class="dropdown-item">Read</button>
+                                </div>
+                            </div>
+
+                            @{
+                                var prevDisabled = !Model.HasPreviousPage ? "isDisabled" : "";
+                                var nextDisabled = !Model.HasNextPage ? "isDisabled" : "";
+                            }
+
+                            <ul class="unstyled inbox-pagination">
+                                <li><span>1-50 of 1</span></li>
+                                <li>
+                                    <a class="np-btn @prevDisabled" @prevDisabled href="@Url.Action("Inbox","Messaging",new {pageNumber=Model.PageIndex - 1,search=ViewBag.query})"><i class="fa fa-angle-left  pagination-left"></i></a>
+                                </li>
+                                <li>
+                                    <a class="np-btn @nextDisabled" @nextDisabled href="@Url.Action("Inbox","Messaging",new {pageNumber=Model.PageIndex + 1,search=ViewBag.query})"><i class="fa fa-angle-right pagination-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <table class="table table-inbox table-hover">
+                            <tbody>
+                                @foreach (var message in Model)
+                                {
+                                    var cls = "";
+                                    if (message.read == 0)
+                                    {
+                                        cls = "unread";
+                                    }
+
+                                    <tr class="@cls" data-toggle="modal" data-target="#messageModal" onclick=" load_partial('/Messaging/LoadMessagePartial?message_id=@message.id')">
+                                        @*<td class="inbox-small-cells">
+                                    <input type="checkbox" class="mail-checkbox">
+                                </td>*@
+                                        <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                        <td class="view-message  dont-show">@message.created_by_name</td>
+                                        <td class="view-message ">@message.title </td>
+                                        <td class="view-message  inbox-small-cells">
+                                            @*<i class="fa fa-paperclip"></i>*@
+                                        </td>
+                                        <td class="view-message  text-right">@message.created_at.ToString("dd MMM, yyyy hh:mm tt")</td>
+                                    </tr>
+
+                                }
+
+
+                                @*<tr class="unread">
+                            <td class="inbox-small-cells">
+                                <input type="checkbox" class="mail-checkbox">
+                            </td>
+                            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                            <td class="view-message  dont-show">System Admin</td>
+                            <td class="view-message ">Diagnostic result for member <strong>0000000003</strong></td>
+                            <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                            <td class="view-message  text-right">9:27 AM</td>
+                        </tr>
+                        <tr class="">
+                            <td class="inbox-small-cells">
+                                <input type="checkbox" class="mail-checkbox">
+                            </td>
+                            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                            <td class="view-message dont-show">System Admin </td>
+                            <td class="view-message">You have a new appointment</td>
+                            <td class="view-message inbox-small-cells"></td>
+                            <td class="view-message text-right">March 15</td>
+                        </tr>*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p>Not messages in your inbox</p>
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section scripts{
+
+    <div class="modal fade bd-message-modal-lg" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" asp-controller="" asp-action="">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modal_title">Message details</h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="view_bag">
+                   
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                       
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="~/js/partial_view.js"></script>
+}
+
+
+@section styles{
+    <link href="~/css/inbox.css" rel="stylesheet" />
+
+<style>
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+</style>
+}

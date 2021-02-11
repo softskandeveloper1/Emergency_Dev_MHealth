@@ -1,0 +1,82 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model IQueryable<mp_prescription>
+@{
+    ViewBag.Title = "Prescriptions";
+}
+
+
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Clinician")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Prescriptions</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">
+                    Prescriptions
+                </div>
+                <div class="btn-actions-pane-right">
+                    <a href="@Url.Action("NewPrescription","Prescription")" class="btn btn-info">New Prescription</a>
+
+               
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>No of drugs</th>
+                                <th>Pharmacy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                foreach (var prescription in Model)
+                                {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Detail","Prescription",new { id = prescription.id })"> @prescription.profile_.unique_id.ToString("D10")</a>
+                                </td>
+                                <td>@string.Format("{0} {1}", prescription.profile_.last_name, prescription.profile_.first_name)</td>
+                                <td>@prescription.created_at</td>
+                                <td>@prescription.mp_prescription_drug.Count()</td>
+                                @if (prescription.pharmacy_id.HasValue)
+                                {
+                                    <td>@Options.GetPharmacyName(prescription.pharmacy_id.Value)</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                            </tr>
+
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

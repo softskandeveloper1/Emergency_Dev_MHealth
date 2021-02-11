@@ -1,0 +1,178 @@
+﻿@using DAL.Models;
+@model mp_appointment;
+@{
+    ViewBag.Title = "Session";
+
+    string u_token = "", u_uid = "", g_uid = "";
+    if (User.Identity.Name == "ico.cghpi@gmail.com")
+    {
+        u_token = "superhero5_15986b675f8ae4a87af44b8f60e45afa61420087";
+        u_uid = "superhero5";
+        g_uid = "superhero4";
+    }
+    else
+    {
+        u_token = "superhero4_d64b91acc687acc6a3fa9cfff676fd28dbcdd3df";
+        u_uid = "superhero4";
+        g_uid = "superhero5";
+    }
+}
+
+
+<div class="row">
+    <div class="col-lg-8">
+        <button class="btn btn-success" id="btn_call" disabled type="button" onclick="initiateCall('@g_uid')">Call</button>
+
+        <div id="callScreen"></div>
+        <button class="btn btn-primary" id="btn_accept" disabled type="button" onclick="accept_call()">Accept</button>
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="chat_window">
+            <div class="top_menu">
+                <div class="buttons">
+                    @*<div class="button close"></div>
+                        <div class="button minimize"></div>
+                        <div class="button maximize"></div>*@
+                </div>
+                <div class="title">Chat</div>
+                <input type="hidden" id="com_id" value="de93d18b-0f00-4b4b-a914-645af44d3b82" />
+            </div>
+            <ul class="messages"></ul>
+            <div class="bottom_wrapper clearfix">
+                <div class="message_input_wrapper">
+                    <input id="message_input" class="message_input" placeholder="Type your message here..." />
+                </div>
+                <div class="send_message" id="sendBtn">
+                    <div class="icon"></div>
+                    <div class="text">Send</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="message_template">
+            <li class="message">
+                <div class="avatar"></div>
+                <div class="text_wrapper">
+                    <div class="text"></div>
+                </div>
+            </li>
+        </div>
+    </div>
+</div>
+
+
+@section styles{
+    <link href="~/css/chat.css" type="text/css" rel="stylesheet" />
+}
+
+
+@section scripts{
+    @*<script src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>*@
+    <script type="text/javascript" src="~/lib/comet/CometChat.js"></script>
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/js/comet_util.js"></script>
+
+
+    <script>
+        (function () {
+            var Message;
+            Message = function (arg) {
+                this.text = arg.text, this.message_side = arg.message_side;
+                this.draw = function (_this) {
+                    return function () {
+                        var $message;
+                        $message = $($('.message_template').clone().html());
+                        $message.addClass(_this.message_side).find('.text').html(_this.text);
+                        $('.messages').append($message);
+                        return setTimeout(function () {
+                            return $message.addClass('appeared');
+                        }, 0);
+                    };
+                }(this);
+                return this;
+            };
+            $(function () {
+                var getMessageText, message_side, sendMessage;
+                message_side = 'right';
+                getMessageText = function () {
+                    var $message_input;
+                    $message_input = $('.message_input');
+                    return $message_input.val();
+                };
+                sendMessage = function (text) {
+                    var $messages, message;
+                    if (text.trim() === '') {
+                        return;
+                    }
+                    $('.message_input').val('');
+                    $messages = $('.messages');
+                    message_side = message_side === 'left' ? 'right' : 'left';
+                    message = new Message({
+                        text: text,
+                        message_side: message_side
+                    });
+                    message.draw();
+                    return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
+                };
+                $('.send_message').click(function (e) {
+                    return sendMessage(getMessageText());
+                });
+                $('.message_input').keyup(function (e) {
+                    if (e.which === 13) {
+                        return sendMessage(getMessageText());
+                    }
+                });
+                sendMessage('Hello Philip! :)');
+                setTimeout(function () {
+                    return sendMessage('Hi Sandy! How are you?');
+                }, 1000);
+                return setTimeout(function () {
+                    return sendMessage('I\'m fine, thank you!');
+                }, 2000);
+            });
+        }.call(this));
+    </script>
+
+    <script type="text/javascript">
+
+        var data = null;
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+        });
+
+        xhr.open("POST", "https://api-us.cometchat.io/v2.0/users/superhero4/auth_tokens");
+        xhr.setRequestHeader("appid", "176085552987728");
+        xhr.setRequestHeader("apikey", "1b2b8e46ff8cf3eabe275e952dc3a77d221fe613");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("accept", "application/json");
+
+        xhr.send(data);
+
+
+
+            window.onload = (function () {
+                var appId = "176085552987728";
+                let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
+                CometChat.init(appId, cometChatSettings)
+                    .then(
+                        () => {
+                            console.log("Initialization completed successfully");
+                            //You can now call login function.
+                            login('@u_token');
+                        },
+                        error => {
+                            console.log("Initialization failed with error:", error);
+                            //Check the reason for error and take appropriate action.
+                        }
+                    );
+            })
+    </script>
+}

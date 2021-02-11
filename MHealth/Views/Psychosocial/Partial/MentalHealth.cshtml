@@ -1,0 +1,583 @@
+@using MHealth.Helper;
+@model DAL.Models.mp_psychosocial
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<h6 class="card-title">Please Select all that apply to you (choose severity that applies): <code>(0) Not Present, (1) Mild, (2) Moderate, or (3) Severe</code></h6>
+<form id="mental_health_form">   
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/> 
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="position-relative form-group">
+                <label for="problem" class="">What brings you to Counseling?</label>
+                <textarea class="form-control" name="problem" id="problem" required></textarea>
+            </div>
+        </div>
+    </div>               
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Depression</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="depression" id="depression_0"value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="depression_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="depression" id="depression_1"value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="depression_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="depression" id="depression_2"value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="depression_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="depression" id="depression_3"value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="depression_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Anxiety</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="anxiety" id="anxiety_0" value="1"class="custom-control-input">
+                        <label class="custom-control-label" for="anxiety_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="anxiety" id="anxiety_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="anxiety_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="anxiety" id="anxiety_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="anxiety_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="anxiety" id="anxiety_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="anxiety_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Mood Swings</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="mood_swing" id="mood_swing_0"value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="mood_swing_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="mood_swing" id="mood_swing_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="mood_swing_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="mood_swing" id="mood_swing_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="mood_swing_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="mood_swing" id="mood_swing_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="mood_swing_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Appetite Changes</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="appetite_changes"id="appetite_changes_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="appetite_changes_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="appetite_changes" id="appetite_changes_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="appetite_changes_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="appetite_changes" id="appetite_changes_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="appetite_changes_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="appetite_changes" id="appetite_changes_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="appetite_changes_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Sleep Changes</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="sleep_changes"id="sleep_changes_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="sleep_changes_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="sleep_changes" id="sleep_changes_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="sleep_changes_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="sleep_changes" id="sleep_changes_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="sleep_changes_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="sleep_changes" id="sleep_changes_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="sleep_changes_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Halucinations</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hallucinations"id="hallucinations_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="hallucinations_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hallucinations" id="hallucinations_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="hallucinations_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hallucinations" id="hallucinations_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="hallucinations_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hallucinations" id="hallucinations_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="hallucinations_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Work Problems</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="work_problems"id="work_problems_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="work_problems_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="work_problems" id="work_problems_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="work_problems_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="work_problems" id="work_problems_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="work_problems_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="work_problems" id="work_problems_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="work_problems_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Racing Thoughts</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="racing_thoughts"id="racing_thoughts_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="racing_thoughts_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="racing_thoughts" id="racing_thoughts_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="racing_thoughts_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="racing_thoughts" id="racing_thoughts_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="racing_thoughts_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="racing_thoughts" id="racing_thoughts_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="racing_thoughts_3">3</label>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Memory Problems</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="memory_problems"id="memory_problems_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="memory_problems_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="memory_problems" id="memory_problems_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="memory_problems_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="memory_problems" id="memory_problems_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="memory_problems_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="memory_problems" id="memory_problems_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="memory_problems_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Loss of Intrest</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="loss_interest"id="loss_interest_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="loss_interest_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="loss_interest" id="loss_interest_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="loss_interest_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="loss_interest" id="loss_interest_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="loss_interest_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="loss_interest" id="loss_interest_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="loss_interest_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Irritabilty</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="irritability"id="irritability_0"  value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="irritability_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="irritability" id="irritability_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="irritability_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="irritability" id="irritability_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="irritability_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="irritability" id="irritability_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="irritability_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Excessive Worry</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="excessive_worry"id="excessive_worry_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="excessive_worry_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="excessive_worry" id="excessive_worry_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="excessive_worry_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="excessive_worry" id="excessive_worry_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="excessive_worry_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="excessive_worry" id="excessive_worry_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="excessive_worry_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Suicidal Ideation</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="suicidal_ideation"id="suicidal_ideation_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="suicidal_ideation_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="suicidal_ideation" id="suicidal_ideation_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="suicidal_ideation_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="suicidal_ideation" id="suicidal_ideation_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="suicidal_ideation_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="suicidal_ideation" id="suicidal_ideation_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="suicidal_ideation_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Relationship Issues</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="relationship_issues"id="relationship_issues_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="relationship_issues_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="relationship_issues" id="relationship_issues_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="relationship_issues_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="relationship_issues" id="relationship_issues_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="relationship_issues_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="relationship_issues" id="relationship_issues_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="relationship_issues_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Low Energy</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="low_energy"id="low_energy_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="low_energy_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="low_energy" id="low_energy_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="low_energy_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="low_energy" id="low_energy_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="low_energy_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="low_energy" id="low_energy_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="low_energy_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Confusion</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="confusion" id="confusion_0" value="1"class="custom-control-input">
+                        <label class="custom-control-label" for="confusion_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="confusion" id="confusion_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="confusion_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="confusion" id="confusion_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="confusion_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="confusion" id="confusion_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="confusion_3">3</label>
+                    </div> 
+                </div>
+            </div>
+        </div>                        
+        <div class="col-md-4">
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Panic Attacks</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="panic_attacks" id="panic_attacks_0"value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="panic_attacks_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="panic_attacks" id="panic_attacks_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="panic_attacks_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="panic_attacks" id="panic_attacks_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="panic_attacks_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="panic_attacks" id="panic_attacks_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="panic_attacks_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Obsessive Thoughts</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="obsessive_thoughts"id="obsessive_thoughts_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="obsessive_thoughts_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="obsessive_thoughts" id="obsessive_thoughts_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="obsessive_thoughts_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="obsessive_thoughts" id="obsessive_thoughts_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="obsessive_thoughts_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="obsessive_thoughts" id="obsessive_thoughts_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="obsessive_thoughts_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Ritualistic Behavior</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="ritualistic_behaviour"id="ritualistic_behaviour_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="ritualistic_behaviour_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="ritualistic_behaviour" id="ritualistic_behaviour_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="ritualistic_behaviour_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="ritualistic_behaviour" id="ritualistic_behaviour_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="ritualistic_behaviour_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="ritualistic_behaviour" id="ritualistic_behaviour_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="ritualistic_behaviour_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Checking</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="checking"id="checking_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="checking_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="checking" id="checking_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="checking_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="checking" id="checking_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="checking_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="checking" id="checking_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="checking_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Counting</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="counting"id="counting_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="counting_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="counting" id="counting_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="counting_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="counting" id="counting_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="counting_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="counting" id="counting_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="counting_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Self-Injury</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="self_injury"id="self_injury_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="self_injury_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="self_injury" id="self_injury_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="self_injury_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="self_injury" id="self_injury_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="self_injury_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="self_injury" id="self_injury_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="self_injury_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Difficulty Concentrating</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="difficulty_concentrating"id="difficulty_concentrating_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="difficulty_concentrating_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="difficulty_concentrating" id="difficulty_concentrating_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="difficulty_concentrating_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="difficulty_concentrating" id="difficulty_concentrating_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="difficulty_concentrating_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="difficulty_concentrating" id="difficulty_concentrating_3" value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="difficulty_concentrating_3">3</label>
+                    </div> 
+                </div>
+            </div>
+            <div class="position-relative row form-group">
+                <label class="col-sm-5" style="float: right;">Hyperactivity</label>
+                <div class="col-sm-7">                        
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hyperactivity"id="hyperactivity_0" value="1" class="custom-control-input">
+                        <label class="custom-control-label" for="hyperactivity_0">0</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hyperactivity" id="hyperactivity_1" value="2" class="custom-control-input">
+                        <label class="custom-control-label" for="hyperactivity_1">1</label>
+                    </div>
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hyperactivity" id="hyperactivity_2" value="3" class="custom-control-input">
+                        <label class="custom-control-label" for="hyperactivity_2">2</label>
+                    </div> 
+                    <div class="custom-radio custom-control custom-control-inline">
+                        <input type="radio" name="hyperactivity" id="hyperactivity_3"  value="4" class="custom-control-input">
+                        <label class="custom-control-label" for="hyperactivity_3">3</label>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="history" class="">Describe a brief history of your present symptoms</label>
+                <textarea class="form-control" name="history" required id="history"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="effect_symptons" class="">What effect have they had on your life? </label>
+                <textarea name="effect_symptons" id="effect_symptons" required class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="mental_problem" class="">Have you ever been treated for a mental health problem?</label>
+                <select class="form-control" name="mental_problem" required id="mental_problem" asp-items="yes_no_dropdown" onchange="enableDisable('mental_problem_description', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="mental_hospitalization" class="">Have you ever had a mental health hospitalization?</label>
+                <select class="form-control" name="mental_hospitalization" required id="mental_hospitalization" asp-items="yes_no_dropdown" onchange="enableDisable('mental_hospitalization_description', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="mental_problem_description" class="">If yes, please describe</label>
+                <textarea class="form-control" name="mental_problem_description" id="mental_problem_description"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="mental_hospitalization_description" class="">Yes, please describe</label>
+                <textarea name="mental_hospitalization_description" id="mental_hospitalization_description" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="mental-health-container">
+        <ol>
+        </ol>
+    </div>
+    <div class="d-block text-right card-footer">
+        <button type="button" id="mental_health_submit" class="mt-3 btn btn-success">Save and Continue</button>
+    </div>
+</form>

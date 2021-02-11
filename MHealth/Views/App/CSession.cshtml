@@ -1,0 +1,285 @@
+﻿@using DAL.Models;
+@using DAL.Utils
+@model mp_appointment;
+@{
+    ViewBag.Title = "Session";
+    var appointment_id = ViewBag.appointment_id;
+    var clinician = Model.clinician_;
+}
+<div class="row breadcrumb_addon">
+    <div class="col-sm-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Appointments</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Session</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="row">
+            <div class="col-lg-7">
+                <input type="hidden" name="appointment_id" id="appointment_id" value="@appointment_id" />
+                <input type="hidden" name="appointment_activity_id" id="appointment_activity_id" value="@Model.appointment_activity_id" />
+                <input type="hidden" name="roleCall" id="roleCall" value="client" />
+                <input type="hidden" id="twilioError" value="" />
+                @if (Model.appointment_activity_id == 2)
+                {
+                    <div>@await Html.PartialAsync("_video_partial_Provider")</div>
+                }
+                else
+                {
+                    <div>@await Html.PartialAsync("_video_partial")</div>
+                }
+                <div class="text-center">
+                    <button class="btn btn-success" onclick="confirmation_complete_session()" type="button">Complete Session</button>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <p>
+                    We are interested in obtaining your feedback about the services provided to you. Your feedback will help improve the quality and effectiveness of our services. Please complete the questionnaire below
+                </p>
+                <button class="btn btn-warning btn-lg" style="width: 100%; margin-bottom: 10px" data-toggle="modal" data-target="#ratingModal" onclick="load_partial('/Ratings/LoadPartial?appointment_id=@Model.id')">Open questionnaire</button>
+                <div class="card">
+
+                    <div class="circular_image">
+                        <img src="@Url.Action("get_profile_image","User",new { user_id = clinician.user_id })" alt="avatar">
+                    </div>
+
+                    <div class="card-body">
+                        <div class="tab-content">
+
+                            <div class="table-responsive">
+                                <h5>Provider</h5>
+                                <table class="table table-bordered">
+                                    <tbody>
+
+                                        <tr>
+                                            <th>Name</th>
+                                            <td>@clinician.last_name @clinician.first_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Preferred name</th>
+                                            <td>@clinician.preferred_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>City, State</th>
+                                            <td>@clinician.city, </td>
+                                        </tr>
+
+                                        @if (clinician.education_level.HasValue)
+                                        {
+                                            <tr>
+                                                <th>Education level</th>
+                                                <td>@Options.GetLookupName(clinician.education_level.Value)</td>
+                                            </tr>
+                                        }
+
+                                        <tr>
+                                            <th colspan="2">About</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                @clinician.about
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section styles{
+    <link href="~/css/button.css" />
+    <link href="~/css/chat.css" type="text/css" rel="stylesheet" />
+    <style>
+        .callScreen {
+            min-height: 365px;
+            background-color: #ccc;
+            position: relative;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .stopwatch {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.5em
+        }
+    </style>
+    <style>
+        .question {
+            font-weight: bolder;
+        }
+
+        .answer {
+            font-style: italic;
+            color: #d92550 !important
+        }
+
+        .q_info {
+            border-bottom: 1px #ccc solid
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #ADD8E6 !important
+        }
+    </style>
+}
+@section scripts{
+
+    <div class="modal fade bd-rating-modal-lg" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg">
+            <form id="frm_rating" method="post" asp-controller="Ratings" asp-action="Post">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="modal_title">Provider performance survey</h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="view_bag">
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Update survey</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="completeModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="completeModalLabel" aria-hidden="true">
+        <form action="#" method="post" id="">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="completeModalLabel">Rate the clinician</h5>
+                        @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center" id="msgSubmitRating" style="display:none">
+                            <img id="loader" src="~/assets/images/loaders/30.gif" style="height:20px" />
+                            <h3>Completing appointment, please wait...</h3>
+                        </div>
+                        <div class="text-center" id="bodySubmitRating">
+                            <div data-role="ratingbar" data-steps="1">
+                                <ul>
+                                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <textarea id="rateNote" class="form-control" rows="4" cols="6" placeholder="Feedback"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="complete_session()">Submit</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="~/js/stop_watch.js"></script>
+    <script src="~/js/partial_view.js"></script>
+    @*<script src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>*@
+
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+    @*<script src="~/js/chat.js"></script>*@
+    <script src="~/js/fn_table.js"></script>
+    <script src="https://media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-role="ratingbar"]').ratingbar();
+            $("#frm_rating").submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (data) {
+                        alert("Thanks your survey has been save successfully.");
+                    }
+                });
+            });
+        });
+
+        function WaitTimer() {
+            setTimeout(function () {
+                if (room.participants.size == 0) {
+                    stopwatch.stop();
+                    $.ajax({
+                        type: "POST",
+                        url: '/Appointment/CancelBySystem',
+                        data: { appointmentid: '@appointment_id'},
+                        success: function (data) {
+                            alert('An appointment that you created was cancelled due to Clinician not avilable on time. Your payment will be processed shortly and you will get it back in the next 24 - 48 hours');
+                            window.location.href = '/Profile/MyProfile';
+                        }
+                    });
+                }
+            }, 300000);
+        }
+
+        function confirmation_complete_session() {
+            var ask = confirm("Are you sure?");
+            if (ask == true) {
+                $('#completeModal').modal('show');
+            }
+        }
+
+        function complete_session() {
+            var starRating = $('[data-role="ratingbar"]').attr('data-value');
+            if (starRating == "" || starRating == undefined || starRating == "0") {
+                alert("Please select start for rate first!");
+                return false;
+            } else {
+            $('#bodySubmitRating').hide();
+            $('#msgSubmitRating').show();
+            $.ajax({
+                type: "POST",
+                url: "/api/appointment/CompleteAppointmentWithRating?appointment_id=" + "@appointment_id" + "&star=" + starRating + "&feedback=" + $('#rateNote').val(),
+                success: function (data) {
+                    debugger
+                    if (data === 200) {
+                        window.location.href = '/Profile/MyProfile';
+                    } else {
+                        $('#bodySubmitRating').show();
+                        $('#msgSubmitRating').hide();
+                        alert("There was an error completing this appointment. Please try again and if the issue continues, contact the admin.");
+                    }
+                }
+            });
+            }
+
+        }
+    </script>
+    <script src="~/js/app_video.js"></script>
+}       

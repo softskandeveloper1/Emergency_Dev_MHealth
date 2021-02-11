@@ -1,0 +1,455 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@using DAL.IService;
+@inject IClinicianAvailabilityService _availabilityService;
+@model IQueryable<mp_clinician>
+@{
+    ViewData["Title"] = "Provider Directory";
+     var days=new []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="active breadcrumb-item active" aria-current="page">Providers</li>
+
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+
+<partial name="_AlertPartial" />
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="main-card card">
+            <div class="card-header">
+                Matched Providers
+                @*<div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm btn-group">
+                        <form method="get" id="search_form" action="@Url.Action("Clinicians","Clinician")">
+                            <div class="search-wrapper">
+                                <div class="input-holder">
+                                    <input type="text" name="query" id="search_txt" class="search-input" placeholder="Type to search">
+                                    <button class="search-icon" id="search_btn" type="button"><span></span></button>
+                                </div>
+                                <button class="close"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>*@
+            </div>
+            <div class="card-body">
+                <form asp-action="MatchProfile" asp-controller="ProfileMatch" id="frm_appointment" method="post">
+                    <input type="hidden" name="clinician_id" id="clinician_id" />
+                    <input type="hidden" name="appointment_type_id" value="@ViewBag.appointment_type" />
+                    <input type="hidden" name="appointment_activity_id" value="@ViewBag.appointment_category" />
+                    <input type="hidden" name="appointment_activity_sub_id" value="@ViewBag.appointment_category_sub" />
+                </form>
+              
+                <div class="row">
+                    @if (Model.Any())
+                    {
+                        foreach (var clinician in Model)
+                        {
+
+                    <div class="col-md-12">
+
+                        <div class="mb-3 card">
+                            <div class="card-header-tab card-header text-info">
+                                <div class="card-header-title">
+                                    Provider Information
+                                </div>
+                                <ul class="nav">
+                                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0" class="active nav-link">Profile</a></li>
+                                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-1" class="nav-link">Availability</a></li>
+                                    @*<li class="nav-item"><a data-toggle="tab" href="#tab-eg5-2" class="nav-link">Tab 3</a></li>*@
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="text-center">
+
+
+                                                    <div class="circular_image">
+                                                        <img src="@Url.Action("get_profile_image","User",new { user_id = clinician.user_id })" alt="avatar">
+                                                    </div>
+                                                    <h6>@string.Format("{0} {1}", clinician.last_name, clinician.first_name)</h6>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h6>About</h6>
+                                                <p>
+                                                    @clinician.about
+                                                </p>
+                                                @if (clinician.education_level.HasValue)
+                                                {
+                                                    <h6>
+                                                        Education
+                                                    </h6>
+                                                    <p>
+                                                        @Options.GetLookupName(clinician.education_level.Value)
+                                                    </p>
+                                                }
+                                                @if (clinician.area_of_interest.HasValue)
+                                                {
+                                                    <h6>
+                                                        Area of Interest
+                                                    </h6>
+                                                    <p>
+                                                        @Options.GetLookupName(clinician.area_of_interest.Value)
+                                                    </p>
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab-eg5-1" role="tabpanel">
+
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Start time</th>
+                                                    <th>End time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    var schedules = _availabilityService.Get(clinician.id);
+                                                }
+                                                @foreach (var day in days)
+                                                {
+                                                    var day_value = schedules.FirstOrDefault(e => e.day_name == day);
+                                                    if (day_value != null)
+                                                    {
+                                                        <tr>
+                                                            <th>@day</th>
+
+                                                            <td>@day_value.start_time.ToString("hh:mm tt")</td>
+                                                            <td>@day_value.end_time.ToString("hh:mm tt")</td>
+
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <th>@day</th>
+
+                                                            <td></td>
+                                                            <td></td>
+
+                                                        </tr>
+                                                    }
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="d-block text-right card-footer">
+                                <button class="btn btn-primary" style="margin:10px" onclick="match_client('@clinician.id')" type="button">Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                           
+
+                            <div class="col-md-4" style="display:none">
+                                <div class="mb-3 card">
+                                    <div class="card-header-tab card-header">
+                                        <div class="card-header-title">
+                                            <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+
+                                        </div>
+                                        <ul class="nav">
+                                            <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0-@clinician.id" class="active nav-link"><i class="fa fa-user"></i> Profile</a></li>
+                                            <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-1-@clinician.id" class="nav-link"><i class="fa fa-calendar"></i> Availability</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-eg5-0-@clinician.id" role="tabpanel">
+                                                <div class="text-center">
+                                                    <div class="circular_image">
+                                                        <img src="@Url.Action("get_profile_image","User",new {user_id=clinician.user_id})" alt="avatar">
+                                                    </div>
+                                                    <h4 class="m-b-xs"><strong>@string.Format("{0} {1}", clinician.last_name, clinician.first_name)</strong></h4>
+
+                                                    <h6 class="font-bold" style="font-weight: 800;">@Options.GetLookupName(clinician.area_of_interest.Value)</h6>
+                                                </div>
+                                                <div class="text-center">
+                                                    @clinician.about
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-eg5-1-@clinician.id" role="tabpanel">
+                                                <div class="">
+                                                    <div class="">
+                                                        <label class="chart_title">Monday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills html">8am to 10pm</div>
+                                                        </div>
+
+                                                        <label class="chart_title">Tuesday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills css">6am to 6pm</div>
+                                                        </div>
+
+                                                        <label class="chart_title">Wednesday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills js">11am to 5pm</div>
+                                                        </div>
+
+                                                        <label class="chart_title">Thursday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills php">11am to 3pm</div>
+                                                        </div>
+
+                                                        <label class="chart_title">Friday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills php">11am to 3pm</div>
+                                                        </div>
+
+                                                        <label class="chart_title">Saturday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills php">11am to 3pm</div>
+                                                        </div>
+                                                        <label class="chart_title">Sunday</label>
+                                                        <div class="container" style="padding-left:0;padding-right:0">
+                                                            <div class="skills php">11am to 3pm</div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                         
+                                        </div>
+                                    </div>
+                                    <div class="d-block text-right card-footer">
+
+                                        @*<button class="btn btn-primary" style="margin:10px" data-toggle="modal" data-id="@clinician.id" data-target=".bd-example-modal-lg" id="clinician_modal" type="button">Select</button>*@
+
+                                        <button class="btn btn-primary" style="margin:10px" onclick="match_client('@clinician.id')"  type="button">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+
+
+
+      
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" asp-controller="Appointment" asp-action="Create">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Make an appointment</h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card mb-3 widget-content tb-primary">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left mr-3">
+                                        <div class="widget-content-left">
+                                            <img width="40" class="rounded-circle" id="clinician_img" src="~/assets/images/avatars/4.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left flex2">
+                                        <div class="widget-heading" id="clinician_name">...</div>
+                                       @* <div class="widget-subheading opacity-7" id="clinician_phone">...</div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Why are you here booking this appointment? </label>
+                            <input type="hidden" name="clinician_id" />
+                            @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", ViewBag.appointment_type), null, new { @class = "form-control", @required = "required" })
+                            @*<div class="col-sm-9">
+
+                            </div>*@
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Select your service</label>
+                            @Html.DropDownList("appointment_service", new SelectList(Options.GetAppointmentServices(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="position-relative form-group">
+                            <label class="form-label">Select the date for the appointment</label>
+                            <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy" >
+                                <input class="form-control" type="text" name="date" readonly required style="border-radius:.25rem !important" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="position-relative form-group">
+                            <label class="form-label">What time do you want the session to start?</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times"></i></span></div>
+                                <input name="time" type="text" required class="form-control  timepicker" readonly>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Book Appointment</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    @*<script src="~/lib/datepicker/daterangepicker.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+
+
+            $(document).on('click', '#clinician_modal', function (e) {
+                e.preventDefault();
+
+                var guid = $(this).data('id');
+
+                $.ajax({
+                    url: '/api/apiutility/getclinician/' + guid,
+                    type: 'GET',
+
+                })
+                    .done(function (data) {
+                        console.log(data.id);
+
+                        $('#clinician_phone').html(data.phone);
+                        $('#clinician_name').html(data.first_name + ' ' + data.last_name);
+                        $('input[name="clinician_id"]').val(data.id);
+                         $('#clinician_img').attr("src","/user/get_profile_image/"+data.user_id);
+
+                        //$('#dynamic-content').html(data); // load response
+                        //$('#modal-loader').hide();		  // hide ajax loader
+                    })
+                    .fail(function () {
+                        //$('#dynamic-content').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                        //$('#modal-loader').hide();
+                    });
+
+            });
+
+
+            $("#search_btn").on("click", function (e) {
+                if ($("#search_txt").val() != "") {
+                    $("#search_form").submit();
+                }
+            });
+
+        });
+
+           $(function () {
+            $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+
+               $('.timepicker').timepicker({
+                   timeFormat: 'h:mm p',
+                   interval: 1,
+                   minTime: '1',
+                   maxTime: '12:00pm',
+                  // defaultTime: '11',
+                   startTime: '1:00',
+                   dynamic: false,
+                   dropdown: true,
+                   scrollbar: true,
+                    zindex: 9999999
+               });
+            // datepicker('update', new Date());
+           });
+
+        function match_client(clinician_id) {
+            $("#clinician_id").val(clinician_id);
+
+            $("#frm_appointment").submit(function (e) {
+
+                e.preventDefault();
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                          window.location.href = "/Appointment/NewAppointment?id="+data;
+                        //alert(data); // show response from the php script.
+                    }
+                });
+
+
+            });
+
+            $("#frm_appointment").submit();
+        }
+    </script>
+}
+
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+<link rel="stylesheet" href="~/css/clincian_matching.css" />
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+       
+        h6 {
+            font-weight: bold;
+            color: black
+        }
+        input,select{
+            font-size:0.8rem !important
+        }
+   
+    </style>
+}

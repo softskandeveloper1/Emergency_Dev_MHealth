@@ -1,0 +1,204 @@
+﻿
+@{
+ViewBag.Title="My Appointments";
+}
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">My Appointments</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <div class="card-header-title">My Appointments</div>
+            </div>
+            <div class="card-body">
+                <div id='loading'>loading...</div>
+                <div id="div_calendar"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+@section styles{
+
+    @*<link rel='stylesheet' href='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.min.css' />*@
+
+    <style>
+        #div_calendar {
+            margin: 40px auto;
+            padding: 0 10px;
+        }
+
+        #loading {
+            display: none;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: #16aaff;
+            border-color: #16aaff;
+            color:white !important
+        }
+          .fc-scroller {
+            overflow: hidden !important
+        }
+    
+        
+          .form-control[readonly]{
+              background-color:transparent !important
+          }
+    </style>
+ 
+}
+
+@section scripts{
+
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form>
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="event_title"></h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label">Provider </label>
+                        <div class="card mb-1 widget-content text-info">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left mr-3">
+                                        <div class="widget-content-left">
+                                            <img width="40" class="rounded-circle" id="provider_img" src="~/assets/images/avatars/4.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left flex2">
+                                        <div class="widget-heading" id="provider_name" style="font-size: 1.2rem;">...</div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="form-label">Member </label>
+                        <div class="card mb-1 widget-content  text-info">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left mr-3">
+                                        <div class="widget-content-left">
+                                            <img width="40" class="rounded-circle" id="member_img" src="~/assets/images/avatars/4.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left flex2">
+                                        <div class="widget-heading" id="member_name" style="font-size: 1.2rem;">...</div>
+                                        <div class="widget-subheading" style="color:black; opacity:1" id="member_age" >...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Service subscribed for</label>
+                            <input type="text" id="event_service" class="form-control" readonly />
+
+                        </div>
+
+                  
+                     
+                        <div class="position-relative form-group">
+                            <label class="form-label">Appointment date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times"></i></span></div>
+                                <input name="time" id="appointment_date" type="text" required class="form-control  timepicker" readonly>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                       @* <button type="submit" class="btn btn-success">Book Appointment</button>*@
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+
+            $('#div_calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                themeSystem: 'bootstrap4',
+                bootstrapFontAwesome: true,
+                defaultDate: '2020-05-12',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: {
+                    url: '/appointment/GetUserAppointments',
+                    failure: function () {
+                        //document.getElementById('script-warning').style.display = 'block'
+                    }
+                },
+                loading: function (bool) {
+                    document.getElementById('loading').style.display =
+                        bool ? 'block' : 'none';
+                },
+                eventClick: function (info) {
+
+                    $('#event_title').text(info.title);
+                    $.ajax({
+                        url: "/appointment/GetAppointment?appointment_id=" + info.id,
+                        method: "GET",
+                        success: function (data) {
+                            $("#appointment_date").val(moment(data.start_date).fromNow());
+                            $("#event_service").val(data.appointment_serviceNavigation.name);
+                            $("#member_img").attr("src", "/user/get_profile_image?user_id=" + data.client.user_id);
+                            $("#member_name").text(data.client.last_name + " " + data.client.first_name);
+                            $("#member_age").html("<strong>Born : </strong>"+moment(data.client.dob).fromNow());
+                            $("#provider_name").text(data.clinician.last_name + " " + data.clinician.first_name);
+                             $("#provider_img").attr("src", "/user/get_profile_image?user_id="+data.clinician.user_id);
+                            $('.bd-example-modal-lg').modal('show');
+                        }
+                    });
+
+                   
+                   
+                }
+            });
+
+        });
+
+
+    </script>
+
+
+}
+
+

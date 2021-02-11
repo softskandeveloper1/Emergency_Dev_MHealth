@@ -1,0 +1,203 @@
+﻿@using  DAL.Models;
+@using DAL.Utils;
+@model PaginatedList<mp_appointment>
+@{
+    ViewBag.Title = "My Appointments";
+
+    var dic_class = new Dictionary<int, string>();
+    dic_class.Add(170, "badge-success");
+    dic_class.Add(171, "badge-danger");
+    dic_class.Add(169, "badge-secondary");
+    dic_class.Add(234, "badge-warning");
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">My Appointments</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">My Appointments</div>
+                <div class="btn-actions-pane-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="search.....">
+                        <div class="input-group-append">
+                            <button class="btn btn-info"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>Appointment Date</th>
+                            <th>Appointment type</th>
+                            <th>Category</th>
+                            <th>Activity</th>
+                            <th>Service subscribed</th>
+                            <th>Provider</th>
+                            <th>Date booked</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model)
+                        {
+                            var cls = "";
+                            var d_class = dic_class.Where(e => e.Key == appointment.status);
+                            if (d_class.Any())
+                            {
+                                cls = d_class.FirstOrDefault().Value;
+                            }
+
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details","Appointment",new { id = appointment.id })"> <strong>@appointment.client_.unique_id.ToString("D10")</strong></a>
+                                </td>
+                                <td>@appointment.start_date.ToString("dd MMM, yyyy hh:mm tt")</td>
+                                <td>@appointment.appointment_typeNavigation.name</td>
+                                <td>@Options.GetAppointmentActivityName(appointment.appointment_activity_id)</td>
+                                <td>@Options.GetAppointmentSubActivityName(appointment.appointment_activity_sub_id)</td>
+                                <td>@appointment.appointment_serviceNavigation.name</td>
+                                <td>@string.Format("{0} {1}", appointment.clinician_.last_name, appointment.clinician_.first_name)</td>
+                                <td>@appointment.created_at.ToString("dd MMM, yyyy hh:mm tt")</td>
+                                @if (appointment.mp_credit.Any())
+                                {
+                                    <td>@appointment.mp_credit.FirstOrDefault().amount</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>
+                                    <div class="ml-auto badge @cls">@Options.GetLookupName(appointment.status)</div>
+
+                                </td>
+                                @if (appointment.status == 234)
+                                {
+                                    <td class="text-center">
+                                        <button href="javascript" onclick="onDelete('@appointment.id');" id="btn_@appointment.id" class="btn-wide btn btn-danger">Refund</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+
+                <div style="margin-left:auto;margin-right:auto;margin-top:10px">
+                    <nav class="" aria-label="pagination">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item"><a href="@Url.Action("MyAppointments","Appointment",new {page=Model.PageIndex - 1})" class="page-link @prevDisabled" @prevDisabled aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                            <li class="page-item"><a href="@Url.Action("MyAppointments","Appointment",new {page=Model.PageIndex + 1})" class="page-link @nextDisabled" @nextDisabled aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="confirmModal" style="display: none;" data-backdrop="false">
+        <div class="modal-dialog" style="top:20%">
+            <div class="modal-content">
+                <input type="hidden" id="hdnConfirmRefundAppId" value="" />
+                <div class="modal-body" id="confirmMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btnConfirmRefund">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section styles{
+    <style>
+        .hiddenRow {
+            padding: 0 !important;
+        }
+
+        .overlay {
+            background: #e9e9e9;
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        #loading-img {
+            width: 40%;
+            margin: 0 auto;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/js/form_util.js"></script>
+    <script>
+        function onDelete(appId) {
+            $("#hdnConfirmRefundAppId").val(appId);
+            confirmDialog();
+        };
+
+        function confirmDialog() {
+            $("#confirmModal").modal("show");
+            $("#confirmMessage").empty().append('Are you sure you want to cancel appointment and refund amount?');
+        }
+
+        $(document).on('click', '#btnConfirmRefund', function () {
+            $("div#divLoading").addClass('show');
+            $.ajax({
+                type: "POST",
+                url: '/Appointment/Refund',
+                data: { appointmentid: $('#hdnConfirmRefundAppId').val() },
+                success: function (data) {
+                    $("div#divLoading").removeClass('show');
+                    if (data == 200) {
+                        $('#btn_' + $('#hdnConfirmRefundAppId').val()).remove();
+                        $("#confirmModal").modal("hide");
+                        alert('Caceled and refund successfully.');
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        });
+    </script>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+}

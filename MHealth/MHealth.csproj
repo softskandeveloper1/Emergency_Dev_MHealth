@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-MHealth-020CB660-1F7E-44A9-BAEC-46E2BE773E27</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\api\ze0iyn3p.0qu~" />
+    <None Remove="Controllers\ClinicianController.cs~RF16ee606.TMP" />
+    <None Remove="Controllers\ClinicianController.cs~RF566c273.TMP" />
+    <None Remove="Controllers\ClinicianController.cs~RF5774a14.TMP" />
+    <None Remove="Controllers\cnw5heye.3tg~" />
+    <None Remove="Controllers\h51zrvxz.bxh~" />
+    <None Remove="Controllers\i2zzzhgd.1fh~" />
+    <None Remove="Controllers\m5o1mcnq.jxa~" />
+    <None Remove="Controllers\o3r2ikpg.ar5~" />
+    <None Remove="Controllers\r1kseifa.duw~" />
+    <None Remove="Controllers\wbiexoqt.jya~" />
+    <None Remove="Helper\Schedulers\0wbtw5b5.cgp~" />
+    <None Remove="Helper\Schedulers\3ek40um2.pjl~" />
+    <None Remove="Helper\Schedulers\RemindersJob.cs~RF1a7e6a66.TMP" />
+    <None Remove="Helper\Schedulers\whhhgzvq.blb~" />
+    <None Remove="Helper\Schedulers\yu5i5pow.phh~" />
+    <None Remove="Views\Reports\b4zmi1lp.nfj~" />
+    <None Remove="Views\Reports\kdpfomnc.0o0~" />
+    <None Remove="Views\Reports\wghrwf1n.osi~" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.5" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.6.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+    <PackageReference Include="Quartz" Version="3.0.0" />
+    <PackageReference Include="RestSharp" Version="106.11.4" />
+    <PackageReference Include="Seq.Extensions.Logging" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+    <PackageReference Include="Twilio" Version="5.43.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\applicant\" />
+    <Folder Include="wwwroot\lib\bootstrap_multiselect\" />
+    <Folder Include="wwwroot\lib\NewFolder\" />
+  </ItemGroup>
+
+</Project>

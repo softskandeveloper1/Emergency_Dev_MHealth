@@ -1,0 +1,294 @@
+﻿@using System.Data;
+@using DAL.Utils;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Dashboard";
+    var dt = (DataTable)ViewBag.dt;
+
+    var appointment_summary = (DataTable)ViewBag.appointment_summary;
+    var months = new[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    var provider_summary = (List<int[]>)ViewBag.provider_summary;
+}
+
+
+<div class="row breadcrumb_addon">
+    <div class="col-lg-10">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);">Dashboard</a></li>
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-lg-2">
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        {
+            <div class="pull-right" style="margin-top:5px">
+                @await Html.PartialAsync("../Shared/_quick_nav")
+            </div>
+
+        }
+    </div>
+</div>
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <nav class="breadcrumb_loc" aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb_addon">
+                        <li class="breadcrumb-item active" aria-current="page"><a href="~/">Dashboard</a></li>
+                    </ol>
+
+                </nav>
+            </div>
+            @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+            {
+                @Html.Partial("../Shared/_quick_nav")
+            }
+
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-midnight-bloom">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Clinicians</div>
+                    <div class="widget-subheading">All registered clinicians</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[1]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-arielle-smile">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Clients</div>
+                    <div class="widget-subheading">All our clients</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[0]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-grow-early">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Sessions</div>
+                    <div class="widget-subheading">Total sessions held</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[2]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-premium-dark">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Income</div>
+                    <div class="widget-subheading">Revenue generated</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-warning"><span>N0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+   
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <canvas id="nnm3ejlz"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">
+                    Appointment summary
+                </div>
+            </div>
+            <div class="card-body table-responsive">
+              
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>
+                                    Appointmment type
+                                </th>
+                                <th>Appointment category</th>
+                                <th>Appointment activity</th>
+                                <th class="text-center">No of Appointments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (appointment_summary.Rows.Count > 0)
+                            {
+                                foreach(DataRow row in appointment_summary.Rows)
+                                {
+                                    var item = row.ItemArray;
+                            <tr>
+                                <td class="widget-heading"><strong> @months[Convert.ToInt32(item[2]) - 1]</strong></td>
+                                <td>@Options.GetAppointmentTypeName(Convert.ToInt32(item[1]))</td>
+                                <td>@Options.GetAppointmentActivityName(Convert.ToInt32(item[3]))</td>
+                                <td>@Options.GetAppointmentSubActivityName(Convert.ToInt32(item[4]))</td>
+                                <td class="text-center">@item[0]</td>
+                            </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{ 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    $(document).ready(function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: ['Providers'],
+                datasets: [{
+                    label: 'Psychotherapy',
+                    backgroundColor:"#3ac47d",
+                    data: [@provider_summary.FirstOrDefault(e=>e[0]==165)[1]]
+                },
+                {
+                    label: 'Psychiatry',
+                     backgroundColor:"#16aaff",
+                    data: [@provider_summary.FirstOrDefault(e=>e[0]==166)[1]]
+                },
+                {
+                    label: 'General Practitioner',
+                     backgroundColor:"#ffc107",
+                    data: [@provider_summary.FirstOrDefault(e=>e[0]==167)[1]]
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                          
+                            min: 0,
+                           
+                        }
+                    }]
+                }
+            }
+        });
+
+  
+        var response =@Html.Raw(JsonConvert.SerializeObject(ViewBag.appointment_trend));
+
+        var labels = [];
+        var dts = [];
+        var dt = [];
+        for (var i = 0; i < response.length; i++) {
+            dt.push({ x: moment(response[i].appointment_date), y: response[i].count });
+            labels.push(moment(response[i].appointment_date).format('YYYY-MM-DD'));
+            dts.push(response[i].count);
+        }
+
+
+        const ctx1 = document.getElementById('nnm3ejlz').getContext('2d');
+         ctx1.canvas.width = 1000;
+        ctx1.canvas.height = 250;
+//const startDate = new Date(2020, 0, 1);
+//const labels = [];
+//for (let i = 0; i < 6; i++) {
+//  const date = moment(startDate).add(i, 'days').format('YYYY-MM-DD');
+//  labels.push(date.toString());
+//}
+        Chart.defaults.global.defaultFontFamily = "'Hind Vadodara', sans-serif";
+        const chart1 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Appointment Daily trend',
+                    data: dts,
+                    borderWidth: 5,
+                    fill: false,
+                    borderColor: 'green'
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                       
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Appointment Dates",
+                        },
+                       ticks: {fontSize: 12, fontFamily: "'Hind Vadodara', sans-serif", fontColor: '#000', fontStyle: '500'}
+
+                    }],
+
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Appointments",
+                        },
+                         ticks: {fontSize: 12, fontFamily: "'Hind Vadodara', sans-serif", fontColor: '#000', fontStyle: '500'}
+                    }]
+                }
+            }
+            });
+
+
+
+
+     
+
+
+    });
+</script>
+
+
+}
+
+@section styles{ 
+<style>
+       canvas.tmln {
+         width:100%;
+        
+       
+        }
+
+</style>
+}

@@ -1,0 +1,276 @@
+﻿[
+	{
+		"id": "appointment_type",
+		"question": "Can you tell me why you are here today?",
+		"comment": "Hi, Welcome to Myspace Mytime, I am Ade.",
+		"q_type": "static_list",
+		"lookup_category": "",
+		"terminate": "",
+		"terminate_info": "",
+		"lookup_values": [
+			{
+				"id": 1,
+				"value": "Individual Counseling"
+			},
+			{
+				"id": 2,
+				"value": "Couples Counseling"
+			},
+			{
+				"id": 3,
+				"value": "Child/Adolescent Counseling"
+			},
+			{
+				"id": 4,
+				"value": "Family Counselling"
+			},
+			{
+				"id": 55,
+				"value": "Primary Care (Medical Doctor-General Practitioner)"
+			}
+		]
+	},
+	{
+		"id": "therapy_type",
+		"question": "Do you want clinical therapy or clinical + faith (TBD)?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "gender",
+		"question": "How do you identify yourself?",
+		"comment": "To know you better,",
+		"q_type": "list",
+		"lookup_category": "gender",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "eligible",
+		"question": "Are you 13years and older?",
+		"comment": "Our counselors work with only people who are 13 or older",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "yes",
+		"terminate_info": "sorry, you cannot continue"
+	},
+	{
+		"id": "marital_status",
+		"question": "What is your marital status?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "marital_status",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "religious",
+		"question": "Do you consider yourself to be religious?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "religion",
+		"question": "What religion do you identify with?",
+		"comment": "Our counselors are from diverse backgrounds",
+		"q_type": "list",
+		"lookup_category": "religion",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "help_reason",
+		"question": "What led you to seek help today?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "help_reason",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "earlier_counseling",
+		"question": "Have you ever been in counseling or counseling before?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "physical_health",
+		"question": "How would you rate your current physical health?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "rating",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "eating_habit",
+		"question": "How would you rate your current eating habits?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "rating",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "sleeping",
+		"question": "How would you rate your current sleeping habit?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "sleeping",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "depression",
+		"question": "Are you currently experiencing overwhelming sadness, grief, or depression?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "reduced_interest",
+		"question": "Little interest or pleasure in doing things",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "recent_depression",
+		"question": "Feeling down, depressed, or hopeless",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "anger_burst",
+		"question": "Having anger outbursts, yelling and screaming or being violent towards others",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "sleeping_trouble",
+		"question": "Trouble falling or staying asleep, or sleeping too much",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "tiredness",
+		"question": "Feeling tired or having little energy",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "appetite",
+		"question": "Poor appetite or overeating",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "feeling_bad",
+		"question": "Feeling bad about yourself or that you are a failure or have let yourself or your family down",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "concentration_issue",
+		"question": "Trouble concentrating on things, such as reading the newspaper or watching television",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "fidgety",
+		"question": "Moving or speaking so slowly that other people could have noticed?  Or the opposite � being so fidgety or restless that you have been moving around a lot more than usual",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "suicidal",
+		"question": "Thoughts that you would be better off dead or of hurting yourself in some way",
+		"comment": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
+		"q_type": "list",
+		"lookup_category": "rating_days",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "anxiety",
+		"question": "Are you currently experiencing anxiety, panic attacks or phobias?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "today_feeling",
+		"question": "Why does today feel like the right time to begin counseling?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "today_feeling",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "employed",
+		"question": "Are you currently employed?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "employed",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "alcohol",
+		"question": "How often do you drink alcohol?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "alcohol",
+		"terminate": "",
+		"terminate_info": ""
+	},
+	{
+		"id": "drug_use",
+		"question": "How often do you use drugs (cocaine, heroin, marijuana etc.)?",
+		"comment": "",
+		"q_type": "list",
+		"lookup_category": "yesno",
+		"terminate": "",
+		"terminate_info": ""
+	}
+]

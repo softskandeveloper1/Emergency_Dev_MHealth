@@ -1,0 +1,119 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model PaginatedList<mp_clinician>
+@{
+    ViewData["Title"] = "Client Before Clinician";
+}
+
+<div class="row" style="margin-top:-15px">
+    <div class="col-lg-10">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Client Before Clinician</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-lg-2">
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        {
+            @await Html.PartialAsync("../Shared/_quick_nav")
+        }
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="main-card  card">
+
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    @if (Model.Any())
+                    {
+
+                        <table class="align-middle mb-0 table table-borderless table-striped table-hover custom-ui-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>No of times client comes before clinician</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var clinician in Model)
+                                {
+                                    <tr data-toggle="collapse" data-target="#demo_@clinician.id" class="accordion-toggle">
+                                        <td>@clinician.first_name @clinician.last_name</td>
+                                        @{
+                                            var count = 0;
+
+                                            foreach (var appointment in clinician.mp_appointment)
+                                            {
+                                                if (appointment.id.ToString() == "fbd31934-a0c7-4bd8-badb-95d8de9e1263")
+                                                {
+
+                                                }
+                                                var appointmentogs = appointment.mp_appointment_log
+                                                    .Where(x => x.appointment_id == appointment.id && x.created_at >= appointment.start_date).ToList();
+                                                if (appointmentogs != null && appointmentogs.Count > 0)
+                                                {
+                                                    var clinicianTime = appointmentogs.OrderBy(x => x.id)
+                                                   .FirstOrDefault(x => x.role.Equals("Provider"))?.created_at;
+                                                    var clientTime = appointmentogs.OrderBy(x => x.id)
+                                                        .FirstOrDefault(x => x.role.Equals("Member"))?.created_at;
+                                                    if (clientTime < clinicianTime)
+                                                    {
+                                                        count = count + 1;
+                                                    }
+                                                }
+                                            }
+                                            <td>@count</td>
+                                        }                                       
+                                    </tr>
+
+                                }
+
+                            </tbody>
+
+
+                        </table>
+
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+                        <div style="margin-top:10px" class="pull-right">
+                            <nav class="" aria-label="pagination">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a href="@Url.Action("ClientBeforeClinician","Reports",new {pageNumber=Model.PageIndex - 1,client_id=Model.FirstOrDefault().id})" class="page-link @prevDisabled" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                                    <li class="page-item"><a href="@Url.Action("ClientBeforeClinician","Reports",new {pageNumber=Model.PageIndex + 1,client_id=Model.FirstOrDefault().id})" class="page-link @nextDisabled" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+
+}
+
+

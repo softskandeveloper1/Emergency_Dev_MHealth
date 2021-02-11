@@ -1,0 +1,157 @@
+﻿@using DAL.Utils;
+@{
+}
+
+
+    <fieldset class="couple">
+
+        <div class="form-group">
+            <label class="control-label">What is your relationship status?</label>
+            @Html.DropDownList("relationship_status", new SelectList(Options.Getlookups("relationship_status"), "id", "value", null), null, new { @class = "form-control", @required = "required",id="relationship_status" })
+        </div>
+        <div class="form-group" id="div_relationship_status_other" style="display:none">
+            <label class="control-label">Please specifiy</label>
+            <input type="text" name="relationship_status_other" id="relationship_status_other" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <div class="f1-buttons">
+                <button type="button" class="btn btn-previous">Previous</button>
+                <button type="button" class="btn btn-next">Next</button><br><br>
+            </div>
+        </div>
+
+    </fieldset>
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">How long have you been together?</label>
+        <input type="text" name="relationship_duration" class=" form-control" required />
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">What are you hoping to achieve in couple counseling? (check all that apply)</label>
+        <div>
+            @foreach (var lookup in Options.Getlookups("couple_counseling_expectation"))
+            {
+                <div class="form-check" style="margin-left:10px">
+                    <label class="form-check-label">
+                        <input class="inp-cbx form-check-input" id="couple_counseling_expectation" name="couple_counseling_expectation" value="@lookup.id" type="checkbox">@lookup.value
+                    </label>
+                </div>
+            }
+        </div>
+                @*@Html.DropDownList("couple_counseling_expectation", new SelectList(Options.Getlookups("couple_counseling_expectation"), "id", "value", null), null, new { @class = "form-control", @required = "required" })*@
+            </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+@*<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">Do you have a gender preference for your couple’s provider?</label>
+        @Html.DropDownList("counselor_preference", new SelectList(Options.Getlookups("counselor_preference"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>*@
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">Do you prefer a younger or older provider?</label>
+        @Html.DropDownList("counselor_preference_age", new SelectList(Options.Getlookups("counselor_preference_age"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">Do you prefer a religious provider?</label>
+        @Html.DropDownList("counselor_preference_religion", new SelectList(Options.Getlookups("counselor_preference_religion"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">Is domestic violence currently an issue in your relationship?</label>
+        @Html.DropDownList("domestic_violence", new SelectList(Options.Getlookups("yes_no_sometimes"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="couple">
+
+    <div class="form-group">
+        <label class="control-label">What type of relationship do you have?</label>
+        @Html.DropDownList("relationship_type", new SelectList(Options.Getlookups("relationship_type"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+@*<fieldset class="couple">
+    <div class="form-group">
+        <label class="control-label">What is your preferred language?</label>
+        @Html.DropDownList("preferred_language", new SelectList(Options.Getlookups("preferred_language"), "id", "value", null), null, new { @class = "form-control", @required = "required",id="preferred_language" })
+    </div>
+
+    <div class="form-group" id="div_preferred_language_other" style="display:none">
+        <label class="control-label">Please specifiy</label>
+        <input type="text" name="preferred_language_other" id="preferred_language_other" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+</fieldset>*@

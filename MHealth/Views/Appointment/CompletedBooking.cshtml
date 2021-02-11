@@ -1,0 +1,38 @@
+﻿@using DAL.Models
+@model mp_appointment;
+@using DAL.Utils;
+@{
+    ViewData["Title"] = "Confirm Appointment";
+}
+
+
+@*<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Payment completed</li>
+            </ol>
+
+        </nav>
+    </div>
+
+</div>*@
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="main-card mb-3 card card-body">
+                <h3 class="card-title">Payment completed</h3>
+                <p>
+                    Your payment has been completed and your appointment scheduled. Please note that you have to be punctual for your appointment.
+                </p>
+
+                <a href="@Url.Action("MyProfile","Profile")" class="btn btn-lg btn-primary">Go back to Profile</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+

@@ -1,0 +1,323 @@
+@using MHealth.Helper;
+@{
+    ViewData["Title"] = "Child Adult Questionaire";
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+    var male_female = ViewHelper.GetLookUpDropDown("gender");
+    var preferred_language = ViewHelper.GetLookUpDropDown("preferred_language");
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Child Adult Questionaire
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mb-3 card">
+    <div class="card-header">
+        
+    </div>
+    <div class="card-body">
+        <form id="family_history_form" asp-action="ChildQuestionaire">
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_gender" class=""> What is the Gender of your Child </label>
+                        <select name="child_gender" id="child_gender" required class="form-control" asp-items="male_female"> 
+                            <option>-Select-</option>                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_relationship_to" class=""> How are you related to your child? </label>
+                        <select name="child_relationship_to" id="child_relationship_to" required class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="mother">I am the mother</option>
+                            <option value="father">I am the father</option>
+                            <option value="legal guardian">I am the legal guardian</option>
+                            <option value="others">Others</option>
+                        </select>       
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_relationship_to_others" class=""> Specify </label>
+                        <input type="text" name="child_relationship_to_others" id="child_relationship_to_others" class="form-control">       
+                    </div>
+                </div>                                      
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_age" class="">How old is your child</label>
+                        <input type="number" name="child_age" required id="child_age" class="form-control">   
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="where_child_lives" class="">Where does your child live </label>
+                        <select name="where_child_lives" id="where_child_lives" required class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="At my house with other parent">At my house with other parent</option>
+                            <option value="At my house but other parent lives in a different household">At my house but other parent lives in a different household</option>
+                            <option value="With other parent">With other parent</option>
+                            <option value="With other relatives">With other relatives/family</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="does_child_school" class=""> Does your child go to school </label>
+                        <select name="does_child_school" id="does_child_school" required class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Yes, regularly">Yes, regularly</option>
+                            <option value="Yes, but skips school">Yes, but skips school</option>
+                            <option value="no">No</option>
+                        </select>      
+                    </div>
+                </div>                                     
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_in_counselling" class="">Has your child ever been in counseling</label>
+                        <select name="child_in_counselling" id="child_in_counselling"  class="form-control" asp-items="yes_no_dropdown"> 
+                            <option>-Select-</option>                           
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_physical_health_rating" class="">How do you rate your child’s physical health </label>
+                        <select name="child_physical_health_rating" id="child_physical_health_rating"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_school_rating" class="">How do you rate your child’s current eating habits </label>
+                        <select name="child_school_rating" id="child_school_rating"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>      
+                    </div>
+                </div>                                     
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_sleep_rating" class="">How do you rate your child’s current sleeping habits</label><br/><br/>
+                         <select name="child_sleep_rating" id="child_sleep_rating"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_experiencing_anxiety" class="">Is your child currently experiencing anxiety, panic attacks or have any phobias </label>
+                        <select name="child_experiencing_anxiety" id="child_experiencing_anxiety"  class="form-control" asp-items="yes_no_dropdown">
+                            <option value="">-Select-</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_experiencing_sadness" class="">Based on your observation, is your child currently experiencing overwhelming sadness, grief or depression</label>
+                        <select name="child_experiencing_sadness" id="child_experiencing_sadness"  class="form-control" asp-items="yes_no_dropdown">
+                            <option value="">-Select-</option>
+                        </select>      
+                    </div>
+                </div>                                     
+            </div>
+            <div><h6>Over the last 2 weeks, how often has your child been bothered by any of the following problems</h6></div>
+            <div class="form-row">                
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="little_pleasure" class="">Little interest or pleasure in doing things</label><br/><br/>
+                        <select name="little_pleasure" id="little_pleasure"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="have_outburst_anger" class="">Having anger outbursts, yelling and screaming or being violent towards others </label>
+                        <select name="have_outburst_anger" id="have_outburst_anger"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="trouble_concentrating" class=""> Trouble concentrating on things, such as having a conversation, doing homework or watching television </label>
+                        <select name="trouble_concentrating" id="trouble_concentrating"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>      
+                    </div>
+                </div>                                     
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="feeling_down" class="">Feeling down, depressed, or hopeless</label>
+                        <select name="feeling_down" id="feeling_down"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="feeling_tired" class="">Feeling tired or having little energy </label>
+                        <select name="feeling_tired" id="feeling_tired"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="feeling_bad" class="">Feeling bad about self — feels like a failure or thinks they have let your family down </label>
+                        <select name="feeling_bad" id="feeling_bad"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>      
+                    </div>
+                </div>                                     
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="speaking_slowly" class="">Moving or speaking so slowly that other people have noticed?  Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual </label>
+                         <select name="speaking_slowly" id="speaking_slowly"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Several Days">Several Days</option>
+                            <option value="More than half the days">More than half the days</option>
+                            <option value="Nearly every day">Nearly every day</option>
+                        </select>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_being_suicidal" class="">Do you have any concerns about your child being suicidal </label>
+                        <select name="child_being_suicidal" id="child_being_suicidal"  class="form-control" asp-items="yes_no_dropdown">
+                            <option value="">-Select-</option>
+                        </select>    
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_issue_concerns" class="">Do you have concerns about your child in any of these issues? (Check all that applies)</label>
+                        <select name="child_issue_concerns" id="child_issue_concerns" multiple  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Relationship with family">Relationship with family</option>
+                            <option value="Relationship with peers">Relationship with peers</option>
+                            <option value="Coping with life’s changes">Coping with life’s changes</option>
+                            <option value="Attention Deficit/Hyperactivity">Attention Deficit/Hyperactivity (ADHD)</option>
+                            <option value="School challenges">School challenges</option>
+                            <option value="Autism">Autism</option>
+                            <option value="Criminal behavior/oppositional defiance">Criminal behavior/oppositional defiance</option>
+                            <option value="Substance Abuse">Substance Abuse</option>
+                            <option value="Sexual identity issues">Sexual identity issues</option>
+                        </select>      
+                    </div>
+                </div>   
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_relationship_rating" class="">How would you rate your relationship with your child </label>
+                         <select name="child_relationship_rating" id="child_relationship_rating"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>      
+                    </div>
+                </div>
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="financial_status" class="">How would you rate your financial status</label>
+                        <select name="financial_status" id="financial_status"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>      
+                    </div>
+                </div>   
+                <div class="col-md-4">
+                   <div class="position-relative form-group">
+                        <label for="child_issue_concerns" class="">Do you have a gender preference for your child’s counselor</label>
+                        <select name="child_issue_concerns" id="child_issue_concerns"  class="form-control">
+                            <option value="">-Select-</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="no preferene">I don’t have a gender preference</option>
+                        </select>      
+                    </div>
+                </div>   
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="child_preferred_language" class="">What is your child’s preferred language </label>
+                         <select name="child_preferred_language" id="child_preferred_language"  class="form-control" asp-items="preferred_language">
+                            <option value="">-Select-</option>
+                        </select>      
+                    </div>
+                </div>       
+            </div>
+            <button type="submit" class="mt-3 btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+@section Styles{
+    <style>
+        .error{
+            color:red
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/adult-mental.js"></script>
+    <script>
+        
+    </script>
+}

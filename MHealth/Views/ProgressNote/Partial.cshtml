@@ -1,0 +1,450 @@
+@model DAL.Models.mp_progress_note
+@using DAL.Utils;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form class=""  id="progress_note_form"  method="post" action="@Url.Action("Create","ProgressNote")" asp-antiforgery="true">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Progress Note
+                </div>
+                <div class="card-body">
+
+
+                    <fieldset>
+
+                        <legend>Subjective findings</legend>
+
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+                        <div class="position-relative form-group">
+                            <label class="form-label">Appetite</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("appetite_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.appetite == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="appetite_@option.id" value="@option.id" @chkd name="appetite" class="custom-control-input"><label class="custom-control-label" for="appetite_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Sleep</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("sleep_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.sleep == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="sleep_@option.id" value="@option.id" @chkd name="sleep" class="custom-control-input"><label class="custom-control-label" for="sleep_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Side Effects</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("side_effects_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.side_effects == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="side_effects_@option.id" value="@option.id" name="side_effects" @chkd class="custom-control-input"><label class="custom-control-label" for="side_effects_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Medication Efficacy</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("medication_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.meditation_efficacy == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="meditation_efficacy_@option.id" value="@option.id" @chkd name="meditation_efficacy" class="custom-control-input"><label class="custom-control-label" for="meditation_efficacy_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Medication Compliance</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("medication_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.medication_compliance == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="meditation_compliance_@option.id" value="@option.id" name="meditation_compliance" @chkd class="custom-control-input"><label class="custom-control-label" for="meditation_compliance_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Comments</label>
+                            <textarea class="form-control" name="comments"></textarea>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Objective findings</legend>
+                        <div class="position-relative form-group">
+                            <label class="form-label">Orientation</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("orientation_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.orientation == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="orientation_@option.id" value="@option.id" name="orientation" @chkd class="custom-control-input"><label class="custom-control-label" for="orientation_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Rapport</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("rapport_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.rapport == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="rapport_@option.id" value="@option.id" name="rapport" @chkd class="custom-control-input"><label class="custom-control-label" for="rapport_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Appearance</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("appeearance_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.appearance == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="appearance_@option.id" value="@option.id" name="appearance" @chkd class="custom-control-input"><label class="custom-control-label" for="appearance_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Mood</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("mood_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.mood == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="mood_@option.id" value="@option.id" name="mood" @chkd class="custom-control-input"><label class="custom-control-label" for="mood_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Affect</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("affect_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.affect == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="affect_@option.id" value="@option.id" name="affect" @chkd class="custom-control-input"><label class="custom-control-label" for="affect_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Speech</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("speech_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.speech == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="speech_@option.id" value="@option.id" name="speech" @chkd class="custom-control-input"><label class="custom-control-label" for="speech_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Thought content and process</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("thought_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.thought_process == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="thought_process_@option.id" value="@option.id" name="thought_process" @chkd class="custom-control-input"><label class="custom-control-label" for="thought_process_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Insight</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("insight_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.insight == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="insight_@option.id" value="@option.id" name="insight" @chkd class="custom-control-input"><label class="custom-control-label" for="insight_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Judgement</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("insight_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.judgement == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="judgement_@option.id" value="@option.id" name="judgement" @chkd class="custom-control-input"><label class="custom-control-label" for="judgement_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Cognitive</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("cognitive_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.cognitive == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="cognitive_@option.id" value="@option.id" name="cognitive" @chkd class="custom-control-input"><label class="custom-control-label" for="cognitive_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Psychomotor Activity</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("psychomotor_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.psychomotor_activity == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="psychomotor_activity_@option.id" value="@option.id" name="psychomotor_activity" @chkd class="custom-control-input"><label class="custom-control-label" for="psychomotor_activity_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <input type="hidden" name="appointment_id" value="@Model.appointment_id" />
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Memory Immediate</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("memory_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.memory_immediate == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="memory_immediate_@option.id" value="@option.id" name="memory_immediate" @chkd class="custom-control-input"><label class="custom-control-label" for="memory_immediate_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Memory Recent</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("memory_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.memory_recent == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="memory_recent_@option.id" value="@option.id" name="memory_recent" @chkd class="custom-control-input"><label class="custom-control-label" for="memory_recent_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Memory Past</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("memory_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.memory_past == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="memory_past_@option.id" value="@option.id" name="memory_past" @chkd class="custom-control-input"><label class="custom-control-label" for="memory_past_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Comments</label>
+                            <textarea class="form-control" name="comments"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Assessment</legend>
+                        <div class="position-relative form-group">
+                            <label class="form-label">Psychiatric condition is generally</label>
+                            <div>
+                                @foreach (var option in Options.Getlookups("assessment_progress_note"))
+                                {
+                                    var chkd = "";
+                                    if (Model.assessment == option.id)
+                                    {
+                                        chkd = "checked";
+                                    }
+                                    <div class="custom-radio custom-control custom-control-inline">
+                                        <input type="radio" id="assessment_@option.id" value="@option.id" name="assessment" @chkd class="custom-control-input"><label class="custom-control-label" for="assessment_@option.id">
+                                            @option.value
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="position-relative form-group">
+
+                            <textarea class="form-control" name="assessment_description">@Model.assessment_description</textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Plan</legend>
+
+                        <div class="position-relative form-group">
+
+                            <textarea class="form-control" name="plan" required>@Model.plan</textarea>
+                        </div>
+                    </fieldset>
+
+                </div>
+
+                <div class="d-block text-right card-footer">
+                    <button type="button" class="btn-wide btn btn-success" id="progress_note_button">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+</div>

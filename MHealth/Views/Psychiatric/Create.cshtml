@@ -1,0 +1,177 @@
+﻿@using DAL.Utils;
+@{
+    ViewData["Title"] = "Psychiatric Outpatient Mental Health Evaluation";
+    Layout = "_Layout_guest";
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Psychiatric Outpatient Mental Health Evaluation
+                <div class="page-title-subheading">
+                    Initial Intake Form
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">OPD Mental Evaluation</h5>
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="problem" class="control-label">Presenting Problem</label>
+                                <textarea name="problem" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="history_of_problem" class="control-label">History of Presenting Problem</label>
+                                <textarea name="history_of_problem" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="position-relative form-group">
+                                <label for="tbl_treatment" class="">Summary of Treatment History</label>
+                                <table class="table" id="tbl_treatment">
+                                    <thead>
+                                        <tr>
+                                            <th>Type of Treatment</th>
+                                            <th>Date of Service</th>
+                                            <th>Treatment Provider</th>
+                                            <th>Comment</th>
+                                            <th><span class="btn btn-primary" onclick="add_row('tbl_treatment')"><i class="fa fa-plus"></i></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="treatment_type" class="form-control"></td>
+                                            <td><input type="date" name="date_of_service" class="form-control"></td>
+                                            <td><input type="text" name="treatment_provider" class="form-control"></td>
+                                            <td><input type="text" name="comments" class="form-control"></td>
+                                            <td><span class="btn btn-danger" onclick="delete_row(this, 'tbl_treatment')"><i class="fa fa-trash"></i></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="social_history" class="control-label">Social History</label>
+                                <textarea name="social_history" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="family_history" class="control-label">Family History</label>
+                                <textarea name="family_history" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="developmental_history" class="control-label">Developmental History</label>
+                                <textarea name="developmental_history" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="substance_abuse_history" class="control-label">Substance Abuse History</label>
+                                <textarea name="substance_abuse_history" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="medical_history" class="control-label">Medical History</label>
+                                <textarea name="medical_history" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="medical_issues" class="control-label">Medical Issues</label>
+                                <textarea name="medical_issues" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class=" position-relative form-group">
+                                <label for="summary_of_recommendation" class="control-label">Summary of Recommendation</label>
+                                <textarea name="summary_of_recommendation" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="table_item" class="">Diagnostic Impression </label>
+                            @* <div class="position-relative form-group">
+                                    <label for="previous_surgery" class=""><br/>Previous surgeries/Major Illness/Medical Diagnoses (please include reason and year) </label>
+                                    <textarea class="form-control" required name="previous_surgery"></textarea>
+                                </div> *@
+                            <table class="table" id="table_item">
+                                <thead>
+                                    <tr>
+                                        <th>Type of Diagnosis</th>
+                                        <th>Diagnosis</th>
+                                        <th>Description</th>
+                                        <th><span class="btn btn-primary" onclick="add_row('table_item')"><i class="fa fa-plus"></i></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><select name="diagnosis_type" class="form-control"><option value="">--Select--</option></select></td>
+                                        <td><select name="diagnosis_id" class="form-control"><option value="">--Select--</option></select></td>
+                                        <td><input type="text" name="description" class="form-control"></td>
+                                        <td><span class="btn btn-danger" onclick="delete_row(this, 'table_item')"><i class="fa fa-trash"></i></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function add_row(tb) {
+
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            $trNew.find('input').each(function () {
+                $(this).val("");
+            });
+            $trLast.after($trNew);
+        }
+
+        function delete_row(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 1) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+            $(row).parent().parent().find("select").each(function () {
+                $(this).val("");
+            });
+        }
+    </script>
+
+
+}

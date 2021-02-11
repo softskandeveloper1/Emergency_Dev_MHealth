@@ -1,0 +1,246 @@
+﻿@using DAL.Models
+@using DAL.Utils
+@model mp_family_intake
+@{
+    ViewData["Title"] = "Family Intake form";
+}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="@Url.Action("Create","FamilyIntake")">
+                <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        Family Intake Form
+
+                    </div>
+                    <div class="card-body">
+                        <fieldset>
+                            <div class="form-row">
+                                <div class="col-lg-12">
+                                    <h4>Partner information</h4>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Partner's name</label>
+                                        <input type="text" name="partner_name" placeholder="enter the name of your partner" value="@Model.partner_name" class="form-control" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Partner's phone</label>
+                                        <input type="text" name="partner_phone" placeholder="enter your partner's phone" value="@Model.partner_phone" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Partner's email</label>
+                                        <input type="text" name="partner_email" placeholder="partner's email address" value="@Model.partner_email" class="form-control" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Partner's date of birth</label>
+                                        <input type="date" name="partner_dob" class="form-control" value="@Model.partner_dob" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Relationship</label>
+                                        @Html.DropDownList("relationship", new SelectList(Options.Getlookups("relationship"), "id", "value", Model.relationship), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Gender</label>
+                                        @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", Model.partner_gender), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-row">
+                                <div class="col-lg-12">
+                                    <h4>Mental Health</h4>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Has anyone in the immediate family currently or historically been suicidal?</label>
+                                        @Html.DropDownList("suicidal", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.suicidal), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Who and when?</label>
+                                        <input class="form-control" value="@Model.suicidal_details" name="suicidal_details">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Has anyone in the immediate family been hospitalized for mental health related issues?</label>
+                                        @Html.DropDownList("hospitalized_mental", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.hospitalized_mental), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">If yes, who and when?</label>
+                                        <input class="form-control" name="hospitalized_mental_summary" value="@Model.hospitalized_mental_summary">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Is anyone in the immediate family currently receiving counseling services with another professional?</label>
+                                        @Html.DropDownList("member_receiving_counseling", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.member_receiving_counseling), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">If yes, who and for how long?</label>
+                                        <input class="form-control" value="@Model.member_receiving_counseling_summary" name="member_receiving_counseling_summary">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="form-row">
+                                <div class="col-lg-12">
+                                    <h4>Family Counseling</h4>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Reasons for Seeking Family Counseling</label>
+                                        <textarea class="form-control" name="counseling_reason">@Model.counseling_reason</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">How would you know that your time in therapy has been successful? What would look different in your family?</label>
+                                        <textarea class="form-control" name="success_determination">@Model.success_determination</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">List some strengths in your family</label>
+                                        <textarea class="form-control" name="family_strength">@Model.family_strength</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">List some weaknesses in your family</label>
+                                        <textarea class="form-control" name="family_weakness">@Model.family_weakness</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">How does your family deal with conflict?</label>
+                                        <textarea class="form-control" name="deal_with_conflict">@Model.deal_with_conflict</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">How does your family celebrate/play together?</label>
+                                        <textarea class="form-control" name="how_family_celebrate">@Model.how_family_celebrate</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">What are things that your family does together on a regular (weekly) basis?</label>
+                                        <textarea class="form-control" name="together_activities">@Model.together_activities</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">How does your family deal with major life events (i.e. weddings, deaths, life threatening illnesses, job loss)?</label>
+                                        <textarea class="form-control" name="family_reaction_to_issues">@Model.family_reaction_to_issues</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Has anyone in the family ever struck, physically restrained, used violence against, or injured any person within the family?</label>
+                                        @Html.DropDownList("family_violence", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.family_violence), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">If yes, please explain</label>
+                                        <textarea class="form-control" name="family_violence_summary">@Model.family_violence_summary</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </fieldset>
+                </div>
+                    <div class="d-block text-right card-footer">
+                        <button type="submit" class="btn-wide btn btn-success">Submit</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+       
+    </div>

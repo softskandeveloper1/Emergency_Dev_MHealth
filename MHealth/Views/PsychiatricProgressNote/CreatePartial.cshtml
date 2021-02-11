@@ -1,0 +1,187 @@
+﻿@model DAL.Models.mp_psychiatric_progress_note
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="main-card card">
+            <div class="card-header">
+                Psychiatric Progress Note
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" id="psychiatric_progress_note_form">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @* <input type="hidden" name="profile_id" />
+                    <input type="hidden" name="appointment_id" /> *@                    
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="date_of_service" class="control-label">Date of Service</label>
+                                <input name="date_of_service" type="date" class="form-control" />
+                                <span asp-validation-for="date_of_service" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="server" class="control-label">Server</label>
+                                <input asp-for="server" class="form-control" />
+                                <span asp-validation-for="server" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="start_time" class="control-label">Start Time</label>
+                                <input asp-for="start_time" class="form-control" />
+                                <span asp-validation-for="start_time" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="stop_time" class="control-label">Stop Time</label>
+                                <input asp-for="stop_time" class="form-control" />
+                                <span asp-validation-for="stop_time" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="length_of_session" class="control-label">Length of Session</label>
+                                <input asp-for="length_of_session" class="form-control" />
+                                <span asp-validation-for="length_of_session" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="type_of_session" class="control-label">Type of Session</label>
+                                <input asp-for="type_of_session" class="form-control" />
+                                <span asp-validation-for="type_of_session" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="service_code" class="control-label">Service Code</label>
+                                <input asp-for="service_code" class="form-control" />
+                                <span asp-validation-for="service_code" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="visit_reason" class="control-label">Reason for Visit (HPI) Include: quality, frequency, contexts, association, s and s, severity, duration, modifying facts of sxs</label>
+                                <input asp-for="visit_reason" class="form-control" />
+                                <span asp-validation-for="visit_reason" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Review of History Impacting Current Problems Any Significant Changes</p>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="past_history" class="control-label">Past History</label>
+                                <input asp-for="past_history" class="form-control" />
+                                <span asp-validation-for="past_history" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="family_history" class="control-label">Family History</label>
+                                <input asp-for="family_history" class="form-control" />
+                                <span asp-validation-for="family_history" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        Symptom reviews of all other systems are negative.
+Constitutional Review of Symptoms: There is no recent history of weight loss, fever, malaise, or other abnormal constitutional symptoms.
+Musculoskeletal Review of Symptoms: There is no history of disorder or muscle strength or tone, joint problems, or disturbances of gait or station. 
+                    </div>
+                    <div class="form-row">
+                        @* <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="symptoms_review" class="control-label"></label>
+                                <input asp-for="symptoms_review" class="form-control" />
+                                <span asp-validation-for="symptoms_review" class="text-danger"></span>
+                            </div>
+                        </div> *@
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="height" class="control-label">Vital Signs: Height</label>
+                                <input asp-for="height" class="form-control" />
+                                <span asp-validation-for="height" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="weight" class="control-label">Vital Signs: Weight</label>
+                                <input asp-for="weight" class="form-control" />
+                                <span asp-validation-for="weight" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="blood_pressure" class="control-label">Blood Pressure</label>
+                                <input asp-for="blood_pressure" class="form-control" />
+                                <span asp-validation-for="blood_pressure" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="pulse" class="control-label">Pulse</label>
+                                <input asp-for="pulse" class="form-control" />
+                                <span asp-validation-for="pulse" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="psychiatric_exam_note" class="control-label">Psychiatric exam note</label>
+                                <input asp-for="psychiatric_exam_note" class="form-control" />
+                                <span asp-validation-for="psychiatric_exam_note" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="allergies" class="control-label">Allergies</label>
+                                <input asp-for="allergies" class="form-control" />
+                                <span asp-validation-for="allergies" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="additional_comment" class="control-label">Additional comment</label>
+                                <input asp-for="additional_comment" class="form-control" />
+                                <span asp-validation-for="additional_comment" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="risk_and_benefit_note" class="control-label">Risk and benefit note</label>
+                                <input asp-for="risk_and_benefit_note" class="form-control" />
+                                <span asp-validation-for="risk_and_benefit_note" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-block text-right card-footer">
+                        <input type="button" id="psychiatric_progress_note_button" value="Save" class="btn btn-success" />
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </form>
+            </div>
+        </div>        
+    </div>
+</div>

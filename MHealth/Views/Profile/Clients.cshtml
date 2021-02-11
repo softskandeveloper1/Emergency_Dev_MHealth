@@ -1,0 +1,162 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model PaginatedList<mp_profile>
+@{
+    ViewData["Title"] = "Clients";
+}
+
+@*<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="pe-7s-users icon-gradient bg-grow-early">
+                </i>
+            </div>
+            <div>
+                All clients
+                <div class="page-title-subheading">
+                    All our clients
+                </div>
+            </div>
+        </div>
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        {
+            @Html.Partial("../Shared/_quick_nav")
+        }
+    </div>
+</div>*@
+
+    <div class="row" style="margin-top:-15px">
+        <div class="col-md-8 offset-md-2">
+            <nav class="" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                    @*<li class="breadcrumb-item"><a href="@Url.Action("Clients", "Profile")">Clients</a></li>*@
+                    <li class="active breadcrumb-item" aria-current="page">Member directory</li>
+
+                </ol>
+
+            </nav>
+        </div>
+    </div>
+
+<div class="row">
+
+
+    <div class="col-md-8 offset-md-2">
+        <div class="main-card  card">
+            <div class="card-header text-info">
+                Members
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm btn-group">
+                        <form method="get" action="@Url.Action("Clients","Profile")">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="search.....">
+                                <div class="input-group-append">
+                                    <button class="btn btn-info"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    @if (Model.Any())
+                    {
+
+                        <table class="align-middle mb-0 table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr class="bg-info text-white">
+
+                                    <th>Name</th>
+                                    <th>Preferred name</th>
+                                    <th>Member ID</th>
+                                    <th>Date of birth</th>
+                                    <th>Marital status</th>
+                                    <th class="text-center">State</th>
+                                    <th class="text-center">City</th>
+                                    <th class="text-center">Education</th>
+                                    @*<th class="text-center">Status</th>*@
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var client in Model)
+                                {
+                                    <tr class="tb-warning">
+
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <img width="40" class="rounded-circle" src="@Url.Action("get_profile_image","User",new { user_id = client.user_id })" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading"><a href="@Url.Action("Profile","Profile",new { id = client.id })">@string.Format("{0} {1}", client.last_name, client.first_name)</a></div>
+                                                        @*<div class="widget-subheading opacity-7">@client.phone</div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@client.preferred_name</td>
+                                        <td><strong>@client.unique_id.ToString("D10")</strong></td>
+                                        <td>@client.dob.ToString("dd/MMM/yyyy")</td>
+                                        <td>@Options.GetLookupName(client.marital_status)</td>
+                                        <td class="text-center">@Options.GetStateName(client.state)</td>
+                                        <td class="text-center">@client.city</td>
+                                        <td class="text-center">@Options.GetLookupName(client.education_level.Value)</td>
+                                        @*<td class="text-center">
+                                            <div class="badge badge-warning">Pending</div>
+                                        </td>*@
+
+                                    </tr>
+                                }
+
+
+
+
+                            </tbody>
+                        </table>
+
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+                        <div style="margin-top:10px" class="pull-right">
+                            <nav class="" aria-label="pagination">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a href="@Url.Action("Clients","Profile",new {pageNumber=Model.PageIndex - 1,search=ViewBag.query})" class="page-link @prevDisabled" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                                    <li class="page-item"><a href="@Url.Action("Clients","Profile",new {pageNumber=Model.PageIndex + 1,search=ViewBag.query})" class="page-link @nextDisabled" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+
+}
+
+

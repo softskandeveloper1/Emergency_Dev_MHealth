@@ -1,0 +1,98 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "Dashboard";
+    var dt = (DataTable)ViewBag.dt;
+}
+
+<div class="row breadcrumb_addon">
+    <div class="col-lg-10">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);">Dashboard</a></li>
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-lg-2">
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        {
+            <div class="pull-right" style="margin-top:5px">
+                @await Html.PartialAsync("../Shared/_quick_nav")
+            </div>
+
+        }
+    </div>
+</div>
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <nav class="breadcrumb_loc" aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb_addon">
+                        <li class="breadcrumb-item active" aria-current="page"><a href="~/">Dashboard</a></li>
+                    </ol>
+
+                </nav>
+            </div>
+            @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+            {
+                @Html.Partial("../Shared/_quick_nav")
+            }
+
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-midnight-bloom">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Clinicians</div>
+                    <div class="widget-subheading">All registered clinicians</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[1]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-arielle-smile">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Clients</div>
+                    <div class="widget-subheading">All our clients</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[0]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-grow-early">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Sessions</div>
+                    <div class="widget-subheading">Total sessions held</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span>@dt?.Rows[0].ItemArray[2]</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card mb-3 widget-content bg-premium-dark">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <div class="widget-heading">Income</div>
+                    <div class="widget-subheading">Revenue generated</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-warning"><span>$0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

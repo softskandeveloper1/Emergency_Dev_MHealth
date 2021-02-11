@@ -1,0 +1,198 @@
+﻿@using DAL.Utils;
+@{
+    Layout = "_Layout_guest";
+    ViewBag.Title = "test";
+}
+
+    <section id="bg">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-3 offset-md-6">
+
+                <div style="padding-top:200px; padding-bottom:300px">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title">Already a member? Login</div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="account" method="post">
+                                @*<h4>Use a local account to log in.</h4>*@
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="Email"></label>
+                                    <input class="form-control f1-email" placeholder="Email..." id="Email" />
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="Password"></label>
+                                    <input class="form-control f1-password" id="Password" placeholder="Password..." />
+
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Log in</button>
+                                </div>
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:20px; color:white">
+                        <div class="card-body">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                @*<ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>*@
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="ad-slider">
+                                            @*<h4 class="ad-slider-title">Individual Counseling</h4>*@
+                                            <p>I need to discuss with someone about some.</p>
+                                            <button data-toggle="modal" data-target="#exampleModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                                Get Started
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="ad-slider">
+                                            @*<h4 class="ad-slider-title">Couples Counseling</h4>*@
+                                            <p>I am a clinican and can provide support to people.</p>
+                                            <a href="@Url.Action("NewApplicant","Applicant")" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                                Get Started
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @*<div class="carousel-item">
+                            <div class="ad-slider">
+                                <h4 class="ad-slider-title">Family Counseling</h4>
+                                <p>We will match you to an available counselor who fits the type of issues you are dealing with, your goals and preferences. Different counselors have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you.</p>
+                                <button data-toggle="modal" data-target="#exampleModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                    Get started
+                                </button>
+                            </div>
+                        </div>*@
+                                </div>
+                                @*<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+@section styles{
+    <style>
+        #bg {
+            background: url(../images/career.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+
+        body{
+            overflow-x:hidden
+        }
+
+         .carousel-indicators li {
+            background-color: green !important;
+        }
+
+        .carousel-indicators {
+            position: inherit;
+        }
+
+        .ad-slider {
+            margin: 10px;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            color: inherit;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid rgba(26,54,126,0.125);
+        }
+
+        .card-header, .card-title {
+            text-transform: uppercase;
+            color: white;
+            font-weight: bold;
+            font-size: .88rem;
+        }
+
+        .card{
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        h4{
+            font-size:2.5rem;
+        }
+    </style>
+}
+
+@section scripts{ 
+<script>
+    $(document).ready(function () {
+        testlogin();
+        //test_service_cost();
+        function test_service_cost() {
+             $.ajax({
+            url: '/api/servicecost/Post',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+                 data: JSON.stringify({ "clinician_id": "4972a38a-2c33-4707-9ffd-44a088a991ee", "created_by": "ec6daf24-dbdd-4075-a6f9-e23d3dd1f2ab", CostingModels: [{sub_id:1,service_id:1,cost:400}] }),
+            processData: false,
+            success: function (data, textStatus, jQxhr) {
+                alert(JSON.stringify(data));
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                alert(errorThrown);
+                console.log(errorThrown);
+            }
+        });
+        }
+
+        function testlogin() {
+             $.ajax({
+            url: '/auth/GenerateToken',
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({ "Email": "ico.cghpi@gmail.com", "Password": "P@ssw0rd" }),
+            processData: false,
+            success: function (data, textStatus, jQxhr) {
+                console.log(JSON.stringify(data));
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                alert(errorThrown);
+                console.log(errorThrown);
+            }
+        });
+        }
+       
+    });
+</script>
+}

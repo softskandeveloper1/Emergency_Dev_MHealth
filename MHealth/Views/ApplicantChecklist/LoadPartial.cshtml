@@ -1,0 +1,112 @@
+﻿@using  DAL.Models;
+@model mp_applicant_checklist
+@using  DAL.Utils;
+@{
+
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="postchecklist" asp-controller="ApplicantChecklist">
+           
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Resume</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("resume", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.resume), "", new { @class = "form-control form-control-sm" })
+                </div>
+              <input type="hidden" name="clinician_id" value="@Model.clinician_id" />
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label  col-md-8">Completed application with passport photograph</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("passport_photograph", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.passport_photograph), "", new { @class = "form-control form-control-sm" })
+                </div>
+               
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-md-8">Verification of employment</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("verification_of_employment", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.verification_of_employment), "", new { @class = "form-control form-control-sm" })
+                </div>
+               
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Verification of education</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("verification_of_education", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.verification_of_education), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Verification of license</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("verification_of_license", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.verification_of_license), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Signed offer/contract</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("offer_signed", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.offer_signed), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Bank account information- for pay</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("bank_information", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.bank_information), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Completion New hire orientation/clinical training </label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("orientation", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.orientation), "", new { @class = "form-control form-control-sm" })
+                </div>
+               
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Work email generated  </label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("work_email", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.work_email), "", new { @class = "form-control form-control-sm" })
+                </div>
+               
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">ID Badge</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("badge", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.badge), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">Provider access system setup/ Bio</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("access_setup", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.access_setup), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <label class="form-label col-sm-8">MySpaceMyTime login ID/access</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("login_setup", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.login_setup), "", new { @class = "form-control form-control-sm" })
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" type="submit">Update Checklist</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@using DAL.Models;
+@model mp_appointment
+@{
+    ViewBag.Title = "Cancel Appointment";
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="main-card mb-3 card card-body">
+            <h3 class="card-title">Appointment Cancel</h3>
+            <p>
+                Your appointment has been cancelled successful.
+            </p>
+
+            <a href="@Url.Action("Index","Dashboard")" class="btn btn-lg btn-primary">Go back to Profile</a>
+        </div>
+    </div>
+
+</div>
+

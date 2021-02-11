@@ -1,0 +1,330 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model PaginatedList<mp_clinician>
+@{
+    ViewData["Title"] = "Provider directory";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+                <li class="active breadcrumb-item active" aria-current="page">Providers</li>
+
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-id icon-gradient bg-grow-early">
+                    </i>
+                </div>
+                <div>
+                    Clinician Directory
+                    <div class="page-title-subheading">
+                        All our registered clinicians
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+            {
+                @Html.Partial("../Shared/_quick_nav")
+            }
+        </div>
+    </div>*@
+
+<div class="row">
+
+
+    <div class="col-md-12">
+        <div class="main-card  card">
+            <div class="card-header text-info">
+
+                <div class="card-header-title">
+                    Provider directory
+                </div>
+                <div class="btn-actions-pane-right">
+
+                    <form method="get" action="@Url.Action("Providers","Clinician")">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" value="@ViewBag.query" name="query" placeholder="search.....">
+                            <div class="input-group-append">
+                                <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+
+
+
+                @*<div class="btn-actions-pane-right">
+                        <div role="group" class="btn-group-sm btn-group">
+                            <form method="get" action="@Url.Action("Providers","Clinician")">
+                                <div class="search-wrapper">
+                                    <div class="input-holder">
+                                        <input type="text" name="quert" class="search-input" placeholder="Type to search">
+                                        <button class="search-icon" type="submit"><span></span></button>
+                                    </div>
+                                    <button class="close"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Any())
+                    {
+
+                        <table class="align-middle mb-0 table table-condensed table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Preferred name</th>
+                                    <th>Email</th>
+                                    <th>Date of birth</th>
+                                    <th>Area of interest</th>
+                                    <th class="text-center">State</th>
+                                    <th class="text-center">Date joined</th>
+                                    <th class="text-center">Education</th>
+                                    <th class="text-center">Status</th>
+                                    <th>Appointments</th>
+                                    <th>Completed</th>
+                                    <th>Cancelled</th>
+                                    <th>Amount generated</th>
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var client in Model)
+                                {
+                                    //var values=client.mp_appointment.Where(e=>e.mp_credit != null).Sum(e=>e.mp_credit.Sum(e=>e.amount))
+                                    <tr>
+
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <img width="40" class="rounded-circle" src="@Url.Action("get_profile_image","User",new { user_id = client.user_id })" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading"><a href="@Url.Action("Profile","Clinician",new { id = client.id })">@string.Format("{0} {1}", client.last_name, client.first_name)</a> </div>
+                                                        <div class="widget-subheading opacity-7">@client.phone</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@client.preferred_name</td>
+                                        <td><a href="mailto:@client.email">@client.email</a></td>
+                                        <td>@client.dob.ToString("dd MMM, yyyy")</td>
+                                        <td>
+                                            <strong>
+                                                @(client.area_of_interest != null ? Options.GetLookupName(client.area_of_interest.Value) : "")
+                                            </strong>
+                                        </td>
+                                        <td class="text-center">@Options.GetStateName(client.state)</td>
+                                        <td class="text-center">@client.created_at.ToString("dd MMM, yyyy")</td>
+                                        @if (client.education_level.HasValue)
+                                        {
+                                            <td class="text-center">@Options.GetLookupName(client.education_level.Value)</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                        <td class="text-center">
+                                            <div class="badge badge-warning">@Options.GetLookupName(client.status)</div>
+                                        </td>
+                                        <td>
+                                            @client.mp_appointment.Count()
+                                        </td>
+                                        <td>
+                                            @client.mp_appointment.Count(e => e.status == 170)
+                                        </td>
+                                        <td>
+                                            @client.mp_appointment.Count(e => e.status == 171)
+                                        </td>
+                                        <td>
+                                            @client.mp_appointment.Where(e => e.mp_credit != null).Sum(e => e.mp_credit.Sum(e => e.amount))
+                                        </td>
+                                        @*<td>
+                                                <button class="btn" data-toggle="modal" data-id="@client.id" data-target=".bd-example-modal-lg" id="clinician_modal">select</button>
+                                            </td>*@
+
+                                    </tr>
+                                }
+
+
+
+
+                            </tbody>
+                        </table>
+
+
+
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                        <div style="margin-left:auto;margin-right:auto;margin-top:10px">
+                            <nav class="" aria-label="pagination">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a href="@Url.Action("Clinicians","Profile",new {pageNumber=Model.PageIndex - 1,search=ViewBag.query})" class="page-link @prevDisabled" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                                    <li class="page-item"><a href="@Url.Action("Clinicians","Profile",new {pageNumber=Model.PageIndex + 1,search=ViewBag.query})" class="page-link @nextDisabled" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" asp-controller="Appointment" asp-action="Create">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Make an appointment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card mb-3 widget-content">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left mr-3">
+                                        <div class="widget-content-left">
+                                            <img width="40" class="rounded-circle" src="~/assets/images/avatars/4.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left flex2">
+                                        <div class="widget-heading" id="clinician_name">...</div>
+                                        <div class="widget-subheading opacity-7" id="clinician_phone">...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Options</label>
+                            <div class="col-sm-9">
+                                <input type="hidden" name="clinician_id" />
+                                @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Start date</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="pe-7s-date"></i></span></div>
+                                    <input name="start_date" type="text" class="form-control  daterange-single">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">End date</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="pe-7s-date"></i></span></div>
+                                    <input name="end_date" type="text" class="form-control  daterange-single">
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Appointment</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="~/lib/datepicker/daterangepicker.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.daterange-single').daterangepicker({
+                singleDatePicker: true,
+                parentEl: ".bd-example-modal-lg .modal-body",
+                timePicker: true,
+            });
+
+            $(document).on('click', '#clinician_modal', function (e) {
+                e.preventDefault();
+
+                var guid = $(this).data('id');
+
+                $.ajax({
+                    url: '/api/apiutility/getclinician/' + guid,
+                    type: 'GET',
+
+                })
+                    .done(function (data) {
+                        console.log(data.id);
+
+                        $('#clinician_phone').html(data.phone);
+                        $('#clinician_name').html(data.first_name + ' ' + data.last_name);
+                        $('input[name="clinician_id"]').val(data.id);
+
+                        //$('#dynamic-content').html(data); // load response
+                        //$('#modal-loader').hide();		  // hide ajax loader
+                    })
+                    .fail(function () {
+                        //$('#dynamic-content').html('<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...');
+                        //$('#modal-loader').hide();
+                    });
+
+            });
+
+
+
+
+        });
+    </script>
+}
+
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+
+}

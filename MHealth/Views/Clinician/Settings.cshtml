@@ -1,0 +1,390 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@using MHealth.Helper;
+@using MHealth.Data.ViewModel;
+@model mp_clinician
+@{
+    ViewBag.Title = "Settings";
+    var schedules = (IEnumerable<mp_clinician_availability>)ViewBag.schedules;
+    var service_costs = (IQueryable<mp_service_costing>)ViewBag.service_costs;
+
+    var costing_models = (List<CostingModel>)ViewBag.costing_models;
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("CProfile","Clinician")">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Settings</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="form-group" id="div_spinner" style="display:none">
+            <div class="text-center">
+                <img id="loader" src="~/assets/images/loaders/30.gif" style="height:20px" />
+                <h5>Updating your information, please wait...</h5>
+            </div>
+        </div>
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header text-info">
+                <div class="card-header-title">
+
+                    Settings
+                </div>
+                <ul class="nav">
+                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0" class="nav-link show active">Availability</a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-1" class="nav-link show">Billing</a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-2" class="nav-link  show">Payment and Idenfication information</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="tab-eg5-0" role="tabpanel">
+                        <div class="position-relative row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <div class="alert alert-info fade show" role="alert">Please select your availability. Please not that without specifying this, we will not be able to match a member to you.</div>
+                                    <p class="text-info">
+                                        Days colored in red are not active, you won't receive bookings on these days
+                                    </p>
+                                    <table class="table table-condensed" id="table_item">
+                                        <thead>
+                                            <tr>
+                                                <th>Day</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th width="120">Set Status</th>
+                                                <th><a href="#" data-toggle="modal" class="btn btn-primary pull-right" data-id="" data-target=".availability_modal" id="availability_modal"><i class="fa fa-plus"></i></a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var schedule in schedules)
+                                            {
+                                                <form asp-controller="Clinician" asp-action="UpdateAvailability" id="@("form"+schedule.id)" method="post">
+                                                    <tr>
+
+                                                        <td>
+                                                            <input type="text" name="day_name" value="@schedule.day_name" class="form-control @(!schedule.status.Value? "bg-danger" : "") " readonly />
+                                                        </td>
+                                                        <td><input name="start_time" type="text" value="@schedule.start_time.TimeOfDay" class="form-control daterange-single"></td>
+                                                        <td><input name="end_time" type="text" value="@schedule.end_time.TimeOfDay" class="form-control  daterange-single"></td>
+                                                        <td>
+                                                            <select name="status" class="form-control" required>
+                                                                @if (schedule.status.Value)
+                                                                {
+                                                                    <option selected value="true">Active</option>
+                                                                    <option value="false">Inactive</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="true">Active</option>
+                                                                    <option selected value="false">Inactive</option>
+                                                                }
+
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" onclick="if (confirm('Are you sure to update your schedule for this day ?')) {
+        event.preventDefault();
+        document.getElementById('form' +@schedule.id).submit();
+    }" class="btn btn-success" title="Update schedule"><i class="fa fa-edit"></i></a>
+                                                        </td>
+
+
+                                                    </tr>
+                                                </form>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane show" id="tab-eg5-1" role="tabpanel">
+                        <div class="table-responsive">
+                            <div class="alert alert-info fade show" role="alert">Please add your rates to your services. Please not that without specifying this, we will not be able to match a member to you.</div>
+                            <form asp-action="UpdateServiceCost" asp-controller="Clinician" id="frm_cost">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Activity</th>
+                                            <th>Service</th>
+                                            <th>Cost (&#8358;)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var costing_model in costing_models)
+                                        {
+                                            var cost = "";
+                                            var service_cost = service_costs.FirstOrDefault(e => e.appointment_service_id == costing_model.service_id && e.appointment_activity_sub_id == costing_model.sub_id);
+                                            if (service_cost != null)
+                                            {
+                                                cost = service_cost.cost.ToString();
+                                            }
+
+                                            <tr>
+                                                <th>@costing_model.sub_name</th>
+                                                <th>@costing_model.service_name</th>
+                                                <td>
+                                                    <input type="hidden" name="service_id" value="@costing_model.service_id" />
+                                                    <input type="hidden" name="sub_id" value="@costing_model.sub_id" />
+                                                    <input type="text" name="amount" class="form-control" value="@cost" />
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+                                        @*@foreach (var apt_service in Options.GetAppointmentServices())
+                                        {
+                                            var cost = "";
+                                            var service_cost = service_costs.FirstOrDefault(e => e.appointment_service_id == apt_service.id);
+                                            if (service_cost != null)
+                                            {
+                                                cost = service_cost.cost.ToString();
+                                            }
+                                            <tr>
+                                                <th>@apt_service.name</th>
+                                                <td><input type="text" name="apt_@apt_service.id" class="form-control" value="@cost" /></td>
+                                            </tr>
+                                        }*@
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td><button class="btn btn-success" type="submit">Update cost</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane  show" id="tab-eg5-2" role="tabpanel">
+                        <form method="post" action="@Url.Action("UpdateID","Clinician")" id="frm_id">
+                            <input type="hidden" name="id" value="@Model.id" />
+
+                            <fieldset>
+                                <legend>Identification</legend>
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Mode of identificataion (International passport, national ID, etc)<span class="required">*</span></label>
+                                            <input name="mode_of_identification" class="form-control" value="@Model.mode_of_identification" required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Account number<span class="required">*</span></label>
+                                            <input name="identification_number" class="form-control" value="@Model.identification_number" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Bank Information</legend>
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Account name<span class="required">*</span></label>
+                                            <input name="account_name" class="form-control" value="@Model.account_name" required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Account number<span class="required">*</span></label>
+                                            <input name="account_number" class="form-control" value="@Model.account_number" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Name of bank<span class="required">*</span></label>
+                                            <input name="bank_name" class="form-control" value="@Model.bank_name" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <button class="btn btn-success" type="submit">Update</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <div class="modal fade availability_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" asp-controller="Clinician" asp-action="UpdateAvailability">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Set Day Availability</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Day</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="hidden" name="status" value="true" />
+                                    <select class="form-control" name="day_name" required>
+                                        <option value="">Select Day</option>
+                                        @foreach (var day in ViewHelper.GetdayOfWeeks())
+                                        {
+                                            <option value="@day">@day</option>
+
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Start time</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="pe-7s-date"></i></span></div>
+                                    <input name="start_time" type="text" value="@(Model.mp_clinician_availability.Count() > 0 ? Model.mp_clinician_availability.First().start_time : DateTime.Now)" class="form-control  daterange-single">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">End time</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="pe-7s-date"></i></span></div>
+                                    <input name="end_time" type="text" value="@(Model.mp_clinician_availability.Count() > 0 ? Model.mp_clinician_availability.First().end_time : DateTime.Now)" class="form-control  daterange-single">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="~/lib/datepicker/daterangepicker.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            //$('.daterange-single').daterangepicker({
+            //    singleDatePicker: true,
+            //    //   parentEl: ".modal-body",
+            //    timePicker: true,
+            //    timePicker24Hour: true,
+
+            //    locale: {
+            //        format: 'H:mm'
+            //    }
+            //});
+
+
+            $('.daterange-single').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 15,
+                minTime: '1',
+                maxTime: '12:00pm',
+                // defaultTime: '11',
+                startTime: '7:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                zindex: 9999999
+            });
+
+            $("#frm_cost").submit(function (event) {
+                event.preventDefault(); 
+                var post_url = $(this).attr("action"); 
+                var request_method = $(this).attr("method"); 
+                var form_data = $(this).serialize(); 
+                $("#div_spinner").show();
+
+                $.ajax({
+                    url: post_url,
+                    type: request_method,
+                    data: form_data
+                }).done(function (response) { //
+                    alert("Your cost has been updated successfully.");
+                    $("#div_spinner").hide();
+                });
+            });
+
+            $("#frm_id").submit(function (event) {
+                $("#div_spinner").show();
+                event.preventDefault();
+                var post_url = $(this).attr("action");
+                var request_method = $(this).attr("method");
+                var form_data = $(this).serialize();
+
+                $.ajax({
+                    url: post_url,
+                    type: request_method,
+                    data: form_data
+                }).done(function (response) { //
+                    alert("Your information has been updated successfully.");
+                    $("#div_spinner").hide();
+                });
+            });
+
+
+        });</script>
+}
+
+
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/button.css" type="text/css" rel="stylesheet" />
+    <link href="~/lib/datepicker/daterangepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <style>
+        .question {
+            font-weight: bolder;
+        }
+
+        .answer {
+            font-style: italic;
+            color: #d92550 !important
+        }
+
+        .q_info {
+            border-bottom: 1px #ccc solid
+        }
+    </style>
+}

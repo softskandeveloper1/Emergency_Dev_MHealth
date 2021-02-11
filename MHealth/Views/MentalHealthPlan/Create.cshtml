@@ -1,0 +1,133 @@
+﻿@using DAL.Utils
+@using DAL.Models
+@model mp_mental_health_plan
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form class="">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Mental Health Treatment Plan
+                </div>
+                <div class="card-body">
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="form-label">Type of Service</label>
+                            @Html.DropDownList("service_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", Model.service_type), null, new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Start date</label>
+                            <input type="date" name="start_date" value="@Model.start_date" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Duration in weeks</label>
+                            <input type="number" name="duration" value="@Model.duration" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Problem Area</label>
+                            <textarea class="form-control" name="problem_area">@Model.problem_area</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Problem History</label>
+                            <textarea class="form-control" name="problem_history">@Model.history</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Measurable long term goal</label>
+                            <textarea class="form-control" name="problem_history">@Model.history</textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Review periods</legend>
+                        <table class="table table-bordered" id="tb">
+                            <thead>
+                                <tr>
+                                    <th>Review date</th>
+                                    <th>Progress Toward Goal</th>
+                                    <th>Sufficient Progress to Meet Goal</th>
+                                    <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb')"><i class="pe-7s-copy-file"></i></button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="date" class="form-control" name="review_date" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="progress_to_goal" />
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("sufficient_progress", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), null, new { @class = "form-control", })
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb')"><i class="pe-7s-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Short-Term Objectives</legend>
+                        <table class="table table-bordered" id="tb_o">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Objective</th>
+                                    <th>Intervention Tool Used</th>
+                                    <th>Outcome</th>
+                                    <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_o')"><i class="pe-7s-copy-file"></i></button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="date" class="form-control" name="date" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="short_term_objective" />
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("tool", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), null, new { @class = "form-control", })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("outcome", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), null, new { @class = "form-control", })
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_o')"><i class="pe-7s-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+                </div>
+
+                <div class="d-block text-right card-footer">
+                    <button type="submit" class="btn-wide btn btn-success">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+</div>
+
+
+@section scripts{ 
+<script src="~/js/fn_table.js"></script>
+}

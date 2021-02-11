@@ -1,0 +1,224 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model mp_prescription
+@{
+    ViewBag.Title = "Prescription details";
+    var profile = Model.profile_;
+}
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Clinician")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Prescription details</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+      
+        
+            <div class="card">
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        New Prescription
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+
+
+                                <div class="circular_image">
+                                    <img src="@Url.Action("get_profile_image","User",new { user_id = profile.user_id })" alt="avatar">
+                                </div>
+                                <h6>@string.Format("{0} {1}", profile.last_name, profile.first_name)</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>Member ID</th>
+                                        <td class="answer">@profile.unique_id.ToString("D10")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Preferred name</th>
+                                        <td>@profile.preferred_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date of birth</th>
+                                        <td>@profile.dob.ToString("dd MMM, yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>@Options.GetLookupName(profile.gender)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Education level</th>
+                                        <td>@Options.GetLookupName(profile.education_level.Value)</td>
+                                    </tr>
+                                    <tr>
+                                        @*<th colspan="2">About</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                @Model.about
+                                            </td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <form asp-action="PostPrescription" asp-controller="Prescription" method="post" id="frm_new_prescription">
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <input type="hidden" name="profile_id" value="@Model.id" />
+                                    <table class="table table-bordered" id="tb_prescription">
+                                        <thead>
+                                            <tr>
+                                                <th>Drug</th>
+                                                <th>Dosage</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var drug in Model.mp_prescription_drug)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @drug.drug
+                                                    </td>
+                                                    <td>
+                                                        @drug.dosage
+                                                    </td>
+                                                 
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                              
+                                <div class="form-group">
+                                    <label class="control-label">Pharmacy</label>
+                                    @if (Model.pharmacy_id.HasValue)
+                                    {
+                                        <input type="text" class="form-control" value="@Options.GetPharmacyName(Model.pharmacy_id.Value)" readonly />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" value="No pharmacy selected" readonly />
+                                    }
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Comments</label>
+                                    <textarea class="form-control" name="comment" readonly>@Model.comment</textarea>
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+     
+
+
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/fn_table.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+<script>
+
+    $('#pharmacy').select2({
+        placeholder: 'Search pharmacies...',
+
+        ajax: {
+            url: function (params) {
+                return "/api/pharmacy/GetPharmacies?query=" + params.term;
+            },
+            dataType: 'json',
+            quietMillis: 100,
+
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (obj) {
+                        return { id: obj.id, text: obj.name + " - " + obj.phone };
+                    })
+                };
+            }
+
+        }
+    });
+
+     $('#profile_id').select2({
+        placeholder: 'Search by names or member id...',
+
+        ajax: {
+            url: function (params) {
+                return "/api/profile/GetProfiles?query=" + params.term;
+            },
+            dataType: 'json',
+            quietMillis: 100,
+
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (obj) {
+                        return { id: obj.id, text: obj.last_name + " " + obj.first_name + " - " + obj.unique_id.toString().padStart(10, '0') };
+                    })
+                };
+            }
+
+        }
+    });
+
+    $("#frm_new_prescription").submit(function (e) {
+
+        e.preventDefault();
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function (data) {
+                alert("Prescription submitted successfully.");
+               window.location.href = "/Prescription/Prescriptions";
+            }
+        });
+
+
+    });
+</script>
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <style>
+        select {
+            height: 44px !important
+        }
+    </style>
+}

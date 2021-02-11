@@ -1,0 +1,176 @@
+﻿@using DAL.Entities;
+@{
+    ViewBag.Title = "Messages";
+    var conversation_items = (List<ConversationItem>)ViewBag.conversation_items;
+}
+
+
+
+
+
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Messages</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div id="frame">
+            <div id="sidepanel">
+                <input type="hidden" id="com_id" value="de93d18b-0f00-4b4b-a914-645af44d3b82" />
+                <div id="search">
+                    <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+                    <input type="text" placeholder="Search ..." />
+                </div>
+                <div id="contacts">
+                    <ul>
+
+                        @if (conversation_items.Any())
+                        {
+                            foreach (var conversation_item in conversation_items)
+                            {
+                                <li class="contact" onclick="load_conversations('@conversation_item.user_id',this)">
+                                    <div class="wrap">
+                                        <span class="contact-status online"></span>
+                                        <img src="@Url.Action("get_profile_image","User",new { user_id = conversation_item.user_id })" alt="" id="img_@conversation_item.user_id" />
+                                        <div class="meta">
+                                            <p class="name" id="name_@conversation_item.user_id">@conversation_item.name</p>
+                                            <p class="preview">@conversation_item.message</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                      
+                    </ul>
+                </div>
+                @*<div id="bottom-bar">
+                        <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+                        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+                    </div>*@
+            </div>
+            <div class="content">
+                <div class="contact-profile">
+                    <div class="pull-right">
+                        <p id="current_name"></p>
+                        <img src="~/images/profile/anonymous.jpg" alt="" id="current_img" />
+
+                    </div>
+
+                    @*<div class="social-media">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </div>*@
+                </div>
+                <div class="messages">
+                    <ul>
+                   
+                    </ul>
+                </div>
+                <div class="message-input">
+                    <div class="wrap">
+                        <input type="text" placeholder="Write your message..." style="vertical-align:baseline" />
+                        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                        <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="message_template" style="display:none">
+    <li>
+        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+        <p>Excuses don't win championships.</p>
+    </li>
+</div>
+
+@section styles{
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
+    @*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+    @*<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>*@
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="~/css/conversation.css" />
+    <style>
+        ol, ul {
+            list-style: none
+        }
+
+        span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+        }
+    </style>
+}
+
+@section scripts{
+    @*  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>*@
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+
+    @* <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>*@
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+    @*<script src="https://use.typekit.net/hoy3lrg.js"></script>
+        <script>try { Typekit.load({ async: true }); } catch (e) { }</script>*@
+
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script>
+        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+
+        $("#profile-img").click(function () {
+            $("#status-options").toggleClass("active");
+        });
+
+        $(".expand-button").click(function () {
+            $("#profile").toggleClass("expanded");
+            $("#contacts").toggleClass("expanded");
+        });
+
+        $("#status-options ul li").click(function () {
+            $("#profile-img").removeClass();
+            $("#status-online").removeClass("active");
+            $("#status-away").removeClass("active");
+            $("#status-busy").removeClass("active");
+            $("#status-offline").removeClass("active");
+            $(this).addClass("active");
+
+            if ($("#status-online").hasClass("active")) {
+                $("#profile-img").addClass("online");
+            } else if ($("#status-away").hasClass("active")) {
+                $("#profile-img").addClass("away");
+            } else if ($("#status-busy").hasClass("active")) {
+                $("#profile-img").addClass("busy");
+            } else if ($("#status-offline").hasClass("active")) {
+                $("#profile-img").addClass("offline");
+            } else {
+                $("#profile-img").removeClass();
+            };
+
+            $("#status-options").removeClass("active");
+        });
+
+
+                //# sourceURL=pen.js</script>
+
+
+}
+

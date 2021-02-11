@@ -1,0 +1,181 @@
+﻿@using DAL.Utils;
+@{
+    Layout = "_Layout_web";
+    ViewBag.Title = "FAQ";
+}
+
+<section class="page-title-area page-title-bg1">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <div class="page-title-content">
+                        <h2>Frequently Asked Questions</h2>
+                        <ul>
+                            <li><a href="~/">Home</a></li>
+                            <li>FAQ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@await Html.PartialAsync("../Home/faq_partial")
+
+<!-- Start FAQ Area -->
+<section class="faq-area ptb-100" style="display:none">
+    <div class="container-fluid p-0">
+        <div class="row m-0">
+            <div class="col-lg-6 col-md-12 p-0">
+                <div class="faq-image">
+                    <img src="~/images/faq.jpg" alt="image">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 p-0">
+                <div class="faq-accordion">
+                    <span class="sub-title">Frequently Asked Questions</span>
+                    <h2>Get Answers to your questions</h2>
+
+                    <ul class="accordion">
+                        <li class="accordion-item">
+                            <a class="accordion-title active" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                What is MySpace MyTime?
+                            </a>
+
+                            <p class="accordion-content show">Myspace MyTime is an online treatment platform that connects clients with providers. We are changing the way people access help by providing convenient, confidential, and affordable access to a licensed provider. MSMT makes professional treatment available anytime, anywhere, through a computer, tablet, or smartphone.</p>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                Who are the providers?
+                            </a>
+
+                            <p class="accordion-content">Our providers are licensed, trained, experienced, psychologists, psychiatrist, clinical social workers, and medical professionals. Our providers are vetted through a thorough verification and background check process to ensure authenticity of qualification and experience. They have been qualified and certified by their respective professional board after successfully completing the necessary education, training and practice. While their experience, expertise and background vary, they all possess hands-on experience.</p>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                How are providers verified?
+                            </a>
+
+                            <p class="accordion-content">Our team ensures that every provider we bring to the platform is fully licensed and in good standing. Providers who apply are required to provide proper licensure documentation, proof of identity, and references from other licensed practitioners who have worked with them. We then cross-check their licensure information with their respective professional licensing board.</p>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                Is online MSMT right for me?
+                            </a>
+
+                            <div class="accordion-content">
+                                MSMT may be right for you if you're looking to improve the quality of your life. Whenever there is anything that interferes with your happiness or prevents you from achieving your goals, we may be able to help.
+                                <br />
+                                MSMT is not the right solution for you if any of the following is true:
+
+                                <ul>
+                                    <li>You have an intention to seriously hurt yourself or others</li>
+                                    <li>You are under the age of 13</li>
+                                    <li>You are in an urgent crisis or an emergency</li>
+                                    <li>You have been diagnosed with a severe illness, or if you have been advised to be in psychological/medical supervision or care</li>
+                                    <li>You were required to undergo treatment either by a court order or by any other authority</li>
+                                    <li>You do not have a device that can connect to the Internet or you do not have a reliable Internet connection</li>
+                                </ul>
+
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                I signed up. How long till I get connected to a provider?
+                            </a>
+
+                            <p class="accordion-content">This process can take a few hours or a few days, depending on counselor availability. Don't worry, your subscription starts when you are matched with a counselor.</p>
+                        </li>
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                How will I connect with my provider?
+                            </a>
+
+                            <div class="accordion-content">
+                                You can get services in four ways:
+                                <ul>
+                                    <li><strong>Exchanging messages </strong> with your provider</li>
+                                    <li><strong>Chatting live </strong> with your provider</li>
+                                    <li><strong>Speaking over the phone </strong> with your provider</li>
+                                    <li><strong>Video conferencing </strong> with your provider</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                What is the role of myspacemytime.com?
+                            </a>
+
+                            <p class="accordion-content">The service is provided by independent providers who work directly with you. These providers are not employees of MSMT and the site doesn't oversee them professionally. Our mission is to build, maintain, and support a platform that lets users and providers communicate effectively, and to facilitate this channel so they can get the most out of their interaction.</p>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                How is my privacy protected?
+                            </a>
+
+                            <div class="accordion-content">
+                                We are totally committed to securing your privacy and confidentiality. We have built a state-of-the-art technology, operation, and infrastructure with one thing in mind: protecting your privacy and safeguarding the information you provide. Our privacy and confidentiality standards are by far more advanced than what is required by law or regulations, so you can feel safe and comfortable.
+                                <ul>
+                                    <li>You don't need to identify yourself.</li>
+                                    <li>We don't cooperate or work with any insurance companies or employers, so nothing needs to be shared, reported or filed with them</li>
+                                    <li>All the messages between you and your provider are secured and encrypted by banking-grade 256-bit encryption.</li>
+                                    <li>Our servers are hosted in an "A Grade" facility, ensuring the best-in-class security and protection.</li>
+                                    <li>Our browsing encryption system (SSL) follows modern best practices, providing world class online security and encryption.</li>
+                                    <li>Our databases are encrypted and scrambled so they essentially become useless in the very unlikely event that they are being stolen or inappropriately used.</li>
+                                </ul>
+
+                                If you wish for any of your information or records to be released to a third party, please let your provider know. Your provider will send you an authorization form that you will need to fill and sign before your information can be released.
+                            </div>
+                        </li>
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                Can I stay anonymous?
+                            </a>
+
+                            <p class="accordion-content">When you sign up, we do not ask you for your full name or contact information. You may pick any "nick name" which will identify you in the system. When you decide to start the counseling process, we will ask you for emergency contact information which is kept safe in the system so it can be used if your counselor believes that you or someone else might be in danger.</p>
+                        </li>
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="fas fa-plus"></i>
+                                I am a licensed provider; how can I provide services with MSMT?
+                            </a>
+
+                            <p class="accordion-content">Please start the application process by clicking <a href="@Url.Action("NewApplicant","Applicant")">here</a> .</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End FAQ Area -->
+
+@section styles{
+    <style>
+        div {
+            color: #7d7d7d;
+            line-height: 1.8;
+            font-size: 14.5px;
+            font-family: "Rubik", sans-serif;
+        }
+    </style>
+}

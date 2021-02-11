@@ -1,0 +1,123 @@
+@model DAL.Models.mp_profile
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>mp_profile</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.last_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.last_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.first_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.first_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.preferred_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.preferred_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.address)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.city)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.city)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.state)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.state)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.country)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.country)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dob)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dob)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.user_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.user_id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.profile_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.profile_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.education_level)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.education_level)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.marital_status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.marital_status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.created_at)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.created_at)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.updated_at)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.updated_at)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,384 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model mp_appointment
+@{
+    ViewBag.Title = "New Appointment";
+    var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    var schedules = (IEnumerable<mp_clinician_availability>)ViewBag.schedules;
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page"> Appointment</li>
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-md-2">
+        @*<a class="btn btn-danger text-white" style="text-align:center; width:100%">CANCEL APPOINTMENT</a>*@
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <partial name="_AlertPartial" />
+
+        @if (User.IsInRole("client"))
+        {
+            <div class="mb-3 card">
+                <div class="card-header-tab card-header text-info">
+                    <div class="card-header-title">
+                        Provider Information
+                    </div>
+                    <ul class="nav">
+                        <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0" class="active nav-link">Profile</a></li>
+                        @*<li class="nav-item"><a data-toggle="tab" href="#tab-eg5-1" class="nav-link">Availability</a></li>*@
+                        @*<li class="nav-item"><a data-toggle="tab" href="#tab-eg5-2" class="nav-link">Tab 3</a></li>*@
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-center">
+
+
+                                        <div class="circular_image">
+                                            <img src="@Url.Action("get_profile_image","User",new { user_id = Model.clinician_.user_id })" alt="avatar">
+                                        </div>
+                                        <h6>@string.Format("{0} {1}", Model.clinician_.last_name, Model.clinician_.first_name)</h6>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <h6>About</h6>
+                                    <p>
+                                        @Model.clinician_.about
+                                    </p>
+                                    @if (Model.clinician_.education_level.HasValue)
+                                    {
+                                        <h6>
+                                            Education
+                                        </h6>
+                                        <p>
+                                            @Options.GetLookupName(Model.clinician_.education_level.Value)
+                                        </p>
+                                    }
+                                    @if (Model.clinician_.area_of_interest.HasValue)
+                                    {
+                                        <h6>
+                                            Area of Interset
+                                        </h6>
+                                        <p>
+                                            @Options.GetLookupName(Model.clinician_.area_of_interest.Value)
+                                        </p>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        }
+        else if (User.IsInRole("clinician"))
+        {
+            <div class="mb-3 card">
+                <div class="card-header-tab card-header text-info">
+                    <div class="card-header-title">
+                        Member Information
+                    </div>
+                    <ul class="nav">
+                        <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0" class="active nav-link">Profile</a></li>
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-center">
+
+
+                                        <div class="circular_image">
+                                            <img src="@Url.Action("get_profile_image","User",new { user_id = Model.client_.user_id })" alt="avatar">
+                                        </div>
+                                        <h6>@string.Format("{0} {1}", Model.client_.last_name, Model.client_.first_name)</h6>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <h6>About</h6>
+                                    <p>
+                                        @Model.client_.about
+                                    </p>
+                                    @if (Model.client_.education_level.HasValue)
+                                    {
+                                        <h6>
+                                            Education
+                                        </h6>
+                                        <p>
+                                            @Options.GetLookupName(Model.client_.education_level.Value)
+                                        </p>
+                                    }
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        }
+
+
+
+
+        <div class="card mb-3">
+            <form>
+                <input type="hidden" name="profile_match" value="@Model.id" />
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        Appointment Information
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Type of appointment </label>
+                                @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", Model.appointment_type), null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Category of appointment </label>
+
+                                @Html.DropDownList("appointment_category", new SelectList(Options.GetAppointmentActivities(Model.appointment_type), "id", "name", Model.appointment_activity_id), null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Appointment activity </label>
+                                @Html.DropDownList("appointment_category_sub", new SelectList(Options.GetAppointmentSubActivities(Model.appointment_activity_id), "id", "name", Model.appointment_activity_sub_id), null, new { @class = "form-control", @disabled = "disabled" })
+
+                            </div>
+                            <input type="hidden" name="appointment_id" id="appointment_id" value="@Model.id" />
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Appointment service</label>
+                                        @Html.DropDownList("appointment_service", new SelectList(Options.GetAppointmentServices(Model.appointment_activity_sub_id), "id", "name", Model.appointment_service), null, new { @class = "form-control", @required = "required", id = "appointment_service", @onchange = "get_clinician_cost()", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+
+                                    @if (Model.mp_credit.Any())
+                                    {
+                                        <div class="form-row">
+                                            <div class="col-md-12">
+                                                <div class="col-12">
+                                                    <label class="form-label">Provider cost for selected service</label>
+                                                </div>
+                                                <div class="position-relative form-group input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">&#8358;</span></div>
+
+                                                    <input name="cost" type="number" id="cost" class="form-control" value="@Model.mp_credit.FirstOrDefault().amount" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-row">
+                                            <div class="col-md-12">
+                                                <div class="col-12">
+                                                    <label class="form-label">Provider cost for selected service</label>
+                                                </div>
+                                                <div class="position-relative form-group input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">&#8358;</span></div>
+
+                                                    <input name="cost" type="number" id="cost" class="form-control" value="" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Selected time for appointment</label>
+                                        <input type="text" class="form-control" value="@Model.start_date.ToString("dd MMM, yyyy hh:mm tt")" disabled />
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-block text-center card-footer">
+
+
+                    @if (Model.status == 169 || Model.status == 234)
+                    {
+                        <button data-toggle="modal" type="button" data-target="#infoModal" class="btn-wide btn btn-danger">CANCEL APPOINTMENT</button>
+                        <button data-toggle="modal" type="button" data-target="#rescheduleModal" class="btn-wide btn btn-success">RESCHEDULE APPOINTMENT</button>
+                    }
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+    @*<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet">*@
+    <style>
+        h6 {
+            font-weight: bold;
+            color: black
+        }
+
+        input, select {
+            font-size: 0.8rem !important
+        }
+    </style>
+}
+
+@section scripts{
+
+    <div class="modal fade bd-message-modal-lg" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="get" asp-controller="Appointment" asp-action="Cancel">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="modal_title">Delete Appointment</h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="view_bag">
+                        <input type="hidden" name="id" value="@Model.id" />
+                        @if (User.IsInRole("client"))
+                        {
+                            <span>Are you sure you want to cancel this appointment. </span>
+                        }
+                        else if (User.IsInRole("clinician"))
+                        {
+                            <span>Are you sure you want to cancel this appointment. </span>
+                        }
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Continue</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade bd-message-modal-lg" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <form method="post" asp-controller="Appointment" asp-action="RescheduleAppointment">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="modal_title">Reschedule Appointment</h5>
+                        <button type="button" style="color:white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="view_bag">
+                        <input type="hidden" name="id" value="@Model.id" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Select the date for the appointment</label>
+                                    <div id="datepicker1" class="input-group date" data-date-format="mm-dd-yyyy">
+                                        <input class="form-control" type="text" id="datepicker" placeholder="mm/dd/yyyy" min="@DateTime.Now.ToString("yyyy-MM-dd")" name="date" required style="border-radius:.25rem !important" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">What time do you want the session to start?</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times"></i></span></div>
+                                        <input name="time" type="text" required class="form-control  timepicker" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Reschedule</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script>
+
+        $('#datepicker').click(function () {
+            $('#datepicker').datepicker('show');
+        });
+
+        $(function () {
+            $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'mm/dd/yyyy',
+                orientation: "left",
+                todayHighlight: true,
+                startDate: '0'
+            });
+            $("#datepicker").datepicker("setDate", new Date()); 
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 15,
+                minTime: '1',
+                maxTime: '12:00pm',
+                defaultTime: '11',
+                startTime: '7:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                zindex: 9999999
+            });
+            // datepicker('update', new Date());
+        });
+    </script>
+
+}

@@ -1,0 +1,43 @@
+﻿<div class="stopwatch" style="">
+    StopWatch
+</div>
+
+<div id="local" class="callScreen"><div class="text-center" id="local_video"></div><div id="video_overlays">
+    <img src="~/images/off-camera.png" style="width:100%;" />
+</div></div>
+<div id="container" style="margin-top:10px">
+    <div>
+    </div>
+</div>
+<div style="margin-top:10px" class="text-center">
+    <button class="btn btn-primary" type="button" id="btn_mute" onclick="toggle_mute()" disabled>Mute</button>
+    <button class="btn btn-primary" type="button" id="btn_show" onclick="toggle_video()" disabled>Show</button>
+    <button class="btn btn-warning" id="join_leave" onClick="" type="button">Join Call</button>
+</div>
+<div class="text-center">
+    <p id="count">Disconnected.</p>
+</div>
+
+<style>
+    video {
+        width: 100%;
+        height: auto;
+    }
+
+    .participant > div {
+        width: 150px !important
+    }
+
+    #video_overlays {
+        position: absolute;
+        width: 160px;
+        min-height: 40px;
+/*        z-index: 300000;*/
+        /*  bottom: 170px;
+        left: 160px;*/
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+    }
+</style>

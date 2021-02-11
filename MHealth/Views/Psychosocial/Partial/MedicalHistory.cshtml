@@ -1,0 +1,127 @@
+@using MHealth.Helper;
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+    var surgery = ViewHelper.GetSurgeyDropDown();
+}
+<form id="medical_history_form">    
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+    <div class="form-row">
+        <div class="col-md-12">
+            <label for="previous_surgery" class="">Previous surgeries/Major Illness/Medical Diagnoses (please include reason and year) </label>
+            @* <div class="position-relative form-group">
+                <label for="previous_surgery" class=""><br/>Previous surgeries/Major Illness/Medical Diagnoses (please include reason and year) </label>
+                <textarea class="form-control" required name="previous_surgery"></textarea>
+            </div> *@
+            <table class="table" id="table_ite">
+                <thead>
+                    <tr>
+                        <th>Surgery</th>
+                        <th>date</th>
+                        <th>Reason</th>
+                        <th><span class="btn btn-primary" onclick="add_row('table_ite')"><i class="fa fa-plus"></i></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><select name="surgery_type" class="form-control" asp-items="surgery"><option value="">--Select--</option></select></td>
+                        <td><input type="date" name="date" class="form-control"></td>
+                        <td><input type="text" name="comment" class="form-control"></td>
+                        <td><span class="btn btn-danger" onclick="delete_row(this, 'table_ite')"><i class="fa fa-trash"></i></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <div class="position-relative form-group">
+                <label for="additional_health_information" class="">Please list any additional health information that may be important for your therapist to know (including any medication or other allergies or problems with pain):</label>
+                <textarea class="form-control" required name="additional_health_information"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <b>List daily medications and Dosages (including over the counter medications) </b>
+            <table class="table" id="table_items">
+                <thead>
+                    <tr>
+                        <th>Current Medication</th>
+                        <th>Dosage</th>
+                        <th>Prescribing Physician</th>
+                        <th>Last Dose</th>
+                        <th>Taking as Prescribed?</th>
+                        <th><span class="btn btn-primary" onclick="add_row('table_items')"><i class="fa fa-plus"></i></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="medication" class="form-control" /></td>
+                        <td><input type="text" name="dosage" class="form-control"/></td>
+                        <td><input type="text" name="physician" class="form-control" /></td>
+                        <td><input type="date" name="last_dose" class="form-control" /></td>
+                        <td><select name="taking_as_prescribed" class="form-control" asp-items="yes_no_dropdown"><option value="">--Select--</option></select></td>
+                        <td><span class="btn btn-danger" onclick="delete_row(this, 'table_items')"><i class="fa fa-trash"></i></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="position-relative form-group">
+                <label for="pain" class="">Are you having any difficulty with pain?</label>
+                <select class="form-control" name="pain" required id="pain" asp-items="yes_no_dropdown" onchange="enableDisable('pain_description', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="position-relative form-group">
+                <label for="pain_description" class="">Yes, please describe</label>
+                <textarea name="pain_description" id="pain_description" class="form-control" cols="1"></textarea>
+            </div>
+        </div>
+    </div>
+    <b>Have You ever:</b>
+    <div class="form-row">
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="mental_problem" class="">Binged on food?</label>
+                <select class="form-control" name="binged_on_food" id="binged_on_food" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="mental_problem" class="">Gone without eating?</label>
+                <select class="form-control" name="gone_without_eating" id="gone_without_eating" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="mental_problem" class="">Vomit on purpose?</label>
+                <select class="form-control" name="vomitted_on_purpose" id="vomitted_on_purpose" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="mental_problem" class="">Used laxatives to purge?</label>
+                <select class="form-control" name="laxatives_to_purge" id="laxatives_to_purge" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="medical-history-container">
+        <ol>
+        </ol>
+    </div>
+    <div class="d-block text-right card-footer">
+        <button type="button" id="medical_history_submit" class="mt-3 btn btn-success">Save and Continue</button>
+    </div>
+</form>

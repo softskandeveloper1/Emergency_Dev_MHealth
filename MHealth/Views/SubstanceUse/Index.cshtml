@@ -1,0 +1,203 @@
+@model IEnumerable<DAL.Models.mp_substance_use>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.profile_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tobacco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tobacco_amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tobacco_years)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.alcohol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.alcohol_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.alcohol_freq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.last_drink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.drink_amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.withdrawal_symptons)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.withdrawal_symptons_description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.blackouts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.blackouts_freq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.illicit_drugs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.drug_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.drug_freq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_of_last_use)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.substance_abuse_treatment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.agency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.treatment_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.treatment_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.support_programs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.support_programs_description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.triggers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.triggers_description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.use_legal_issues)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.legal_issues_description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_by)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_at)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.profile_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tobacco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tobacco_amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tobacco_years)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alcohol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alcohol_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alcohol_freq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_drink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.drink_amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.withdrawal_symptons)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.withdrawal_symptons_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.blackouts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.blackouts_freq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.illicit_drugs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.drug_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.drug_freq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_of_last_use)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.substance_abuse_treatment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.agency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.treatment_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.treatment_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.support_programs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.support_programs_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.triggers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.triggers_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.use_legal_issues)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.legal_issues_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created_at)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

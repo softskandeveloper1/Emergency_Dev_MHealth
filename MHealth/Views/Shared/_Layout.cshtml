@@ -1,0 +1,394 @@
+﻿@using MHealth.Data;
+@using System.IO;
+@using DAL.Utils;
+@inject UserManager<ApplicationUser> _userManager;
+@{
+    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+    var roles = await _userManager.GetRolesAsync(user);
+
+    var profile_pic = "/images/profile/anonymous.jpg";
+
+    var userId = user.Id;
+    if (File.Exists(System.IO.Path.Combine("wwwroot", "images", "profile", userId + ".jpg")))
+    {
+        profile_pic = "/images/profile/" + userId + ".jpg";
+    }
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title - @AppSetting.GetValue("app_name")</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!--
+    =========================================================
+    * ArchitectUI HTML Theme Dashboard - v1.0.0
+    =========================================================
+    * Product Page: https://dashboardpack.com
+    * Copyright 2019 DashboardPack (https://dashboardpack.com)
+    * Licensed under MIT (https://github.com/DashboardPack/architectui-html-theme-free/blob/master/LICENSE)
+    =========================================================
+    * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    -->
+    <link href='https://fonts.googleapis.com/css?family=Hind Vadodara' rel='stylesheet'>
+    @*<link href='https://fonts.googleapis.com/css?family=Spartan' rel='stylesheet'>*@
+    <link href="~/main.css" rel="stylesheet">
+    <link href="~/css/preloader.css" rel="stylesheet" />
+    <link href="~/css/ratingbar.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /*         To disable IE10's implementation of the winking eye. /*/
+        ::-ms-reveal {
+            display: none !important;
+        }
+
+      /*  input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none !important;
+        }
+*/
+        body {
+            font-family: 'Hind Vadodara';
+        }
+
+        .app-header__logo {
+            background: none !important;
+        }
+
+        .app-page-title {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        .breadcrumb {
+            background-color: transparent !important
+        }
+
+        button, input, select {
+            font-family: 'Hind Vadodara' !important;
+        }
+
+        .breadcrumb_addon {
+            margin-top: -15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .card-img-top {
+            /*max-height:350px;*/
+        }
+
+        .link_nav {
+            color: white !important
+            /*font-size: 1rem !important;
+            font-weight: bold;
+            color: white !important*/
+        }
+
+        .circular_image {
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc
+        }
+
+            .circular_image img {
+                width: 100%;
+            }
+
+        .breadcrumb-item {
+            /*font-size: 1rem !important;*/
+        }
+
+        .breadcrumb {
+            padding: 0 !important
+        }
+
+        .active .breadcrumb-item {
+            font-weight: bold !important
+        }
+
+        a {
+            color: #16aaff;
+        }
+
+        body .custom-ui-table, body .custom-ui-table tr {
+            height: unset;
+            display: inline-table;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        body .custom-ui-table {
+            margin-bottom: 0;
+        }
+
+            body .custom-ui-table tbody, body .custom-ui-table thead {
+                display: block;
+            }
+
+            body .custom-ui-table tbody {
+                max-height: 360px;
+                overflow: auto;
+                width: 100%;
+            }
+
+            body .custom-ui-table thead tr th {
+                background: #F2F4F6;
+                color: #032949;
+                font-weight: 500;
+                border: none;
+            }
+
+            body .custom-ui-table tbody tr td {
+                border: none;
+                border-bottom: 1px solid #F2F4F6;
+                vertical-align: middle;
+                color: #032949;
+                font-weight: normal;
+                line-height: unset !important;
+                text-align: left;
+            }
+
+            body .custom-ui-table tbody {
+                position: static;
+                height: unset;
+                width: 100%;
+            }
+
+        #divLoading {
+            display: none;
+        }
+
+            #divLoading.show {
+                display: block;
+                position: fixed;
+                z-index: 100;
+                background-image: url('/assets/images/loaders/30.gif');
+                background-color: #666;
+                opacity: 0.4;
+                background-repeat: no-repeat;
+                background-position: center;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                top: 0;
+            }
+
+        #loadinggif.show {
+            left: 50%;
+            top: 50%;
+            position: absolute;
+            z-index: 101;
+            width: 32px;
+            height: 32px;
+            margin-left: -16px;
+            margin-top: -16px;
+        }
+
+        div.content {
+            width: 1000px;
+            height: 1000px;
+        }
+
+        .modal-backdrop {
+            background-color: unset;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="~/favicon.png">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @*<div class="preloader">
+            <div class="preloader-first preloader-color"></div>
+            <div class="preloader-second preloader-color"></div>
+            <div class="preloader-third preloader-color"></div>
+        </div>*@
+
+    <div class="app-container app-theme-white body-tabs-shadow  fixed-header fixed-footer">
+        <div class="app-header header-shadow bg-info header-text-light">
+            <div class="app-header__logo">
+                <div class="logo-src">
+                    <a href="~/">
+                        <img src="~/assets/images/logo.png" style="height:30px" />
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="app-header__content">
+                <div class="app-header-left">
+                    <div class="search-wrapper" style="display:none">
+                        <div class="input-holder">
+                            <input type="text" class="search-input" placeholder="Type to search">
+                            <button class="search-icon"><span></span></button>
+                        </div>
+                        <button class="close"></button>
+                    </div>
+                    @await Html.PartialAsync("../Shared/_nav")
+                </div>
+                <div class="app-header-right">
+                    <div class="header-btn-lg pr-0">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="btn-group">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                            <img width="42" class="rounded-circle" src="@profile_pic" alt="">
+                                            <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                        </a>
+                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                            <a href="@Url.Action("Account","User")" tabindex="0" class="dropdown-item">User Account</a>
+                                            @if (User.IsInRole("client"))
+                                            {
+                                                <a href="@Url.Action("Edit","Profile")" tabindex="0" class="dropdown-item">Edit Profile</a>
+                                            }
+                                            else if (User.IsInRole("clinician"))
+                                            {
+                                                <a href="@Url.Action("Edit","Clinician")" tabindex="0" class="dropdown-item">Edit Profile</a>
+                                            }
+
+                                            @if (User.IsInRole("client"))
+                                            {
+                                                <a href="@Url.Action("Settings","Profile")" tabindex="0" class="dropdown-item">Settings</a>
+                                            }
+                                            else if (User.IsInRole("clinician"))
+                                            {
+                                                <a href="@Url.Action("Settings","Clinician")" tabindex="0" class="dropdown-item">Settings</a>
+                                            }
+
+
+
+                                            <div tabindex="-1" class="dropdown-divider"></div>
+                                            <button type="button" tabindex="0" class="dropdown-item" onclick="event.preventDefault();
+                       document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </button>
+                                            <form class="form-inline" id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-content-left  ml-3 header-user-info">
+                                    <div class="widget-heading">
+                                        @User.Identity.Name
+                                    </div>
+                                    <div class="widget-subheading">
+                                        @*@roles.FirstOrDefault().ToUpper()*@
+                                    </div>
+                                </div>
+                                @*<div class="widget-content-right header-user-info ml-3">
+                                        <button type="button" class="btn-shadow p-1 btn btn-info btn-sm show-toastr-example">
+                                            <i class="fa text-white fa-bell pr-1 pl-1"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="widget-content-right header-user-info ml-3">
+                                        <button type="button" class="btn-shadow p-1 btn btn-warning btn-sm show-toastr-example">
+                                            <i class="fa text-white fa-comment pr-1 pl-1"></i>
+                                        </button>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-main">
+            <div class="app-main__outer" style="padding-left:0">
+                <div class="app-main__inner">
+                    @RenderBody()
+                    <div class="app-wrapper-footer">
+                        <div class="app-footer">
+                            <div class="app-footer__inner" style="margin-left:0">
+                                <div class="app-footer-left">
+                                    @*<ul class="nav">
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);" class="nav-link">
+                                                    Footer Link 1
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);" class="nav-link">
+                                                    Footer Link 2
+                                                </a>
+                                            </li>
+                                        </ul>*@
+                                </div>
+                                <div class="app-footer-right">
+                                    <ul class="nav">
+                                        @*<li class="nav-item">
+                                                <a href="javascript:void(0);" class="nav-link">
+                                                    Footer Link 3
+                                                </a>
+                                            </li>*@
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0);" class="nav-link">
+                                                @*<div class="badge badge-success mr-1 ml-0">
+                                                        <small>NEW</small>
+                                                    </div>*@
+                                                &copy; 2020
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="divLoading">
+    </div>
+    <script src="~/assets/scripts/jquery.min.js" type="text/javascript"></script>
+    <script>
+
+        $(document).ready(function (e) {
+
+            // if you changed the usual .preloader class in html, change here too
+            var preloader = $(".preloader");
+
+            $(window).on('load', function () {
+                // do something when whole page is done loading
+                // remove the timeout when youre copying this in your website
+
+                setTimeout(function () {
+                    showPage();
+                }, 1000);
+            });
+
+            function showPage() {
+                // hides the preloader with a nice transition (css opacity)
+                // see line 85 in css
+                preloader.fadeOut("slow");
+            }
+
+
+        });
+    </script>
+    <script src="~/lib/moment/moment.min.js"></script>
+    <script type="text/javascript" src="~/assets/scripts/main.js"></script>
+    <script src="~/assets/scripts/bootstrap.min.js"></script>
+    <script src="~/js/ratingbar.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

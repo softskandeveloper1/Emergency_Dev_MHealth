@@ -1,0 +1,211 @@
+﻿@using Newtonsoft.Json;
+@{
+
+    Layout = "_Layout_guest";
+}
+
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card" style="height:450px">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="~/assets/images/bot.jpg" style="height:200px" />
+                        
+                    </div>
+                    
+                    <div class="question">
+
+                        <div class="alert alert-success fade show" role="alert" id="comment_div" style="display:none">
+                            <div class="text-center">
+                                <h5 id="comment" class="tlt">My Title</h5>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success fade show" role="alert" id="question_div" style="display:none">
+                            <div class="text-center">
+                                
+                                <h5 id="question"></h5>
+                            </div>
+
+
+                        </div>
+                        <img id="loader" src="~/assets/images/loaders/30.gif" style="height:20px" />
+
+                        <h3 id="answer"></h3>
+
+                    </div>
+                    @*<div class="options" id="options">
+
+                </div>*@
+                </div>
+            </div>
+
+            <div class="options text-center" id="options" style="margin-top:30px">
+
+            </div>
+
+            @*<div class="card" style="margin-top:30px">
+                <div class="card-body">
+
+
+                </div>
+            </div>*@
+
+        </div>
+    </div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts{
+    <script src="~/lib/textillate/jquery.fittext.js"></script>
+    <script src="~/lib/textillate/jquery.lettering.js"></script>
+    <script src="~/lib/textillate/highlight.min.js"></script>
+    <script src="~/lib/textillate/jquery.textillate.js"></script>
+    @*<script>hljs.initHighlightingOnLoad();</script>*@
+<script>
+    $(function () {
+       // $('.tlt').textillate();
+
+       
+    });
+    var questions = @Html.Raw(JsonConvert.DeserializeObject(ViewBag.questions));
+    var form_data = {};
+    var index = 0;
+
+    $(document).ready(function () {
+           
+        //get the first question
+        process_question(questions[index]);
+
+    });
+
+    function getAnimDefinition() {
+        var obj = {
+            in: {
+                effect: 'flipInX',
+                delayScale: 1.5,
+                delay: 50,
+            }
+        };
+
+        return obj;
+    }
+
+      function getOutAnimDefinition() {
+        var obj = {
+            out: {
+                effect: 'fadeOut',
+                delayScale: 1.5,
+                delay: 50,
+            }
+        };
+
+        return obj;
+    }
+
+    function process_question(item) {
+
+        if (item.comment != "") {
+            $("#comment_div").show();
+            $("#comment").text(item.comment);
+            $('#comment').textillate(getAnimDefinition());
+
+            setTimeout(print_question, 2000);
+        } else {
+            print_question();
+        }
+      
+        
+
+        function print_question() {
+            $("#question_div").show();
+            $("#question").text(item.question);
+            $('#question').textillate(getAnimDefinition());
+
+            setTimeout(print_options, 1000);
+        }
+
+        function print_options() {
+            if (item.q_type == "list" || item.q_type == "static_list") {
+                if (item.lookup_values.length > 0) {
+
+                    for (var i = 0; i < item.lookup_values.length; i++) {
+
+                        var option = $('<button />',
+                            {
+                                "data-id":item.id,
+                                class: "btn btn-outline-dark",
+                                style: "margin:3px",
+                                "data-info":item.lookup_values[i].id,
+                                text: item.lookup_values[i].value,
+                                click: option_selected
+                            });
+
+                        $("#options").append(option);
+                    }
+                   
+                }
+            }
+            $("#loader").hide();
+        }
+    }
+
+
+    function option_selected() {
+        //check if this is the last quesion, submit the form
+        var v = this;
+        //get the text of the button that is clicked
+        //var a = $(this).data('info');
+        var option = $(this).data('info');;
+        //get the id of the button
+        var id =$(this).data('id');;
+        form_data[id] = option;
+
+        //disappear the existing question
+
+        index++;
+
+          $("#loader").show();
+        clear();
+        setTimeout(function () { }, 2000);
+
+        process_question(questions[index]);
+
+    }
+
+    function clear() {
+        $("#question_div").hide();
+        $("#comment_div").hide();
+        $('#question').text("");
+        //$('#comment').text("");
+        $("#options").empty();
+    }
+   
+</script>
+}
+
+@section styles{ 
+<style>
+    .question{
+        min-height:150px;
+        color:black;
+        margin-top:20px
+    }
+</style>
+}

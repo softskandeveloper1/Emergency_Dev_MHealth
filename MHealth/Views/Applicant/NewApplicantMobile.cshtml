@@ -1,0 +1,766 @@
+@model DAL.Models.mp_applicant
+@using DAL.Utils;
+
+@{
+    Layout = "_Layout_mob";
+    ViewData["Title"] = "New Applicants";
+    var expertises = Options.GetExpertises();
+    var population_groups = Options.GetPopulations();
+    var specialties = Options.GetSpecialties();
+    var provider_type = (int)ViewBag.provider_type;
+    //Layout = "_Layout_guest";
+}
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+
+                <div>
+                    Applicants
+                    <div class="page-title-subheading">
+                        New Applicant
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+    <section id="bg1">
+        <form asp-action="PostApplicantMobile" class="f1" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="text-center">
+                        @*<img src="~/assets/images/logo_alt.png" alt="MySpace MyTime" style="height:200px;">*@
+                    </div>
+                    @if (provider_type == 294 || provider_type == 178)
+            {
+                    <div class="card" style="margin-top:50px">
+                        <div class="card-header">
+                            <div class="card-header-title">Enter your clinic information</div>
+                        </div>
+                        <div class="card-body">
+                            <partial name="_partial_reg_clinic" />
+                        </div>
+                    </div>
+
+            }
+
+
+                    <div class="card" style="margin-top:50px">
+                        <div class="card-header">
+
+                            @if (provider_type == 294 || provider_type == 178)
+                    {
+                            <div class="card-header-title">
+                                Add admin provider to your clinic
+                            </div>
+                    }
+                    else
+                    {
+                            <div class="card-header-title">
+                                Join our team of Providers
+                            </div>
+                    }
+
+
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <fieldset>
+                                @*<div class="form-row">
+            <div class="col-md-12">
+                <h4>Join our team of clinicians</h4>
+                <hr />
+            </div>
+        </div>*@
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="last_name" class="control-label">Last name<span class="required">*</span></label>
+                                            <input asp-for="last_name" class="form-control">
+                                            <span asp-validation-for="last_name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="first_name" class="control-label">First name<span class="required">*</span></label>
+                                            <input asp-for="first_name" class="form-control">
+                                            <span asp-validation-for="first_name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="phone" class="control-label">Phone Number<span class="required">*</span></label>
+                                            <input asp-for="phone" class="form-control">
+                                            <span asp-validation-for="phone" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="email" class="control-label">Email Address<span class="required">*</span></label>
+                                            <input asp-for="email" class="form-control">
+                                            <span asp-validation-for="email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="preferred_name" class="control-label">Preffered Name<span class="required">*</span></label>
+                                            <input asp-for="preferred_name" class="form-control" required>
+                                            <span asp-validation-for="preferred_name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="gender" class="control-label">Gender<span class="required">*</span></label>
+                                            @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                            @*<select asp-for="gender" class="form-control">
+
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </select>*@
+                                            <span asp-validation-for="gender" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="address" class="control-label">Address<span class="required">*</span></label>
+                                            <textarea asp-for="address" class="form-control"></textarea>
+                                            <span asp-validation-for="address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="country" class="control-label">Country<span class="required">*</span></label>
+
+                                            @Html.DropDownList("country", new SelectList(Options.GetCountries(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+
+                                            <span asp-validation-for="country" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="state" class="control-label">State<span class="required">*</span></label>
+                                            @Html.DropDownList("state", new SelectList(Options.GetStates(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+                                            <span asp-validation-for="state" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="city" class="control-label">City<span class="required">*</span></label>
+                                            <input name="city" type="text" class="form-control" style="width:100%;" />
+
+                                            <span asp-validation-for="city" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="dob" class="control-label">Date of Birth<span class="required">*</span></label>
+                                            @*<input name="dob" id="dob" type="text" class="form-control daterange-single">*@
+                                            <div id="datepicker" class="input-group date datepicker" data-date-format="mm-dd-yyyy">
+                                                <input class="form-control" type="text" readonly required="required" name="dob" />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                            <span asp-validation-for="dob" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label asp-for="marital_status" class="control-label">Marital Status<span class="required">*</span></label>
+
+                                            @Html.DropDownList("marital_status", new SelectList(Options.Getlookups("marital_status"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                            <span asp-validation-for="marital_status" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">Please select your area of interest<span class="required">*</span></label>
+                                    @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                </div>
+
+                                <input type="hidden" name="appointment_type" value="@ViewBag.appointment_type" />
+                                <input type="hidden" name="appointment_category" value="@ViewBag.appointment_category" />
+                                <input type="hidden" name="appointment_category_sub" value="@ViewBag.appointment_category_sub" />
+                                <input type="hidden" name="provider_type" value="@provider_type" />
+
+
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Years of experience<span class="required">*</span></label>
+                                            <input name="years_of_experience" type="number" class="form-control" min="0">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Year Qualified as a Medical Doctor <span class="required">*</span></label>
+                                            <div id="datepicker" class="input-group date datepicker" data-date-format="mm-dd-yyyy">
+                                                <input class="form-control" type="text" readonly required="required" name="year_qualified" />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Year Qualified as a specialist </label>
+                                            <div id="datepicker" class="input-group date datepicker" data-date-format="mm-dd-yyyy">
+                                                <input class="form-control" type="text" readonly required="required" name="year_qualified_specialist" />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Languages Spoken<span class="required">*</span></label>
+                                            @*@Html.DropDownList("language_spoken", new SelectList(Options.Getlookups("preferred_language"), "id", "value", null), null, new { @class = "form-control", @required = "required" })*@
+
+                                            <div class="row">
+                                                @foreach (var language in Options.Getlookups("preferred_language"))
+                                            {
+                                                <div class="col-md-2">
+                                                    <div class="custom-checkbox custom-control custom-control-inline">
+                                                        <input type="checkbox" id="language_checkbox_@language.id" name="language_spoken" value="@language.id" class="custom-control-input"><label class="custom-control-label" for="language_checkbox_@language.id">
+                                                            @language.value
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Can you tells us more aboout yourself<span class="required">*</span></label>
+                                    <textarea name="about" class="form-control" rows="4" placeholder=""></textarea>
+                                </div>
+
+
+                                <fieldset>
+                                    <legend>Emergency contact</legend>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Name of contact<span class="required">*</span></label>
+                                                <input name="contact_name" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Phone number of contact<span class="required">*</span></label>
+                                                <input name="contact_phone" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Email of contact</label>
+                                                <input name="contact_email" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>Bank Information</legend>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Account name<span class="required">*</span></label>
+                                                <input name="account_name" class="form-control" required>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Account number<span class="required">*</span></label>
+                                                <input name="account_number" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="position-relative form-group">
+                                                <label class="control-label">Name of bank<span class="required">*</span></label>
+                                                <input name="bank_name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <div class="form-group">
+                                    <label class="control-label">Profile picture</label>
+                                    <input type="file" name="profile_img">
+                                </div>
+
+
+                                <div class="form-group" style="display:none">
+                                    <label class="control-label">Select your expertise from the list below (check all that apply)</label>
+                                    <div>
+                                        <div class="row">
+
+                                            @if (expertises.Any())
+                                        {
+                                            foreach (var expertise in expertises)
+                                            {
+                                            <div class="col-md-4">
+                                                <div class="custom-checkbox custom-control custom-control-inline">
+                                                    <input type="checkbox" id="exampleCustomCheckbox_@expertise.id" name="expertise" value="@expertise.id" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox_@expertise.id">
+                                                        @expertise.name
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            }
+                                        }
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display:none">
+                                    <label class="control-label">Select the age group that you work with (check all that apply)</label>
+                                    <div>
+
+                                        @if (expertises.Any())
+                                    {
+                                        foreach (var population in population_groups)
+                                        {
+                                        <div class="custom-checkbox custom-control custom-control-inline">
+                                            <input type="checkbox" id="CustomCheckbox_@population.id" name="population" value="@population.id" class="custom-control-input"><label class="custom-control-label" for="CustomCheckbox_@population.id">
+                                                @population.name
+                                            </label>
+                                        </div>
+                                        }
+                                    }
+
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group" style="display:none">
+                                    <label class="control-label">Select your specialties (check all that apply)</label>
+                                    <div>
+                                        <div class="row">
+
+                                            @if (expertises.Any())
+                                        {
+                                            foreach (var specialty in specialties)
+                                            {
+                                            <div class="col-md-4">
+                                                <div class="custom-checkbox custom-control custom-control-inline">
+                                                    <input type="checkbox" id="specialtyCustomCheckbox_@specialty.id" name="specialty" value="@specialty.id" class="custom-control-input"><label class="custom-control-label" for="specialtyCustomCheckbox_@specialty.id">
+                                                        @specialty.name
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            }
+                                        }
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Education</label>
+                                    <table class="table table-condensed" id="tb_education">
+                                        <thead>
+                                            <tr>
+                                                <th>Name of school</th>
+                                                <th>Address</th>
+                                                <th>Degree</th>
+                                                <th><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Click to add more" type="button" onclick="add_row('tb_education')"> <i class="fa fa-plus"></i></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="name_of_school" class="form-control  form-control-sm" />
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" name="address_of_school" class="form-control form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    @Html.DropDownList("certification", new SelectList(Options.Getlookups("certification"), "id", "value", null), null, new { @class = "form-control-sm form-control" })
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_education')"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Practice in the last 10 years</label>
+                                    <table class="table table-condensed" id="tb_practice">
+                                        <thead>
+                                            <tr>
+                                                <th>Hospital</th>
+                                                <th>City</th>
+                                                <th>Primary Roles</th>
+                                                <th>Duration</th>
+                                                <th><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Click to add more" type="button" onclick="add_row('tb_practice')"> <i class="fa fa-plus"></i></button></th>
+                                                @* <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_practice')">Add <i class="fa fa-plus"></i></button></th> *@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="practice_hospital" class="form-control  form-control-sm" />
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" name="practice_city" class="form-control form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="practice_role" class="form-control form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="practice_duration" class="form-control form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_practice')"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Outstanding Professional Work</label>
+                                    <table class="table table-condensed" id="tb_activity">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:90%">Activity</th>
+                                                <th><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Click to add more" type="button" onclick="add_row('tb_activity')"> <i class="fa fa-plus"></i></button></th>
+
+                                                @* <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_activity')">Add <i class="fa fa-plus"></i></button></th> *@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="activity_outstanding_work" class="form-control  form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_activity')"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Scholarly Activities</label>
+                                    <table class="table table-condensed" id="tb_scholarly_activity">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:90%">Activity <span style="font-weight:100">(Publications/Books/Abstracts)</span></th>
+
+                                                <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_scholarly_activity')"> <i class="fa fa-plus"></i></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="activity_scholary" class="form-control  form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_scholarly_activity')"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Community Contributions</label>
+                                    <table class="table table-condensed" id="tb_community_activity">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:90%">Activity <span style="font-weight:100">(Societies/Clubs)</span></th>
+
+                                                <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_community_activity')"> <i class="fa fa-plus"></i></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="activity_social" class="form-control  form-control-sm" />
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_community_activity')"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Upload relevant documents</label>
+                                    <table class="table table-condensed" id="tb">
+                                        <tbody>
+                                            <tr>
+                                                <td>Resume</td>
+
+                                                <td>
+                                                    <input type="file" name="resume" required accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                    <input type="hidden" name="doc_type" value="8" />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Certificate</td>
+                                                <td>
+                                                    <input type="file" name="certificate" required accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                    <input type="hidden" name="doc_type" value="9" />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    Others
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row_doc('tb')"><i class="fa fa-plus"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    @Html.DropDownList("doc_type", new SelectList(Options.Getlookups("applicant_doc"), "id", "value", null), null, new { @class = "form-control-sm form-control" })
+
+                                                </td>
+                                                <td> <input type="file" name="certificate" accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /></td>
+                                                <td><button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row_doc(this,'tb')"><i class="fa fa-trash"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-success">Register</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+    </section>
+
+
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body"><h5 class="card-title">New Application</h5>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+@section Styles{
+    <link rel="stylesheet" href="~/css/controls.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+    <style>
+        label, table, legend {
+            /*color:white !important*/
+            /*font-family: "Rubik", sans-serif*/
+        }
+
+        select {
+            /*height: 44px !important*/
+        }
+
+        .required {
+            color: red
+        }
+
+        .control-label {
+            color: black;
+            /*font-weight: bold*/
+        }
+
+        input, select, textarea {
+            color: black !important
+        }
+
+        #bg {
+            /*font-family: 'Tajawal';*/
+            background: url(../images/career.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            color: inherit;
+            /*background-color: rgba(0, 0, 0, 0.7);*/
+            border-bottom: 1px solid rgba(26,54,126,0.125);
+        }
+
+        .card-header, .card-title {
+            text-transform: uppercase;
+            /*color: white;*/
+            font-weight: bold;
+            font-size: .88rem;
+            background-color: transparent
+        }
+
+        .card {
+            /*background-color: rgba(0, 0, 0, 0.7);*/
+        }
+
+            .card button {
+                padding: 10px !important;
+            }
+
+        body {
+            overflow-x: hidden
+        }
+
+        .control-label {
+            /*font-weight:bold;*/
+        }
+    </style>
+}
+@section Scripts {
+    <script src="~/js/option_util.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/applicant.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script id="rendered-js">
+        $(function () {
+            $(".datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+            // datepicker('update', new Date());
+        });
+
+        $(document).on('change', ':file', function () {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+    </script>
+    <script src="~/js/fn_table.js"></script>
+    <script>
+        function cloneDiv() {
+            var myDiv = document.getElementById("certificate_part");
+            var divClone = myDiv.cloneNode(true);
+            document.getElementById("upload_container").appendChild(divClone);
+        }
+        function removeDiv(thisDiv) {
+            thisDiv.parentNode.remove();
+        }
+
+        function add_row_doc(tb) {
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            var row_count = $trLast.index() + 1;
+            $trNew.find('input,select').each(function () {
+                var name = this.name;
+                this.name = name.substring(0, name.length - 1) + (row_count + 1);
+
+
+                var id = this.id;
+                this.id = id.substring(0, name.length - 1) + (row_count + 1);
+
+            });
+
+            //reset the project selection
+            $trNew.find('select').each(function () {
+
+                this.selectedIndex = 0;
+
+            });
+
+
+
+            $trNew.find('input').each(function () {
+
+                $(this).val("");
+                $(this).attr("disabled", "disabled");
+            });
+
+            $trLast.after($trNew);
+
+
+        }
+
+        function delete_row_doc(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 4) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+
+
+
+            //    $(row).parent().parent().find("select").each(function () {
+            //        this.selectedIndex = 0;
+            //    });
+
+        }
+    </script>
+}

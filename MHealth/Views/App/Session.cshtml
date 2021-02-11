@@ -1,0 +1,466 @@
+﻿@using DAL.Models;
+@using DAL.Utils
+@model mp_appointment;
+@{
+    ViewBag.Title = "Session";
+    var appointment_id = ViewBag.appointment_id;
+    var profile = Model.client_;
+
+
+}
+
+
+<div class="row breadcrumb_addon">
+    <div class="col-lg-8">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Appointments</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Session</li>
+
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-lg-4">
+        <input type="hidden" name="appointment_id" id="appointment_id" value="@appointment_id" />
+        <input type="hidden" name="appointment_activity_id" id="appointment_activity_id" value="0" />
+        <input type="hidden" name="roleCall" id="roleCall" value="clinician" />
+        <input type="hidden" id="twilioError" value="" />
+        @if (User.IsInRole("clinician") || User.IsInRole("super_admin"))
+        {
+            <div class="pull-right" style="margin-top:5px;margin-bottom:5px">
+
+                <div class="page-title-actions">
+
+                    <div class="d-inline-block dropdown">
+                        <a class="btn btn-info" target="_blank" href="@Url.Action("NewReferral","Referral",new { profile_id = Model.client_id })">Refer Member</a>
+                        <button class="btn btn-warning" type="button" onclick="load_partial('/Profile/PartialProfile?profile_id=@profile.id')">Member Records</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-primary" style="background-color: #2d545e">
+                            <span class="btn-icon-wrapper pr-2 opacity-7">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            New Record
+                        </button>
+
+
+                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/FamilyIntake/Partial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Family Intake form
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/ProgressNote/Partial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Progress Note
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/MentalHealthPlan/Partial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Mental health plan
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/Psychosocial/AdultPartial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-book"></i>
+                                        <span>
+                                            Psychosocial form
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" onclick="load_partial('/Psychiatric/CreatePartial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span>
+                                            Psychiatric Evaluation
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" onclick="load_partial('/PsychiatricProgressNote/CreatePartial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span>
+                                            Psychiatric Progress Note
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" onclick="load_partial('/Evaluation/PediatricEvaluationPartial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span>
+                                            Pediatric Evaluation
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" onclick="load_partial('/Evaluation/PrimaryCareMedicalPartial?appointment_id=@appointment_id&profile_id=@profile.id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span>
+                                            Medical evaluation
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        @await Html.PartialAsync("_video_partial_Provider")
+        <div class="col-md-4 offset-md-4">
+            <button class="btn btn-success btn-lg" onclick="complete_session()" data-toggle="modal" data-target="#completeModal" type="button" style="width:100%">Complete Session</button>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6" id="view_bag" style="overflow-y: scroll; height:720px; width: auto;">
+
+        <div>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>Member ID</th>
+                        <td class="answer">@Model.client_.unique_id.ToString("D10")</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>@Model.client_.last_name @Model.client_.first_name</td>
+                    </tr>
+                    <tr>
+                        <th>Preferred name</th>
+                        <td>@Model.client_.preferred_name</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>@Model.client_.phone</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@Model.client_.email</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>@Model.client_.address</td>
+                    </tr>
+                    <tr>
+                        <th>City, State</th>
+                        <td>@Model.client_.city, </td>
+                    </tr>
+                    <tr>
+                        <th>Date of birth</th>
+                        <td>@Model.client_.dob.ToString("dd MMM, yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Education level</th>
+                        <td>@Options.GetLookupName(Model.client_.education_level.Value)</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">About</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Model.client_.about
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section styles{
+    <link href="~/css/button.css" />
+    <link href="~/css/chat.css" type="text/css" rel="stylesheet" />
+    <style>
+        .callScreen {
+            min-height: 365px;
+            background-color: #ccc
+        }
+
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .stopwatch {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.5em
+        }
+    </style>
+    <style>
+        .question {
+            font-weight: bolder;
+        }
+
+        .answer {
+            font-style: italic;
+            color: #d92550 !important
+        }
+
+        .q_info {
+            border-bottom: 1px #ccc solid
+        }
+
+        .error {
+            color: red
+        }
+    </style>
+}
+
+
+@section scripts{
+    <script src="~/js/stop_watch.js"></script>
+    <script src="~/js/partial_view.js"></script>
+    @*<script src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>*@
+
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/js/fn_table.js"></script>
+    <script src="https://media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+    <script src="~/js/adult-mental.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#family_intake_button').validate({});
+            $('#progress_note_form').validate({});
+            $('#mental_health_plan_form').validate({});
+            $('#mp_psychiatric_opd_evaluation_form').validate({});
+            $('#psychiatric_progress_note_form').validate({});
+            $('#pediatric_evaluation_form').validate({});
+            $('#primary_care_medical_form').validate({});
+
+            $(document).on('click', '#family_intake_button', function () {
+                var form = $("#family_intake_form");
+                var url = "/FamilyIntake/CreatePartial/";
+                var is_valid_form = $('#family_intake_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+
+            $(document).on('click', '#progress_note_button', function () {
+                var form = $("#progress_note_form");
+                var url = "/ProgressNote/CreatePartial/";
+                var is_valid_form = $('#progress_note_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+            $(document).on('click', '#mental_health_plan_button', function () {
+                var form = $("#mental_health_plan_form");
+                var url = "/MentalHealthPlan/Partial/";
+                var is_valid_form = $('#mental_health_plan_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+            $(document).on('click', '#mp_psychiatric_opd_evaluation_button', function () {
+                var form = $("#mp_psychiatric_opd_evaluation_form");
+                var url = "/Psychiatric/CreatePartial/";
+                var is_valid_form = $('#mp_psychiatric_opd_evaluation_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+            $(document).on('click', '#psychiatric_progress_note_button', function () {
+                var form = $("#psychiatric_progress_note_form");
+                var url = "/PsychiatricProgressNote/CreatePartial/";
+                var is_valid_form = $('#psychiatric_progress_note_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+            $(document).on('click', '#primary_care_medical_button', function () {
+                var form = $("#primary_care_medical_form");
+                var url = "/Evaluation/PrimaryCareMedicalPartial/";
+                var is_valid_form = $('#primary_care_medical_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+            $(document).on('click', '#pediatric_evaluation_button', function () {
+                var form = $("#pediatric_evaluation_form");
+                var url = "/Evaluation/PediatricEvaluationPartial/";
+                var is_valid_form = $('#pediatric_evaluation_form').valid();
+                if (is_valid_form) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("Form was saved successfully");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+
+            load_partial('/Profile/PartialProfile?profile_id=@profile.id');
+
+        });
+
+        function complete_session() {
+            $.ajax({
+                type: "GET",
+                url: "/api/appointment/CompleteAppointment?appointment_id="+"@appointment_id",
+                success: function (data) {
+                    if (data === 200) {
+                        $("#step-1").hide();
+                        $("#step-2").show();
+                    } else {
+                        alert("There was an error completing this appointment. Please try again and if the issue continues, contact the admin.");
+                    }
+                }
+            });
+        }
+
+        function WaitTimer() {
+            setTimeout(function () {
+                if (room.participants.size == 0) {
+                    stopwatch.stop();
+                    $.ajax({
+                        type: "POST",
+                        url: '/Appointment/CancelBySystem',
+                        data: { appointmentid: '@appointment_id'},
+                        success: function (data) {
+                            alert('An appointment was cancelled due to Client not avilable on time.');
+                            window.location.href = '/Clinician/MyProfile';
+                        }, error: function (data) {
+                            alert('An error is occured while cancel appointment as Client not avilable on time.');
+                        }
+                    });
+                }
+            }, 900000);
+        }
+
+       
+    </script>
+
+    <script src="~/js/app_video.js"></script>
+
+    <div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="completeModalLabel" aria-hidden="true">
+        <form action="#" method="post" id="">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="completeModalLabel">Complete and appointment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="step-1">
+
+                            <div class="text-center">
+                                <img id="loader" src="~/assets/images/loaders/30.gif" style="height:20px" />
+                                <h3>Completing appointment, please wait...</h3>
+                            </div>
+                        </div>
+
+                        <div id="step-2" style="display:none">
+                            <h4>Thanks for completing this appointment, please ensure that all the appropriate forms are completed.</h4>
+                            <div class="form-group">
+                                <a href="@Url.Action("MyProfile","Clinician")" class="btn btn-success btn-lg" style="width:100%">Back Home</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}

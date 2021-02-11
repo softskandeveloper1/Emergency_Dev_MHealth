@@ -1,0 +1,133 @@
+﻿@using  DAL.Models;
+@using DAL.Utils;
+@model PaginatedList<mp_appointment>
+@{
+    ViewBag.Title = "Sessions";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")">Dashboard</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Sessions</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">All Sessions</div>
+                <div class="btn-actions-pane-right">
+
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="search.....">
+                        <div class="input-group-append">
+                            <button class="btn btn-info"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-condensed" style="border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>Date</th>
+                            <th>Appointment type</th>
+                            <th>Category</th>
+                            <th>Activity</th>
+                            <th>Service subscribed</th>
+                            <th>Provider</th>
+                            <th>Date booked</th>
+                            <th>Amount</th>
+                            <th>Provider amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model)
+                        {
+                        <tr data-toggle="collapse" data-target="#demo_@appointment.id" class="accordion-toggle" onclick="get_appointment_forms('@appointment.id')">
+                            <td><strong>@appointment.client_.unique_id.ToString("D10")</strong></td>
+                            <td>@appointment.start_date.ToString("dd MMM, yyyy hh:mm tt")</td>
+                            <td>@appointment.appointment_typeNavigation.name</td>
+                            <td>@Options.GetAppointmentActivityName(appointment.appointment_activity_id)</td>
+                            <td>@Options.GetAppointmentSubActivityName(appointment.appointment_activity_sub_id)</td>
+                            <td>@appointment.appointment_serviceNavigation.name</td>
+                            <td>@string.Format("{0} {1}", appointment.clinician_.last_name, appointment.clinician_.first_name)</td>
+                            <td>@appointment.created_at.ToString("dd MMM, yyyy hh:mm tt")</td>
+                            @if (appointment.mp_credit.Any())
+                            {
+                                <td>@appointment.mp_credit.FirstOrDefault().amount</td>
+                                <td>@appointment.mp_credit.FirstOrDefault().amount</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+
+                        </tr>
+                            <tr>
+                                <td colspan="10" class="hiddenRow">
+                                    <div class="accordian-body collapse" id="demo_@appointment.id">
+                                        <div id="div_@appointment.id">
+
+                                        </div>
+
+                                     
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+
+                <div style="margin-left:auto;margin-right:auto;margin-top:10px">
+                    <nav class="" aria-label="pagination">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item"><a href="@Url.Action("Sessions","Appointment",new {page=Model.PageIndex - 1})" class="page-link @prevDisabled" @prevDisabled aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                            <li class="page-item"><a href="@Url.Action("Sessions","Appointment",new {page=Model.PageIndex + 1})" class="page-link @nextDisabled" @nextDisabled aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <style>
+        .hiddenRow {
+            padding: 0 !important;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/js/form_util.js"></script>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+}

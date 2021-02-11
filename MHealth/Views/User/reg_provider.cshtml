@@ -1,0 +1,64 @@
+﻿@using DAL.Utils;
+@{
+    Layout = "_Layout_guest";
+    ViewBag.Title = "Provider registration";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post" action="@Url.Action("NewApplicant","Applicant")">
+            <div class="card">
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        PROVIDER REGISTRATION
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group" id="div_provider_type">
+                        <label for="provider_type" class="form-label">Are you registering as an individual provider, hospital or a clinic?</label>
+                        @Html.DropDownList("provider_type", new SelectList(Options.Getlookups("provider_type"), "id", "value", null), "Select...", new { @class = "form-control", @required = "required", id = "provider_type" })
+                    </div>
+
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">What type of service will you be providing? </label>
+                        @Html.DropDownList("appointment_type_id", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select ...", new { @class = "form-control", @required = "required", id = "appointment_type_id", @onchange = "load_appointment_activities('appointment_type_id','appointment_category_id')" })
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">What is the category of the service? </label>
+                  
+
+                        <select class="form-control" id="appointment_category_id" name="appointment_category_id" onchange="load_appointment_activities_sub_check('appointment_category_id','test')" required style=""></select>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Please specify the class of service </label>
+                   
+                        <div id="test" style="border:1px #ccc solid; max-height:350px; overflow-y:scroll; min-height:44px"></div>
+                    </div>
+
+
+                </div>
+                <div class="card-footer">
+              
+                    <button type="submit" class="btn btn-lg btn-primary">Continue</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/js/option_util.js"></script>
+}
+
+@section styles{ 
+<style>
+        .form-label{
+            font-weight:bold
+        }
+</style>
+}

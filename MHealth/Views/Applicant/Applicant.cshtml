@@ -1,0 +1,429 @@
+﻿@using MHealth.Helper;
+@using DAL.Utils;
+@model DAL.Models.mp_applicant;
+@{
+    ViewData["Title"] = "Applicant Review";
+    var expertises = Options.GetExpertises();
+    var doc_types = Options.Getlookups("applicant_doc");
+    var population_groups=Options.GetPopulations();
+    var specialties = Options.GetSpecialties();
+}
+
+
+    <div class="row">
+        <div class="col-lg-8">
+            <nav class="" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Applicants</a></li>
+                    <li class="active breadcrumb-item" aria-current="page">@string.Format("{0} {1}",Model.last_name,Model.first_name)</li>
+
+                </ol>
+
+            </nav>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-md-2">
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#checkklistModal" onclick=" load_partial('/ApplicantChecklist/LoadPartial?applicant_id=@Model.id')" type="button">Checklist</button>
+                </div>
+                <div class="col-md-10">
+                    <form method="post" action="@Url.Action("Update","Applicant")">
+
+                        <div class="input-group">
+                            @Html.DropDownList("status", new SelectList(Options.Getlookups("application_status"), "id", "value", Model.status), null, new { @class = "form-control-sm form-control border-success", @required = "required" })
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-sm btn-success">Update status</button>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="id" value="@Model.id">
+                    </form>
+                </div>
+
+            </div>
+            
+           
+
+        </div>
+    </div>
+
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">Bio Information</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Firstname</th>
+                                <td>@Model.first_name</td>
+                            </tr>
+                            <tr>
+                                <th>Lastname</th>
+                                <td>@Model.last_name</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>@Model.phone</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@Model.email</td>
+                            </tr>
+                            <tr>
+                                <th>Prefferred name</th>
+                                <td>@Model.preferred_name</td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <td>@Options.GetLookupName(Model.gender)</td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>@Model.address</td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                                <td>@Options.GetCountryName(Model.country)</td>
+                            </tr>
+                            <tr>
+                                <th>State</th>
+                                <td>@Options.GetStateName(Model.state)</td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td>@Model.city</td>
+                            </tr>
+                            <tr>
+                                <th>Date of birth</th>
+                                <td>@Model.dob.ToString("dd MMM, yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th>Marital status</th>
+                                <td>@Options.GetLookupName(Model.marital_status)</td>
+                            </tr>
+                            <tr>
+                                <th>Years of experience</th>
+                                <td>@Model.years_of_experience</td>
+                            </tr>
+                            <tr>
+                                <th>Languages spoken</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Year qualified as a medical doctor</th>
+                                <td>@Model.year_qualified_doctor</td>
+                            </tr>
+                            <tr>
+                                <th>Year qualified as a specialist</th>
+                                <td>@Model.year_qualified_specialist</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Emergency contact</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>@Model.contact_name</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>@Model.contact_phone</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@Model.contact_email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form asp-action="NewApplicant">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+
+
+
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="mb-3 card" style="min-height: 400px">
+            <div class="card-header-tab card-header">
+                <div class="card-header-title">
+                    <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                    Additional information
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form asp-action="ContinueRegistration" enctype="multipart/form-data" method="POST">
+                    <table class="table table-bordered">
+                        <tbody>
+                            @if (Model.area_of_interest.HasValue)
+                            {
+                            <tr>
+                                <th>Area of interest</th>
+                                <td>@Options.GetLookupName(Model.area_of_interest.Value)</td>
+                            </tr>
+                            }
+                            <tr>
+                                <th colspan="2">About</th>
+                            </tr>
+                            <tr>
+                                <td>@Model.about</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="form-group" style="display:none">
+                        <label class="form-label">Select your expertise from the list below (check all that apply)</label>
+                        <div>
+                            <div class="row">
+                                @if (expertises.Any())
+                                {
+                                    foreach (var expertise in expertises)
+                                    {
+                                        string chkd = "";
+                                        if (Model.mp_applicant_expertise.FirstOrDefault(e => e.expertise_id == expertise.id) != null)
+                                        {
+                                            chkd = "checked";
+                                        }
+                                <div class="col-md-4">
+                                    <div class="custom-checkbox custom-control custom-control-inline">
+                                        <input type="checkbox" id="exampleCustomCheckbox_@expertise.id" name="expertise" @chkd value="@expertise.id" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox_@expertise.id">
+                                            @expertise.name
+                                        </label>
+                                    </div>
+                                </div>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:none">
+                        <label class="form-label">Select the age group that you work with (check all that apply)</label>
+                        <div>
+
+                            @if (expertises.Any())
+                            {
+                                foreach (var population in population_groups)
+                                {
+                                    string chkd = "";
+                                    if (Model.mp_applicant_population.FirstOrDefault(e => e.population_id == population.id) != null)
+                                    {
+                                        chkd = "checked";
+                                    }
+                            <div class="custom-checkbox custom-control custom-control-inline">
+                                <input type="checkbox" id="CustomCheckbox_@population.id" name="population" @chkd value="@population.id" class="custom-control-input"><label class="custom-control-label" for="CustomCheckbox_@population.id">
+                                    @population.name
+                                </label>
+                            </div>
+                                }
+                            }
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="display:none">
+                        <label class="form-label">Select your specialties (check all that apply)</label>
+                        <div>
+                            <div class="row">
+
+                                @if (expertises.Any())
+                                {
+                                    foreach (var specialty in specialties)
+                                    {
+                                        string chkd = "";
+                                        if (Model.mp_applicant_specialty.FirstOrDefault(e => e.specialty_id == specialty.id) != null)
+                                        {
+                                            chkd = "checked";
+                                        }
+                                <div class="col-md-4">
+                                    <div class="custom-checkbox custom-control custom-control-inline">
+                                        <input type="checkbox" id="specialtyCustomCheckbox_@specialty.id" @chkd name="specialty" value="@specialty.id" class="custom-control-input"><label class="custom-control-label" for="specialtyCustomCheckbox_@specialty.id">
+                                            @specialty.name
+                                        </label>
+                                    </div>
+                                </div>
+                                    }
+                                }
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Education</label>
+                        <table class="table table-bordered" id="tb_education">
+                            <thead>
+                                <tr>
+                                    <th>Name of school</th>
+                                    <th>Address</th>
+                                    <th>Degree</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.mp_applicant_education.Any())
+                                {
+                                    foreach (var education in Model.mp_applicant_education)
+                                    {
+                                <tr>
+                                    <td>
+                                        @education.school
+                                    </td>
+
+                                    <td>
+                                        @education.address
+                                    </td>
+                                    <td>
+                                        @Options.GetLookupName(education.certification)
+                                    </td>
+
+                                </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Practice in the last 10 years</label>
+                        <table class="table table-condensed" id="tb_practice">
+                            <thead>
+                                <tr>
+                                    <th>Hospital</th>
+                                    <th>City</th>
+                                    <th>Primary Roles</th>
+                                    <th>Duration</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Outstanding Professional Work</label>
+                        <table class="table table-condensed" id="tb_activity">
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Scholarly Activities</label>
+                        <table class="table table-condensed" id="tb_scholarly_activity">
+                            <thead>
+                                <tr>
+                                    <th>Activity <span style="font-weight:100">(Publications/Books/Abstracts)</span></th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Community Contributions</label>
+                        <table class="table table-condensed" id="tb_community_activity">
+                            <thead>
+                                <tr>
+                                    <th>Activity <span style="font-weight:100">(Societies/Clubs)</span></th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Documents</label>
+                        <div class="row">
+                            @foreach (var doc in Model.mp_applicant_document)
+                            {
+
+                            <div class="col-md-2">
+                                <button class="btn btn-outline-info" style="width:100%">
+                                    <i class="pe-7s-file"> </i>
+                                    <p>@doc_types.FirstOrDefault(e => e.id == doc.document_type).value</p>
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    <style>
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+}
+
+@section scripts{
+    <div class="modal fade" id="checkklistModal" tabindex="-1" role="dialog" aria-labelledby="checkklistModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkklistModalLabel">Checklist</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="view_bag">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/js/partial_view.js"></script>
+    <script>
+        function load_checklist() {
+
+        }
+    </script>
+}

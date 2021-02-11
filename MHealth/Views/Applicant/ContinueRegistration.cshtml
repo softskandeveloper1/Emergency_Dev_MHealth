@@ -1,0 +1,379 @@
+﻿@using MHealth.Helper;
+@model DAL.Models.mp_applicant;
+@using DAL.Utils;
+
+@{
+    ViewData["Title"] = "Complete application";
+    var expertises = Options.GetExpertises();
+    var population_groups=Options.GetPopulations();
+    var specialties = Options.GetSpecialties();
+
+    Layout = "_Layout_guest";
+}
+
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Hi <strong> @string.Format("{0} {1}", Model.last_name, Model.first_name)</strong>, fill the informatio below to complete your registration
+            </div>
+        </div>
+    </div>
+</div>
+
+<form asp-action="ContinueRegistration" enctype="multipart/form-data" method="POST">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-header-tab card-header">
+                    <div class="card-header-title">
+                        <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                        About you
+                    </div>
+                </div>
+                <div class="card-body">
+                    @*<h5 class="card-title">Additional Information</h5>*@
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @*<div class="form-row">
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label asp-for="last_name" class="control-label">Last Name</label>
+                        <input asp-for="last_name" class="form-control" readonly>
+                        <span asp-validation-for="last_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label asp-for="first_name" class="control-label">First Name</label>
+                        <input asp-for="first_name" class="form-control" readonly>
+                        <span asp-validation-for="first_name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label asp-for="phone" class="control-label">Phone Number</label>
+                        <input asp-for="phone" class="form-control" readonly>
+                        <span asp-validation-for="phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label asp-for="email" class="control-label">Email Address</label>
+                        <input asp-for="email" class="form-control" readonly>
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>*@
+
+                    <div class="form-group">
+                        <label class="form-label">Please select your area of interest</label>
+                        @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", Model.area_of_interest), null, new { @class = "form-control", @required = "required" })
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Can you tells us more aboout yourselft</label>
+                        <textarea name="about" class="form-control" rows="4" placeholder="why do you think that clients will like to talk to you"></textarea>
+                    </div>
+
+
+                    <fieldset>
+                        <legend>Emergency contact</legend>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Name of contact</label>
+                                    <input name="contact_name" class="form-control" required>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Phone number of contact</label>
+                                    <input name="contact_phone" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="control-label">Email of contact</label>
+                                    <input name="contact_email" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    <div class="form-group">
+                        <label class="form-label">Select your expertise from the list below (check all that apply)</label>
+                        <div>
+                            <div class="row">
+
+                                @if (expertises.Any())
+                                {
+                                    foreach (var expertise in expertises)
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="custom-checkbox custom-control custom-control-inline">
+                                                <input type="checkbox" id="exampleCustomCheckbox_@expertise.id" name="expertise" value="@expertise.id" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox_@expertise.id">
+                                                    @expertise.name
+                                                </label>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Select the age group that you work with (check all that apply)</label>
+                        <div>
+
+                            @if (expertises.Any())
+                            {
+                                foreach (var population in population_groups)
+                                {
+                                    <div class="custom-checkbox custom-control custom-control-inline">
+                                        <input type="checkbox" id="CustomCheckbox_@population.id" name="population" value="@population.id" class="custom-control-input"><label class="custom-control-label" for="CustomCheckbox_@population.id">
+                                            @population.name
+                                        </label>
+                                    </div>
+                                }
+                            }
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="mb-3 card" style="min-height: 400px">
+                <div class="card-header-tab card-header">
+                    <div class="card-header-title">
+                        <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                        Additional information
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    
+
+                
+
+
+                    <div class="form-group">
+                        <label class="form-label">Select your specialties (check all that apply)</label>
+                        <div>
+                            <div class="row">
+
+                                @if (expertises.Any())
+                                {
+                                    foreach (var specialty in specialties)
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="custom-checkbox custom-control custom-control-inline">
+                                                <input type="checkbox" id="specialtyCustomCheckbox_@specialty.id" name="specialty" value="@specialty.id" class="custom-control-input"><label class="custom-control-label" for="specialtyCustomCheckbox_@specialty.id">
+                                                    @specialty.name
+                                                </label>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+              
+
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Education</label>
+                        <table class="table table-bordered" id="tb_education">
+                            <thead>
+                                <tr>
+                                    <th>Name of school</th>
+                                    <th>Address</th>
+                                    <th>Degree</th>
+                                    <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row('tb_education')"><i class="pe-7s-copy-file"></i></button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="name_of_school" class="form-control" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="address_of_school" class="form-control" />
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("certification", new SelectList(Options.Getlookups("certification"), "id", "value", null), null, new { @class = "form-control-sm form-control" })
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_education')"><i class="pe-7s-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Upload relevant documents</label>
+                        <table class="table table-bordered" id="tb">
+                            <tbody>
+                                <tr>
+                                    <td>Resume</td>
+
+                                    <td>
+                                        <input type="file" name="resume" required accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                        <input type="hidden" name="doc_type" value="8" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Certificate</td>
+                                    <td>
+                                        <input type="file" name="certificate" required accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                        <input type="hidden" name="doc_type" value="9" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Others
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row_doc('tb')"><i class="pe-7s-copy-file"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownList("doc_type", new SelectList(Options.Getlookups("applicant_doc"), "id", "value", null), null, new { @class = "form-control-sm form-control" })
+
+                                    </td>
+                                    <td> <input type="file" name="certificate" accept="application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /></td>
+                                    <td><button class="btn btn-sm btn-circle btn-danger" type="button" onclick="delete_row_doc(this,'tb')"><i class="pe-7s-trash"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <input type="hidden" name="applicant_id" value="@Model.id">
+
+
+
+                </div>
+                @if (Model.statusNavigation.value == "Incomplete")
+                {
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+@section Styles {
+    <style>
+        .form-label {
+            font-weight: bold;
+        }
+
+
+    </style>
+}
+
+@section Scripts{
+<script src="~/js/fn_table.js"></script>
+    <script>
+        function cloneDiv(){
+            var myDiv = document.getElementById("certificate_part");
+            var divClone = myDiv.cloneNode(true);
+            document.getElementById("upload_container").appendChild(divClone);
+        }
+        function removeDiv(thisDiv){
+             thisDiv.parentNode.remove();
+        }
+
+        function add_row_doc(tb) {
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            var row_count = $trLast.index() + 1;
+            $trNew.find('input,select').each(function () {
+                var name = this.name;
+                this.name = name.substring(0, name.length - 1) + (row_count + 1);
+
+
+                var id = this.id;
+                this.id = id.substring(0, name.length - 1) + (row_count + 1);
+
+            });
+
+            //reset the project selection
+            $trNew.find('select').each(function () {
+
+                this.selectedIndex = 0;
+
+            });
+          
+
+
+            $trNew.find('input').each(function () {
+
+                $(this).val("");
+                $(this).attr("disabled", "disabled");
+            });
+
+            $trLast.after($trNew);
+
+
+        }
+
+        function delete_row_doc(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 4) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+
+          
+
+        //    $(row).parent().parent().find("select").each(function () {
+        //        this.selectedIndex = 0;
+        //    });
+            
+        //}
+    </script>
+}
+

@@ -1,0 +1,213 @@
+@using MHealth.Helper;
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<form id="substance_use_form">
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="tobacco" class="">Do you use tobacco?</label>
+                <select class="form-control" name="tobacco" required id="tobacco" asp-items="yes_no_dropdown" onchange="enableDisableMore('tobacco_years,tobacco_amount', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+           <div class="position-relative form-group">
+                <label for="tobacco_amount" class="">amount per day</label>
+                <input  name="tobacco_amount" id="tobacco_amount" class="form-control" />
+            </div>
+        </div>    
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="tobacco_years" class="">How many years at this frequency</label>
+                <input  name="tobacco_years" id="tobacco_years" class="form-control" />
+            </div>
+        </div>                                  
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="alcohol" class="">Do you use alcohol?</label>
+                <select class="form-control" name="alcohol" required id="alcohol" asp-items="yes_no_dropdown" onchange="enableDisableMore('alcohol_type,alcohol_freq', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div> 
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="alcohol_type" class="">what type </label>
+                <input  name="alcohol_type" id="alcohol_type" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="alcohol_freq" class="">Frequency</label>
+                <input  name="alcohol_freq" id="alcohol_freq" class="form-control" />
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="last_drink" class="">When was your last drink</label>
+                <input required name="last_drink" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="drink_amount" class="">How Much</label>
+                <input required name="drink_amount" class="form-control" />
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="withdrawal_symptons" class="">Have you ever experienced any form of withdrawal symptoms, such as hallucinations, tremors, excessive sweating, nausea, or vomiting</label>
+                <select class="form-control" name="withdrawal_symptons" required id="withdrawal_symptons" asp-items="yes_no_dropdown"  onclick="enableDisable('withdrawal_symptons_description', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="position-relative form-group">
+                <label for="withdrawal_symptons_description" class="">Please Explain</label>
+                <textarea  name="withdrawal_symptons_description" id="withdrawal_symptons_description" class="form-control"></textarea>
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="blackouts" class="">Have your ever experienced blackouts</label>
+                <select class="form-control" name="blackouts" required id="blackouts" asp-items="yes_no_dropdown"  onclick="enableDisable('blackouts_freq', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="blackouts_freq" class="">how frequently</label>
+                <input type="number" name="blackouts_freq" id="blackouts_freq" class="form-control" />
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="illicit_drugs" class="">Have you ever used illicit drugs or taken more medication than prescribed</label>
+                <select class="form-control" name="illicit_drugs" required id="illicit_drugs" asp-items="yes_no_dropdown"  onclick="enableDisableMore('drug_type,drug_freq,date_of_last_use', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="drug_type" class=""><br>What Type</label>
+                <input  name="drug_type" id="drug_type" class="form-control" />
+            </div>  
+        </div>  
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="drug_freq" class=""><br>Frequency</label>
+                <input type="number" name="drug_freq" id="drug_freq" class="form-control" />
+            </div>
+        </div>     
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="date_of_last_use" class=""><br>Date of last use</label>
+                <input  name="date_of_last_use" id="date_of_last_use" type="date" class="form-control" />
+            </div>
+        </div>                               
+    </div>
+    <div class="form-row">
+        <div class="col-md-2">
+            <div class="position-relative form-group">
+                <label for="substance_abuse_treatment" class="">Have you ever received treatment for substance abuse</label>
+                <select class="form-control" name="substance_abuse_treatment" required id="substance_abuse_treatment"
+                 asp-items="yes_no_dropdown"  onclick="enableDisableMore('agency,treatment_type,treatment_date', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="agency" class=""><br>Name of agency</label>
+                <input  name="agency" id="agency" class="form-control" />
+            </div>
+        </div>       
+         <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="treatment_type" class=""><br>type of treatment</label>
+                <input  name="treatment_type" id="treatment_type" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="treatment_date" class=""><br>Date of treatment</label>
+                <input  name="treatment_date" id="treatment_date" type="date" class="form-control" />
+            </div>
+        </div>                                         
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="support_programs" class="">Have you ever been involved in any recovery or support programs</label>
+                <select class="form-control" name="support_programs" required id="support_programs" asp-items="yes_no_dropdown"
+                 onclick="enableDisable('support_programs_description', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="position-relative form-group">
+                <label for="support_programs_description" class="">Explain</label>
+                <textarea name="support_programs_description" id="support_programs_description" class="form-control"></textarea>
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="position-relative form-group">
+                <label for="triggers" class="">Are you aware of your triggers to drink or use</label>
+                <select class="form-control" name="triggers" required id="triggers" asp-items="yes_no_dropdown"
+                 onclick="enableDisable('triggers_description', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="position-relative form-group">
+                <label for="triggers_description" class="">Please explain</label>
+                <input  name="triggers_description" id="triggers_description" class="form-control" />
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="use_legal_issues" class="">Have you ever had any legal issues related to the use of alcohol or other drugs</label>
+                 <select class="form-control" name="use_legal_issues" required id="use_legal_issues" asp-items="yes_no_dropdown"
+                 onclick="enableDisable('legal_issues_description', this.value)" >
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="legal_issues_description" class="">please explain, including name of offense and dates</label>
+                <input name="legal_issues_description" id="legal_issues_description" class="form-control" />
+            </div>
+        </div>                                      
+    </div>
+    <div class="substance-use-container">
+        <ol>
+        </ol>
+    </div>
+    <div class="d-block text-right card-footer">
+        <button type="button" id="substance_use_submit" class="mt-3 btn btn-success">Submit</button>
+    </div>
+</form>

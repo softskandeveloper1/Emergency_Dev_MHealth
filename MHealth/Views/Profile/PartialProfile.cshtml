@@ -1,0 +1,245 @@
+﻿@model DAL.Models.mp_profile
+@using DAL.Utils;
+@{
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3 card" style="min-height: 400px">
+            <div class="card-header-tab card-header">
+                <div class="card-header-title">
+                    <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                    Member - [@Model.unique_id.ToString("D10")]
+                </div>
+                <ul class="nav">
+
+                    <li class="nav-item"><a data-toggle="tab" href="#tab_bio" class="active nav-link">Bio</a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#tab_enrollment" class="nav-link">Enrollment Info</a></li>
+                   
+
+
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="tab_bio" role="tabpanel">
+
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Member ID</th>
+                                    <td class="answer">@Model.unique_id.ToString("D10")</td>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>@Model.last_name @Model.first_name</td>
+                                </tr>
+                                <tr>
+                                    <th>Preferred name</th>
+                                    <td>@Model.preferred_name</td>
+                                </tr>
+                               
+                                <tr>
+                                    <th>Date of birth</th>
+                                    <td>@Model.dob.ToString("dd MMM, yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th>Education level</th>
+                                    <td>@Options.GetLookupName(Model.education_level.Value)</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">About</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        @Model.about
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+
+                    <div class="tab-pane" id="tab_enrollment" role="tabpanel">
+                        <table class="table table-borderless table-hover table-striped">
+                            <tbody>
+                                <tr>
+                                    <td class="question">What is your marital status?</td>
+                                    <td> <span class="answer pull-right">@Options.GetLookupName(Model.marital_status)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="question">Do you consider yourself to be religious?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().religious)</span>
+                                    </td>
+                                </tr>
+                                @if (Model.mp_enrollment.FirstOrDefault().religion.HasValue)
+                                {
+                                    <tr>
+                                        <td class="question">What religion do you identify with? (Our counselors are from diverse backgrounds)?</td>
+                                        <td>
+                                            <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().religion.Value)</span>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td class="question">What led you to seek help today?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().today_feeling)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">Have you ever been in counseling or therapy before?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().earlier_counseling)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">How would you rate your current physical health?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().physical_health)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">How would you rate your current eating habits?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().eating_habit)</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="question">How would you rate your current sleeping habit?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().sleeping)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">Are you currently experiencing overwhelming sadness, grief, or depression?</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().depression)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="question">
+                                        Over the last 2 weeks, how often have you been bothered by any of the following problems?
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">Little interest or pleasure in doing things</td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().reduced_interest)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Feeling down, depressed, or hopeless
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().recent_depression)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Trouble falling or staying asleep, or sleeping too much
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().sleeping_trouble)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Feeling tired or having little energy
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().tiredness)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Poor appetite or overeating
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().appetite)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Feeling bad about yourself — or that you are a failure or have let yourself or your family down
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().feeling_bad)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Trouble concentrating on things, such as reading the newspaper or watching television
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().concentration_issue)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().fidgety)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Thoughts that you would be better off dead or of hurting yourself in some way
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().suicidal)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Why does today feel like the right time to begin counseling?
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().help_reason)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Are you currently employed?
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().employed)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        How often do you drink alcohol?
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().alcohol)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="question">
+                                        Are you currently experiencing anxiety, panic attacks or phobias?
+                                    </td>
+                                    <td>
+                                        <span class="answer pull-right">@Options.GetLookupName(Model.mp_enrollment.FirstOrDefault().anxiety)</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+               
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

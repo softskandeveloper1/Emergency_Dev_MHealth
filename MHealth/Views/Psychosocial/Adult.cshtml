@@ -1,0 +1,71 @@
+@using MHealth.Helper;
+@model DAL.Models.mp_psychosocial
+
+@{
+    ViewData["Title"] = "Create";
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Adult Psychosocial Assessment
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mb-3 card">
+    <div class="card-header">
+        <ul class="nav nav-justified">
+            <li class="nav-item"><a data-toggle="tab" href="#mental-health" id="mental-health-link" class="nav-link active show">Mental Health History</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#medical-history" id="medical-history-link" class="nav-link show">Medical History</a></li>
+            <li class="nav-item"><a id="marital-relationship-link" class="nav-link">Marital/Social Relationships</a></li>
+            <li class="nav-item"><a id="family-history-link" class="nav-link">Family History</a></li>
+            <li class="nav-item"><a id="education-history-link" class="nav-link show">Educational History</a></li>
+            <li class="nav-item"><a id="work-history-link" class="nav-link">Work History</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#substance-use" id="substance-use-link" class="nav-link">Substance Use</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active show" id="mental-health" role="tabpanel">
+                @await Html.PartialAsync("Partial/MentalHealth", Model)                                
+            </div>
+            <div class="tab-pane" id="medical-history" role="tabpanel">
+                @await Html.PartialAsync("Partial/MedicalHistory")     
+            </div>
+            <div class="tab-pane" id="marital-relationship" role="tabpanel">
+                @await Html.PartialAsync("Partial/MaritalRelationship")
+            </div>
+            <div class="tab-pane" id="family-history" role="tabpanel">               
+                @await Html.PartialAsync("Partial/FamilyHistory")
+            </div>
+            <div class="tab-pane" id="education-history" role="tabpanel">
+                @await Html.PartialAsync("Partial/EducationHistory")
+            </div>
+            <div class="tab-pane" id="work-history" role="tabpanel">
+                @await Html.PartialAsync("Partial/WorkHistory")
+            </div>
+            <div class="tab-pane" id="substance-use" role="tabpanel">
+                 @await Html.PartialAsync("Partial/SubstanceUse")
+            </div>
+        </div>        
+                
+    </div>
+</div>
+@section Styles{
+    <style>
+        .error{
+            color:red
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+    <script src="~/js/adult-mental.js"></script>
+    <script>
+        
+    </script>
+}

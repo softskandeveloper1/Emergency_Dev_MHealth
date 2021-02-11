@@ -1,0 +1,218 @@
+﻿const usernameInput = document.getElementById('username');
+const button = document.getElementById('join_leave');
+const container = document.getElementById('container');
+const count = document.getElementById('count');
+var connected = false;
+var muted = false;
+var room;
+
+function addLocalVideo() {
+    Twilio.Video.createLocalVideoTrack().then(track => {
+        var video = document.getElementById('local').firstChild;
+        video.appendChild(track.attach());
+    });
+};
+
+function connectButtonHandler(event) {
+   
+    event.preventDefault();
+    if (!connected) {
+        addLocalVideo();       
+        button.disabled = true;
+        button.innerHTML = 'Connecting...';
+        connect().then(() => {
+            //notify the server that the user have connected
+            $.ajax({
+                url: "/api/appointmentlog/postlog",
+                method: "POST",
+                processData: false,
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({ appointment_id: $("#appointment_id").val() })
+            });
+            button.innerHTML = 'Leave call';
+            button.disabled = false;
+        }).catch((e) => {
+            alert('Connection failed. Is the backend running?');
+            button.innerHTML = 'Join call';
+            button.disabled = false;
+        });
+    }
+    else {
+        disconnect();
+        button.innerHTML = 'Join call';
+        connected = false;
+    }
+};
+
+function connect() {
+    var promise = new Promise((resolve, reject) => {
+        // get a token from the back end
+        fetch('/app/post_token', {
+            method: 'POST',
+        }).then(res => res.json()).then(data => {
+            // join video call
+            return Twilio.Video.connect(data.token, {
+                bandwidthProfile: {
+                    video: {
+                        // Specify the profile mode. See Understanding mode
+                        mode: 'collaboration',
+
+                        // See Understanding maxSubscriptionBitrate
+                        maxSubscriptionBitrate: 2400000,
+
+                        // See Understanding dominantSpeakerPriority
+                        dominantSpeakerPriority: 'high',
+
+                        // Max number of tracks that are ‘on’. See Understanding maxTracks 
+                        maxTracks: 3,
+
+                        // provide a hint for how much bandwidth to allocate for different track resolutions. See Understanding renderDimensions
+                        renderDimensions: {
+                            high: { width: 1080, height: 720 },
+                            standard: { width: 640, height: 480 },
+                            low: { width: 320, height: 240 }
+                        }
+                    }
+                }
+            });
+        }).then(_room => {
+            room = _room;
+            room.participants.forEach(participantConnected);
+            room.on('participantConnected', participantConnected);
+            room.on('participantDisconnected', participantDisconnected);
+            connected = true;
+            $("#btn_mute").removeAttr("disabled");
+            stopwatch.start();
+            updateParticipantCount();
+            resolve();
+        }).catch(() => {
+            reject();
+        });
+    });
+    return promise;
+};
+
+function updateParticipantCount() {
+    if (!connected)
+        count.innerHTML = 'Disconnected.';
+    else
+        count.innerHTML = (room.participants.size + 1) + ' participants online.';
+};
+
+function participantConnected(participant) {
+    var participant_div = document.createElement('div');
+    participant_div.setAttribute('id', participant.sid);
+    participant_div.setAttribute('class', 'participant');
+
+    var tracks_div = document.createElement('div');
+    participant_div.appendChild(tracks_div);
+
+    var label_div = document.createElement('div');
+    label_div.innerHTML = participant.identity;
+    participant_div.appendChild(label_div);
+
+    container.appendChild(participant_div);
+
+    participant.tracks.forEach(publication => {
+        if (publication.isSubscribed)
+            trackSubscribed(tracks_div, publication.track);
+    });
+    participant.on('trackSubscribed', track => trackSubscribed(tracks_div, track));
+    participant.on('trackUnsubscribed', trackUnsubscribed);
+
+    updateParticipantCount();
+};
+
+function participantDisconnected(participant) {
+    document.getElementById(participant.sid).remove();
+    updateParticipantCount();
+};
+
+function trackSubscribed(div, track) {
+    div.appendChild(track.attach());
+};
+
+function trackUnsubscribed(track) {
+    track.detach().forEach(element => element.remove());
+};
+
+function disconnect() {
+    room.disconnect();
+    $("#local_video").empty();
+    $("#btn_mute").attr("disabled", "disabled");
+    stopwatch.stop();
+    //while (container.lastChild.id !== 'local')
+    //    container.removeChild(container.lastChild);
+    button.innerHTML = 'Join call';
+    connected = false;
+    var track= room.localParticipant.videoTracks.forEach(publication => {
+        publication.stop();
+        publication.detach();
+        //publication.unpublish();
+    });
+
+    var localParticipant = room.localParticipant;
+    //localParticipant.unpublishTrack(track);
+    updateParticipantCount();
+};
+
+//addLocalVideo();
+button.addEventListener('click', connectButtonHandler);
+
+function toggle_mute() {
+    if (muted === false) {
+        muteAudio();
+    } else {
+        unMuteAudio();
+    }
+}
+
+function muteVideo() {
+    var localParticipant = room.localParticipant;
+    //localParticipant.videoTracks.forEach(function (videoTracks) {
+    //    videoTracks.track.disable();
+    //});
+
+    localParticipant.videoTracks.forEach(function (videoTracks) {
+        videoTracks.disable();
+    });
+
+  
+}
+
+function unMuteVideo() {
+    var localParticipant = room.localParticipant;
+    localParticipant.videoTracks.forEach(function (videoTracks) {
+        videoTracks.track.enable();
+    });
+}
+
+function unMuteAudio() {
+    //var localParticipant = room.localParticipant;
+    //localParticipant.audioTracks.forEach(function (audioTrack) {
+    //    audioTrack.track.enable();
+    //});
+
+    room.localParticipant.audioTracks.forEach(function (track) {
+        track.enable();
+    });
+
+
+    $("#btn_mute").text("Mute");
+    muted = false;
+}
+
+function muteAudio() {
+    //var localParticipant = room.localParticipant;
+    //localParticipant.audioTracks.forEach(function (audioTrack) {
+    //    audioTrack.track.disable();
+    //});
+
+    room.localParticipant.audioTracks.forEach(function (track) {
+        track.disable();
+    });
+
+    $("#btn_mute").text("Un Mute");
+    muted = true;
+}

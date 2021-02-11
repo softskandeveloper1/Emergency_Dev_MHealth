@@ -1,0 +1,357 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@using MHealth.Data;
+@using DAL.IService;
+@using Microsoft.EntityFrameworkCore;
+@inject UserManager<ApplicationUser> _userManager;
+
+@{
+    //var navs = Options.GetNavigations();
+    var query = "";
+    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+    var messages = NotificationUtil.PendingMessages(user.Id);
+    var can_prescribe = new[] { 2, 4, 10 };
+
+}
+
+@*@if (navs.Any())
+    {
+        <ul class="header-menu nav">
+
+            @foreach (var nav in navs.OrderBy(e => e.order))
+            {
+
+                var can_access = false;
+                if (nav.roles == null)
+                {
+                    continue;
+                }
+                var roles = nav.roles.Split(',');
+                foreach (var role in roles)
+                {
+                    if (User.IsInRole(role))
+                    {
+                        can_access = true;
+                        break;
+                    }
+                }
+
+
+            if (can_access)
+            {
+                    <li class="nav-item @Html.IsSelected(controller: @nav.controller.ToLower(), action: @nav.action.ToLower(), cssClass: "active")">
+                        <a href="@Url.Action(nav.action, nav.controller)" class="nav-link link_nav">
+                            <span> @nav.name</span>
+                            <div class="badge badge-pill badge-danger">12</div>
+                        </a>
+                    </li>
+
+
+                }
+
+            }
+
+        </ul>
+    }*@
+<style>
+    #divReport {
+        min-width: 300px;
+    }
+</style>
+<ul class="header-menu nav">
+    @if (User.IsInRole("client"))
+    {
+        var prescriptions = Options.count_new_prescriptions(user.Id);
+        <li class="nav-item @Html.IsSelected(controller: "profile", action: "myprofile", cssClass: "active")">
+            <a href="@Url.Action("MyProfile", "Profile")" class="nav-link link_nav">
+                <span> Home</span>
+                @*<div class="badge badge-pill badge-danger">12</div>*@
+            </a>
+        </li>
+        @*<li class="nav-item @Html.IsSelected(controller: "conversation", action: "mconversations", cssClass: "active")">
+                <a href="@Url.Action("MConversations", "Conversation")" class="nav-link link_nav">
+                    <span>Messages</span>
+                    <div class="badge badge-pill badge-danger">12</div>
+                </a>
+            </li>*@
+        <li class="nav-item @Html.IsSelected(controller: "messaging", action: "inbox", cssClass: "active")">
+            <a href="@Url.Action("Inbox", "Messaging")" class="nav-link link_nav">
+                <span>Inbox</span>
+                @if (messages > 0)
+                {
+                    <div class="badge badge-pill badge-danger">@messages</div>
+                }
+
+            </a>
+        </li>
+        <li class="nav-item @Html.IsSelected(controller: "prescription", action: "myprescription", cssClass: "active")">
+            <a href="@Url.Action("MyPrescriptions", "Prescription")" class="nav-link link_nav">
+                <span>My Prescriptions</span>
+                @if (prescriptions > 0)
+                {
+                    <div class="badge badge-pill badge-danger">@prescriptions</div>
+                }
+            </a>
+        </li>
+        <li class="nav-item @Html.IsSelected(controller: "profile", action: "providers", cssClass: "active")">
+            <a href="@Url.Action("Providers", "Profile")" class="nav-link link_nav">
+                <span>My Providers</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "appointment", action: "myappointments", cssClass: "active")">
+            <a href="@Url.Action("MyAppointments", "Appointment")" class="nav-link link_nav">
+                <span>Appointments</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "appointment", action: "mysessions", cssClass: "active")">
+            <a href="@Url.Action("MySessions", "Appointment")" class="nav-link link_nav">
+                <span>Sessions</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item @Html.IsSelected(controller: "referral", action: "referrals", cssClass: "active")">
+            @*<a href="@Url.Action("Referrals", "Referral")" class="nav-link link_nav">
+                    <span>Referrals</span>
+                </a>*@
+            <a href="/Referral/Referrals" class="nav-link link_nav">
+                <span>Referrals</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "profile", action: "settings", cssClass: "active")">
+            <a href="@Url.Action("Settings", "Profile")" class="nav-link link_nav">
+                <span>Settings</span>
+            </a>
+        </li>
+    }
+    else if (User.IsInRole("clinician"))
+    {
+        @inject IClinicianService _clinicianService;
+        var clinician = _clinicianService.Get().Include(e => e.mp_clinician_category).FirstOrDefault(e => e.user_id == user.Id);
+        <li class="nav-item @Html.IsSelected(controller: "clinician", action: "myprofile", cssClass: "active")">
+            <a href="@Url.Action("MyProfile", "Clinician")" class="nav-link link_nav">
+                <span> Home</span>
+                @*<div class="badge badge-pill badge-danger">12</div>*@
+            </a>
+        </li>
+        @*<li class="nav-item @Html.IsSelected(controller: "conversation", action: "mconversations", cssClass: "active")">
+                <a href="@Url.Action("MConversations", "Conversation")" class="nav-link link_nav">
+                    <span>Messages</span>
+                    <div class="badge badge-pill badge-danger">12</div>
+                </a>
+            </li>*@
+        <li class="nav-item @Html.IsSelected(controller: "messaging", action: "inbox", cssClass: "active")">
+            <a href="@Url.Action("Inbox", "Messaging")" class="nav-link link_nav">
+                <span>Inbox</span>
+                @if (messages > 0)
+                {
+                    <div class="badge badge-pill badge-danger">@messages</div>
+                }
+            </a>
+        </li>
+
+        @if (!clinician.mp_clinician_category.Where(e => e.appointment_type == 3).Any())
+        {
+            <li class="nav-item @Html.IsSelected(controller: "prescription", action: "prescriptions", cssClass: "active")">
+                <a href="@Url.Action("Prescriptions", "Prescription")" class="nav-link link_nav">
+                    <span>Prescriptions</span>
+
+                </a>
+            </li>
+        }
+
+        <li class="nav-item @Html.IsSelected(controller: "profile", action: "clients", cssClass: "active")">
+            <a href="@Url.Action("Clients", "Profile")" class="nav-link link_nav">
+                <span>My Members</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "appointment", action: "myappointments", cssClass: "active")">
+            <a href="@Url.Action("MyAppointments", "Appointment")" class="nav-link link_nav">
+                <span>Appointments</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "appointment", action: "mysessions", cssClass: "active")">
+            <a href="@Url.Action("MySessions", "Appointment")" class="nav-link link_nav">
+                <span>Sessions</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "referral", action: "referrals", cssClass: "active")">
+            <a href="/Referral/Referrals" class="nav-link link_nav">
+                <span>Referrals</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item @Html.IsSelected(controller: "clinician", action: "settings", cssClass: "active")">
+            <a href="@Url.Action("Settings", "Clinician")" class="nav-link link_nav">
+                <span>Settings</span>
+            </a>
+        </li>
+    }
+    else if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+    {
+        var applicants = Options.count_applicants();
+        <li class="nav-item @Html.IsSelected(controller: "home", action: "index", cssClass: "active")">
+            <a href="@Url.Action("Index", "Home")" class="nav-link link_nav">
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item @Html.IsSelected(controller: "messaging", action: "inbox", cssClass: "active")">
+            <a href="@Url.Action("Inbox", "Messaging")" class="nav-link link_nav">
+                <span>Inbox</span>
+                @if (messages > 0)
+                {
+                    <div class="badge badge-pill badge-danger">@messages</div>
+                }
+
+            </a>
+        </li>
+        <li class="nav-item @Html.IsSelected(controller: "clinician", action: "providers", cssClass: "active")">
+            <a href="@Url.Action("Providers", "Clinician")" class="nav-link link_nav">
+                <span>Providers</span>
+            </a>
+        </li>
+        @*<li class="nav-item @Html.IsSelected(controller: "clinic", action: "pclinics", cssClass: "active")">
+                <a href="@Url.Action("PClinics", "Clinic")" class="nav-link link_nav">
+                    <span>New clinics</span>
+                </a>
+            </li>
+            <li class="nav-item @Html.IsSelected(controller: "clinic", action: "clinics", cssClass: "active")">
+                <a href="@Url.Action("Clinics", "Clinic")" class="nav-link link_nav">
+                    <span>Clinics</span>
+                </a>
+            </li>*@
+        <li class="nav-item @Html.IsSelected(controller: "applicant", action: "providers", cssClass: "active")">
+            <a href="@Url.Action("Providers", "Applicant")" class="nav-link link_nav">
+                <span>Applicants</span>
+                @if (applicants > 0)
+                {
+                    <div class="badge badge-pill badge-danger">@applicants</div>
+                }
+
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "refund", action: "refunds", cssClass: "active")">
+            <a href="@Url.Action("Refunds", "Refund")" class="nav-link link_nav">
+                <span>Refunds</span>
+            </a>
+        </li>
+
+
+
+        <li class="nav-item @Html.IsSelected(controller: "appointment", action: "sessions", cssClass: "active")">
+            <a href="@Url.Action("Sessions", "Appointment")" class="nav-link link_nav">
+                <span>Sessions</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "pharmacy", action: "manage", cssClass: "active")">
+            <a href="@Url.Action("Manage", "Pharmacy")" class="nav-link link_nav">
+                <span>Pharmacies</span>
+            </a>
+        </li>
+
+        <li class="nav-item @Html.IsSelected(controller: "refund", action: "refunds", cssClass: "active")">
+            <div class="page-title-actions">
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-warning">
+                        Reports
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" id="divReport" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="@Url.Action("CliniciansViewsByClient","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Clinicians Views By Client
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AppointmentsCancelledByClients","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Appointments Cancelled By Clients
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AppointmentsCancelledByClinicians","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Appointments Cancelled By Clinicians
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AppointmentsCompletedByClinicians","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Appointments Completed By Clinicians
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("DailyAppointmentsByClinicians","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Daily Appointments By Clinicians
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("PrescriptionByClinicians","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Prescriptions By Clinicians
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("PaymentsByService","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Payments By Service
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("SessionClients","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Clients Session
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("ClientBeforeClinician","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Client Before Clinician
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("CliniciansRating","Reports")" class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span>
+                                        Clinicians Rating
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+
+
+</ul>

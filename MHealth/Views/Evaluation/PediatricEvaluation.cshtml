@@ -1,0 +1,181 @@
+@using MHealth.Helper;
+@{
+    ViewData["Title"] = "Create";
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+    var symptoms = ViewHelper.GetSymptoms();
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Adult Psychosocial Assessment
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mb-3 card">
+    <div class="card-header">
+        
+    </div>
+    <div class="card-body">
+        <form id="family_history_form" action="PediatricEvaluation" method="POST">
+            <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+            <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="visit_date" class=""> Visit Date </label>
+                        <input type="date" name="visit_date" id="visit_date" required class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-9">
+                   <div class="position-relative form-group">
+                        <label for="complaiant" class=""> Present complain</label>
+                        <textarea class="form-control" required name="complaiant" required id="complaiant"></textarea>
+                    </div>
+                </div>                                      
+            </div>
+            <div class="form-row">
+                    <label for="family_mental_health" class="">Symptoms in the last month </label>
+                <div class="col-md-12 row">
+                        @foreach (var item in symptoms)
+                        {
+                            <div class="col-md-3">
+                                <div class="custom-checkbox custom-control custom-control-inline">
+                                    <input type="checkbox" id="@item.symptom" value="@item.id" name="symptoms" class="custom-control-input">
+                                    <label class="custom-control-label" for="@item.symptom">@item.symptom</label>
+                                </div>
+                            </div>
+                        }
+                </div>                
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="family_history" class="">Family history/additional comments </label>
+                        <textarea class="form-control" required name="family_history" id="family_history"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="past_medical_probelms" class="">Past medical Problems</label>
+                         <textarea class="form-control" required name="past_medical_probelms" id="past_medical_probelms"></textarea>
+                    </div>
+                </div> 
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="illness_since_last_visit" class="">Illnesses since last visit </label>
+                        <textarea class="form-control" required name="illness_since_last_visit" id="illness_since_last_visit"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="drug_allergy" class="">Drug Allergies</label>
+                         <textarea class="form-control" required name="drug_allergy" id="drug_allergy"></textarea>
+                    </div>
+                </div> 
+            </div>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="temp" class="">Temp. (C)</label>
+                        <input type="text" name="temp" required id="temp" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="pulse" class="">Bp (mm/Hg)</label>
+                        <input type="text" name="pulse" required id="pulse" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="bp" class="">Pulse </label>
+                        <input type="text" name="bp" required id="bp" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="weight" class="">Weight (kg)</label>
+                        <input type="text" name="weight" id="weight" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="ht_lt" class="">Ht/Lt (cm)</label>
+                        <input type="text" name="ht_lt" id="ht_lt" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="head_circumference" class="">Head Cir. (cm) </label>
+                        <input type="text" name="head_circumference" id="head_circumference" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="mid_upper_arm" class="">Mid Upper arm cir.(cm) </label>
+                        <input type="text" name="mid_upper_arm" id="mid_upper_arm" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label for="visit_summary" class=""> Summary of Visit </label>
+                        <textarea class="form-control" required name="visit_summary" id="visit_summary"></textarea>
+                    </div>
+                </div>
+            </div>
+                <label>Plan of Care</label>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="medication" class=""> Medication </label>
+                        <textarea class="form-control" required name="medication" id="medication"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="referral" class="">Refferral</label>
+                         <textarea class="form-control" required name="referral" id="referral"></textarea>
+                    </div>
+                </div> 
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="additional_information" class=""> Additional information </label>
+                        <textarea class="form-control" required name="additional_information" id="additional_information"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="next_visit" class="">Next visit</label>
+                        <input type="date" name="next_visit" id="next_visit" class="form-control">
+                    </div>
+                </div> 
+            </div>
+            <button type="submit" class="mt-3 btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+@section Styles{
+    <style>
+        .error{
+            color:red
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/adult-mental.js"></script>
+    <script>
+        
+    </script>
+}

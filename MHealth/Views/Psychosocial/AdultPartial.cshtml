@@ -1,0 +1,50 @@
+@using MHealth.Helper;
+@model DAL.Models.mp_psychosocial
+
+@{
+    //ViewData["Title"] = "Create";
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="main-card card">
+            @* <h4>Adult Psychosocial Assessment</h4> *@
+            <div class="card-header">
+                <ul class="nav nav-justified">
+                    <li class="nav-item"><a data-toggle="tab" href="#mental-health" id="mental-health-link" class="nav-link active show">Mental Health</a></li>
+                    <li class="nav-item"><a id="medical-history-link" class="nav-link">Med.</a></li>
+                    <li class="nav-item"><a id="marital-relationship-link" class="nav-link">Marital</a></li>
+                    <li class="nav-item"><a id="family-history-link" class="nav-link">Family</a></li>
+                    <li class="nav-item"><a id="education-history-link" class="nav-link">Edu.</a></li>
+                    <li class="nav-item"><a id="work-history-link" class="nav-link">Work</a></li>
+                    <li class="nav-item"><a id="substance-use-link" class="nav-link">Substance Use</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="mental-health" role="tabpanel">
+                        @await Html.PartialAsync("Partial/MentalHealth")                                
+                    </div>
+                    <div class="tab-pane" id="medical-history" role="tabpanel">
+                        @await Html.PartialAsync("Partial/MedicalHistory")     
+                    </div>
+                    <div class="tab-pane" id="marital-relationship" role="tabpanel">
+                        @await Html.PartialAsync("Partial/MaritalRelationship")
+                    </div>
+                    <div class="tab-pane" id="family-history" role="tabpanel">               
+                        @await Html.PartialAsync("Partial/FamilyHistory")
+                    </div>
+                    <div class="tab-pane" id="education-history" role="tabpanel">
+                        @await Html.PartialAsync("Partial/EducationHistory")
+                    </div>
+                    <div class="tab-pane" id="work-history" role="tabpanel">
+                        @await Html.PartialAsync("Partial/WorkHistory")
+                    </div>
+                    <div class="tab-pane" id="substance-use" role="tabpanel">
+                        @await Html.PartialAsync("Partial/SubstanceUse")
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>

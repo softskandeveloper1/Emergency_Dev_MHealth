@@ -1,0 +1,516 @@
+@model DAL.Models.mp_clinician
+@using DAL.Utils;
+
+@{
+    Layout = "_Layout_guest";
+    ViewData["Title"] = "New Applicants";
+    var expertises = Options.GetExpertises();
+    var population_groups = Options.GetPopulations();
+    var specialties = Options.GetSpecialties();
+    var provider_type = (int)ViewBag.provider_type;
+    int appointment_category = Convert.ToInt32(ViewBag.appointment_category.ToString());
+    //Layout = "_Layout_guest";
+}
+
+
+<section id="bg1">
+    <form asp-action="PostApplicant" class="f1" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="text-center">
+                    @*<img src="~/assets/images/logo_alt.png" alt="MySpace MyTime" style="height:200px;">*@
+                </div>
+                @if (provider_type == 294 || provider_type == 178)
+                {
+                    <div class="card" style="margin-top:50px">
+                        <div class="card-header">
+                            <div class="card-header-title">Enter your clinic information</div>
+                        </div>
+                        <div class="card-body">
+                            <partial name="_partial_reg_clinic" />
+                        </div>
+                    </div>
+
+                }
+
+
+                <div class="card" style="margin-top:50px">
+                    <div class="card-header">
+
+                        @if (provider_type == 294 || provider_type == 178)
+                        {
+                            <div class="col-md-8">
+                                <div class="card-header-title">
+                                    Add admin provider to your clinic
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="checkbox" name="sameAsClinic" id="sameAsClinic" value="" /> &nbsp; Same as a clinic address
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card-header-title">
+                                Join our team of Providers
+                            </div>
+                        }
+
+
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <fieldset>
+                            @*<div class="form-row">
+                                    <div class="col-md-12">
+                                        <h4>Join our team of clinicians</h4>
+                                        <hr />
+                                    </div>
+                                </div>*@
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="last_name" class="control-label">Last name<span class="required">*</span></label>
+                                        <input asp-for="last_name" class="form-control">
+                                        <span asp-validation-for="last_name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="first_name" class="control-label">First name<span class="required">*</span></label>
+                                        <input asp-for="first_name" class="form-control">
+                                        <span asp-validation-for="first_name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="phone" class="control-label">Phone Number<span class="required">*</span></label>
+                                        <input asp-for="phone" class="form-control">
+                                        <span asp-validation-for="phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="email" class="control-label">Email Address<span class="required">*</span></label>
+                                        <input asp-for="email" class="form-control">
+                                        <span asp-validation-for="email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="preferred_name" class="control-label">Other Name (as written in certificate)<span class="required">*</span></label>
+                                        <input asp-for="preferred_name" class="form-control" required>
+                                        <span asp-validation-for="preferred_name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="gender" class="control-label">Gender<span class="required">*</span></label>
+                                        @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                        @*<select asp-for="gender" class="form-control">
+
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                            </select>*@
+                                        <span asp-validation-for="gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="address" class="control-label">Address<span class="required">*</span></label>
+                                        <textarea asp-for="address" class="form-control"></textarea>
+                                        <span asp-validation-for="address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="country" class="control-label">Country<span class="required">*</span></label>
+
+                                        @Html.DropDownList("country", new SelectList(Options.GetCountries(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+
+                                        <span asp-validation-for="country" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="state" class="control-label">State of origin<span class="required">*</span></label>
+                                        @Html.DropDownList("state", new SelectList(Options.GetStates(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+                                        <span asp-validation-for="state" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="city" class="control-label">City<span class="required">*</span></label>
+                                        <input name="city" type="text" class="form-control" style="width:100%;" />
+
+                                        <span asp-validation-for="city" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="country" class="control-label">Association<span class="required">*</span></label>
+
+                                        <input type="text" name="association" class="form-control" />
+
+                                        <span asp-validation-for="country" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="licensure" class="control-label">Licensure<span class="required">*</span></label>
+
+                                        <input type="text" name="licensure" class="form-control" />
+
+                                        <span asp-validation-for="licensure" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="state" class="control-label">Membership number<span class="required">*</span></label>
+                                        <input type="text" name="membership_number" class="form-control" />
+                                        <span asp-validation-for="state" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="city" class="control-label">Member since<span class="required">*</span></label>
+                                        <input name="member_since" type="text" class="form-control" style="width:100%;" />
+
+                                        <span asp-validation-for="city" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group" id="divDOB">
+                                        <label asp-for="dob" class="control-label">Date of Birth<span class="required">*</span></label>
+                                        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+                                            <input class="form-control datepicker" type="text" name="dob" readonly required style="border-radius:.25rem !important" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label asp-for="marital_status" class="control-label">Marital Status<span class="required">*</span></label>
+
+                                        @Html.DropDownList("marital_status", new SelectList(Options.Getlookups("marital_status"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                        <span asp-validation-for="marital_status" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (ViewBag.provider_type != 177)
+                            {
+                                <div class="form-group">
+                                    <label class="control-label">Please select your area of interest<span class="required">*</span></label>
+                                    @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                </div>
+                            }
+                            else
+                            {
+                                <input type="hidden" value="307" name="area_of_interest" />
+                            }
+
+                            <input type="hidden" name="appointment_type" value="@ViewBag.appointment_type" />
+                            <input type="hidden" name="appointment_category" value="@ViewBag.appointment_category" />
+                            <input type="hidden" name="appointment_category_sub" value="@ViewBag.appointment_category_sub" />
+                            <input type="hidden" name="provider_type" value="@provider_type" />
+
+                            @if (appointment_category == 2 || appointment_category == 4 || appointment_category == 10)
+                            {
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Years of experience<span class="required">*</span></label>
+                                            @Html.DropDownList("years_of_experience", new SelectList(Options.Getlookups("years_of_experience"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                                            @*<input name="years_of_experience" type="number" class="form-control" min="0">*@
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="position-relative form-group">
+                                            <label class="control-label">Year Qualified as a Medical Doctor <span class="required">*</span></label>
+                                            <input maxlength="200" type="date" required="required" name="year_qualified_doctor" class="form-control" />
+                                            @*<div id="datepicker" class="input-group date datepicker" data-date-format="mm-dd-yyyy">
+                                                    <input class="form-control" type="text" readonly required="required" name="year_qualified" />
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-row">
+
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="control-label">Year Qualified as a specialist </label>
+                                        <input maxlength="200" type="date" required="required" name="year_qualified_specialist" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success">Register</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/controls.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+    <style>
+
+        .ui-datepicker {
+            margin-left: 100px;
+            z-index: 1000;
+        }
+
+        label, table, legend {
+            /*color:white !important*/
+            /*font-family: "Rubik", sans-serif*/
+        }
+
+        select {
+            /*height: 44px !important*/
+        }
+
+        .required {
+            color: red
+        }
+
+        .control-label {
+            color: black;
+            /*font-weight: bold*/
+        }
+
+        input, select, textarea {
+            color: black !important
+        }
+
+        #bg {
+            /*font-family: 'Tajawal';*/
+            background: url(../images/career.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            color: inherit;
+            /*background-color: rgba(0, 0, 0, 0.7);*/
+            border-bottom: 1px solid rgba(26,54,126,0.125);
+        }
+
+        .card-header, .card-title {
+            text-transform: uppercase;
+            /*color: white;*/
+            font-weight: bold;
+            font-size: .88rem;
+            background-color: transparent
+        }
+
+        .card {
+            /*background-color: rgba(0, 0, 0, 0.7);*/
+        }
+
+            .card button {
+                padding: 10px !important;
+            }
+
+        body {
+            overflow-x: hidden
+        }
+
+        .control-label {
+            /*font-weight:bold;*/
+        }
+    </style>
+}
+@section Scripts {
+    <script src="~/js/option_util.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/applicant.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script id="rendered-js">
+        $(function () {
+            $(".datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                container: '#divDOB',
+                beforeShow: function (input, inst) {
+                    var rect = input.getBoundingClientRect();
+                    setTimeout(function () {
+                        inst.dpDiv.css({ top: rect.top + 40, left: rect.left + 0 });
+                    }, 0);
+                }
+            });
+            // datepicker('update', new Date());
+        });
+       
+        $(document).on('change', ':file', function () {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+
+
+        });
+    </script>
+    <script src="~/js/fn_table.js"></script>
+    <script>
+        function cloneDiv() {
+            var myDiv = document.getElementById("certificate_part");
+            var divClone = myDiv.cloneNode(true);
+            document.getElementById("upload_container").appendChild(divClone);
+        }
+        function removeDiv(thisDiv) {
+            thisDiv.parentNode.remove();
+        }
+        function add_row_doc(tb) {
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            var row_count = $trLast.index() + 1;
+            $trNew.find('input,select').each(function () {
+                var name = this.name;
+                this.name = name.substring(0, name.length - 1) + (row_count + 1);
+
+
+                var id = this.id;
+                this.id = id.substring(0, name.length - 1) + (row_count + 1);
+
+            });
+
+            //reset the project selection
+            $trNew.find('select').each(function () {
+
+                this.selectedIndex = 0;
+
+            });
+
+
+
+            $trNew.find('input').each(function () {
+
+                $(this).val("");
+                $(this).attr("disabled", "disabled");
+            });
+
+            $trLast.after($trNew);
+
+
+        }
+        function delete_row_doc(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 4) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+        } function cloneDiv() {
+            var myDiv = document.getElementById("certificate_part");
+            var divClone = myDiv.cloneNode(true);
+            document.getElementById("upload_container").appendChild(divClone);
+        }
+        function removeDiv(thisDiv) {
+            thisDiv.parentNode.remove();
+        }
+        function add_row_doc(tb) {
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            var row_count = $trLast.index() + 1;
+            $trNew.find('input,select').each(function () {
+                var name = this.name;
+                this.name = name.substring(0, name.length - 1) + (row_count + 1);
+
+
+                var id = this.id;
+                this.id = id.substring(0, name.length - 1) + (row_count + 1);
+
+            });
+
+            //reset the project selection
+            $trNew.find('select').each(function () {
+
+                this.selectedIndex = 0;
+
+            });
+
+
+
+            $trNew.find('input').each(function () {
+
+                $(this).val("");
+                $(this).attr("disabled", "disabled");
+            });
+
+            $trLast.after($trNew);
+
+
+        }
+        function delete_row_doc(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 4) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+        }
+        $(document).on("click", "#sameAsClinic", function () {
+            if ($(this).prop("checked") == true) {
+                $('#last_name').val($('[name="last_name_c"]').val());
+                $('#first_name').val($('[name="first_name_c"]').val());
+                $('#phone').val($('[name="phone_c"]').val());
+                $('#email').val($('[name="email_c"]').val());
+                $('#address').val($('[name="address_c"]').val());
+            }
+            else if ($(this).prop("checked") == false) {
+                $('#last_name').val('');
+                $('#first_name').val('');
+                $('#phone').val('');
+                $('#email').val('');
+                $('#address').val('');
+            }
+        });
+    </script>
+}

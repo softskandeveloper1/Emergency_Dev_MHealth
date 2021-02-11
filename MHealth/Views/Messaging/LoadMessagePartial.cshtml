@@ -1,0 +1,23 @@
+﻿@using DAL.Models;
+@model mp_notification
+@{
+}
+
+
+<table class="table table-condensed">
+    <tbody>
+        <tr>
+            <th>Title</th>
+            <td id="msg_title">@Model.title</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td id="msg_date">@Model.created_at.ToString("dd MMM, yyyy hh:mm tt")</td>
+        </tr>
+        <tr>
+            <td colspan="2" id="msg_body">                
+                    @Html.Raw(Model.notification)   
+            </td>
+        </tr>
+    </tbody>
+</table>

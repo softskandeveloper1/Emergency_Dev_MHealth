@@ -1,0 +1,328 @@
+﻿@using DAL.Models;
+@using DAL.Utils
+@model mp_appointment;
+@{
+    ViewBag.Title = "Session";
+    var appointment_id = ViewBag.appointment_id;
+    var profile = Model.client_;
+
+    string u_token = "", u_uid = "", g_uid = "";
+    if (User.Identity.Name == "ico.cghpi@gmail.com")
+    {
+        u_token = "superhero5_15986b675f8ae4a87af44b8f60e45afa61420087";
+        u_uid = "superhero5";
+        g_uid = "superhero4";
+    }
+    else
+    {
+        u_token = "superhero4_d64b91acc687acc6a3fa9cfff676fd28dbcdd3df";
+        u_uid = "superhero4";
+        g_uid = "superhero5";
+    }
+}
+
+
+<div class="row breadcrumb_addon">
+    <div class="col-lg-10">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Appointments</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Session @string.Format("{0} {1}", profile.last_name, profile.first_name)  - <strong>[@profile.unique_id]</strong></li>
+
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-lg-2">
+
+        @if (User.IsInRole("clinician") || User.IsInRole("super_admin"))
+        {
+            <div class="pull-right" style="margin-top:5px">
+                <div class="page-title-actions">
+
+                    <div class="d-inline-block dropdown">
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-primary" style="background-color: #2d545e">
+                            <span class="btn-icon-wrapper pr-2 opacity-7">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            Forms
+                        </button>
+                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/FamilyIntake/Partial?appointment_id=@appointment_id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Family Intake form
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/ProgressNote/Partial?appointment_id=@appointment_id')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Progress Note
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" onclick="load_partial('/MentalHealthPlan/Partial')" class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span>
+                                            Mental health plan
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-link-icon lnr-book"></i>
+                                        <span>
+                                            Psychosocial form
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span>
+                                            Couple Intake form
+                                        </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="stopwatch" style="">
+            StopWatch
+        </div>
+
+        <div id="callScreen" class="callScreen"></div>
+        <div style="margin-left:auto;margin-right:auto;width:150px; margin-top:10px">
+            <button class="btn btn-circle btn-sm btn-primary" id="btn_accept" disabled type="button" onclick="accept_call()"><i class="fa fa-phone"></i></button>
+            <button class="btn btn-circle btn-sm btn-success" id="btn_call" disabled type="button" onclick="initiateCall('@g_uid')">Call</button>
+            <button class="btn btn-sm btn-warning" onClick="stopwatch.start();" type="button">Start</button>
+        </div>
+
+
+    </div>
+
+
+    <div class="col-lg-6" id="view_bag" style="overflow-y: scroll; height:720px; width: auto;">
+
+        <div>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>Unique ID</th>
+                        <td class="answer">@Model.client_.unique_id</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>@Model.client_.last_name @Model.client_.first_name</td>
+                    </tr>
+                    <tr>
+                        <th>Preferred name</th>
+                        <td>@Model.client_.preferred_name</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>@Model.client_.phone</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@Model.client_.email</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>@Model.client_.address</td>
+                    </tr>
+                    <tr>
+                        <th>City, State</th>
+                        <td>@Model.client_.city, </td>
+                    </tr>
+                    <tr>
+                        <th>Date of birth</th>
+                        <td>@Model.client_.dob.ToString("dd MMM, yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Education level</th>
+                        <td>@Options.GetLookupName(Model.client_.education_level.Value)</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">About</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Model.client_.about
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section styles{
+    <link href="~/css/button.css" />
+    <link href="~/css/chat.css" type="text/css" rel="stylesheet" />
+    <style>
+        .callScreen {
+            min-height: 500px;
+            background-color: #ccc
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .stopwatch {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.5em
+        }
+    </style>
+    <style>
+        .question {
+            font-weight: bolder;
+        }
+
+        .answer {
+            font-style: italic;
+            color: #d92550 !important
+        }
+
+        .q_info {
+            border-bottom: 1px #ccc solid
+        }
+    </style>
+}
+
+
+@section scripts{
+    <script src="~/js/stop_watch.js"></script>
+    <script src="~/js/partial_view.js"></script>
+    @*<script src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>*@
+    <script type="text/javascript" src="~/lib/comet/CometChat.js"></script>
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script src="~/js/comet_util.js"></script>
+    <script src="~/js/fn_table.js"></script>
+
+    <script src="~/lib/requirejs/require.js"></script>
+    <script src="https://media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+    <script src="~/js/t_video.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            const { connect } = require(['twilio-video']);
+
+            connect('@ViewBag.token', { name: 'my-new-room' }).then(room => {
+                console.log(`Successfully joined a Room: ${room}`);
+                room.on('participantConnected', participant => {
+                    console.log(`A remote Participant connected: ${participant}`);
+                });
+            }, error => {
+                console.error(`Unable to connect to Room: ${error.message}`);
+            });
+        });
+
+        //var data = null;
+
+        //var xhr = new XMLHttpRequest();
+
+        //xhr.addEventListener("readystatechange", function () {
+        //    if (this.readyState === this.DONE) {
+        //        console.log(this.responseText);
+        //    }
+        //});
+
+        //xhr.open("POST", "https://api-us.cometchat.io/v2.0/users/superhero4/auth_tokens");
+        //xhr.setRequestHeader("appid", "176085552987728");
+        //xhr.setRequestHeader("apikey", "1b2b8e46ff8cf3eabe275e952dc3a77d221fe613");
+        //xhr.setRequestHeader("content-type", "application/json");
+        //xhr.setRequestHeader("accept", "application/json");
+
+        //xhr.send(data);
+
+
+
+            window.onload = (function () {
+                var appId = "176085552987728";
+                let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
+                CometChat.init(appId, cometChatSettings)
+                    .then(
+                        () => {
+                            console.log("Initialization completed successfully");
+                            //You can now call login function.
+                           // login('@u_token');
+                            @*var UID = "@u_uid";
+                            var apiKey = "1b2b8e46ff8cf3eabe275e952dc3a77d221fe613";
+
+                            CometChat.login(UID, apiKey).then(
+                                user => {
+                                    console.log("Login Successful:", { user });
+                                     $("#btn_call").removeAttr("disabled");
+    // User loged in successfully.
+                                    call_listener();
+                                },
+                                error => {
+                                    console.log("Login failed with exception:", { error });
+                                }
+                            );*@
+                        },
+                        error => {
+                            console.log("Initialization failed with error:", error);
+                            //Check the reason for error and take appropriate action.
+                        }
+                    );
+            })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            load_partial('/Profile/PartialProfile?profile_id=@profile.id');
+            $("form").submit(function (e) {
+
+                e.preventDefault();
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+
+            });
+        });
+    </script>
+}

@@ -1,0 +1,197 @@
+@model DAL.Models.mp_applicant
+@using DAL.Utils;
+
+@{
+    Layout = "_Layout_front";
+    ViewData["Title"] = "New Applicants";
+    //Layout = "_Layout_guest";
+}
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+
+                <div>
+                    Applicants
+                    <div class="page-title-subheading">
+                        New Applicant
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+<div class="row">
+    <form asp-action="NewApplicant" class="f1">
+        <fieldset>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <h4>Join our team of clinicians</h4>
+                    <hr />
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="last_name" class="control-label">Last Name</label>
+                        <input asp-for="last_name" class="form-control">
+                        <span asp-validation-for="last_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="first_name" class="control-label">First Name</label>
+                        <input asp-for="first_name" class="form-control">
+                        <span asp-validation-for="first_name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="phone" class="control-label">Phone Number</label>
+                        <input asp-for="phone" class="form-control">
+                        <span asp-validation-for="phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="email" class="control-label">Email Address</label>
+                        <input asp-for="email" class="form-control">
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="preferred_name" class="control-label">Preffered Name</label>
+                        <input asp-for="preferred_name" class="form-control">
+                        <span asp-validation-for="preferred_name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="gender" class="control-label">Gender</label>
+                        @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                        @*<select asp-for="gender" class="form-control">
+
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>*@
+                        <span asp-validation-for="gender" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <div class="position-relative form-group">
+                        <label asp-for="address" class="control-label">Address</label>
+                        <textarea asp-for="address" class="form-control"></textarea>
+                        <span asp-validation-for="address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label asp-for="country" class="form-label">Country</label>
+
+                        @Html.DropDownList("country", new SelectList(Options.GetCountries(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+
+                        <span asp-validation-for="country" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label asp-for="state" class="control-label">State</label>
+                        @*<select asp-for="state" class="form-control" style="width:100%;">
+                            </select>*@
+                        @Html.DropDownList("state", new SelectList(Options.GetStates(), "id", "name", null), null, new { @class = "form-control", @required = "required" })
+                        <span asp-validation-for="state" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label asp-for="city" class="control-label">City</label>
+                        <input name="city" type="text" class="form-control" style="width:100%;" />
+
+                        <span asp-validation-for="city" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="dob" class="form-label">Date of Birth</label>
+                        @*<input name="dob" id="dob" type="text" class="form-control daterange-single">*@
+                        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+                            <input class="form-control" type="text" readonly required="required" name="dob"/>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                        <span asp-validation-for="dob" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label asp-for="marital_status" class="control-label">Marital Status</label>
+                        @*<select asp-for="marital_status" class="form-control">
+                                <option value="1">Single</option>
+                                <option value="2">Married</option>
+                                <option value="3">Divorced</option>
+                                <option value="4">Widowed</option>
+                            </select>*@
+                        @Html.DropDownList("marital_status", new SelectList(Options.Getlookups("marital_status"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                        <span asp-validation-for="marital_status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-submit">Register</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+
+
+
+
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body"><h5 class="card-title">New Application</h5>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+@section Styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+    <style>
+        select {
+            height: 44px !important
+        }
+    </style>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/applicant.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script id="rendered-js">
+        $(function () {
+            $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+            // datepicker('update', new Date());
+        });
+    </script>
+
+}

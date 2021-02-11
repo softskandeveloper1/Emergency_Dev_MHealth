@@ -1,0 +1,144 @@
+﻿@using DAL.Models 
+@{
+    ViewData["Title"] = "Create";
+    mp_appointment appointment = (mp_appointment) ViewData["appointment"];
+    IQueryable<mp_applicant> clinicians = (IQueryable<mp_applicant>) ViewData["clinicians"];
+}
+
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div>
+                    Complete your appointment process
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Select Clinician
+                </div>
+                <div class="table-responsive">
+                    <form action="/" method="post">
+                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Name</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@foreach (var clinician in clinicians)
+                                {
+                                    <tr>
+                                        <td class="text-center text-muted"><input type="radio" name="clinician_id" value="@clinician.id" /> </td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">@(clinician.first_name +" "+ clinician.last_name )</div>
+                                                        <div class="widget-subheading opacity-7">Clinician</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" id="PopoverCustomT-1" data-html="true" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm">See Biography</button>
+                                        </td>
+                                    </tr>
+                                }*@
+                                <tr>
+                                    <td class="text-center text-muted"><input type="radio" name="clinician_id" value="1" /> </td>
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading">Kola Wole</div>
+                                                    <div class="widget-subheading opacity-7">Dermatologist</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" id="PopoverCustomT-1" data-html="true" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm">See Biography</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-muted"><input type="radio" name="clinician_id" value="2" /></td>
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading">John Doe</div>
+                                                    <div class="widget-subheading opacity-7">Paediatrician</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" id="PopoverCustomT-1" data-html="true" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm">See Biography</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div class="d-block text-center card-footer">
+                            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i> Cancel </button>
+                            <button class="btn-wide btn btn-outline-alternate">Confirm Selection</button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Make Payment
+                </div>
+                <div class="card-body">
+                    <form action="/" method="post">
+
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="col-12">
+                                    <label class="">Service Charge </label>
+                                </div>
+                                <div class="position-relative form-group input-group">
+
+                                    <div class="input-group-prepend"><span class="input-group-text">@("$")</span></div>
+                                    <input name="amount" type="number" class="form-control" value="5000" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-12">
+                                    <label class="">VAT Charge </label>
+                                </div>
+                                <div class="position-relative form-group input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">@("$")</span></div>
+                                    <input name="amount" type="number" class="form-control" value="100">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="d-block text-center card-footer">
+                    <button class="btn-wide btn btn-primary">Pay $5,100.00</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+

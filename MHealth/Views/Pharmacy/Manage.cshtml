@@ -1,0 +1,139 @@
+﻿@using  DAL.Models;
+@using DAL.Utils;
+@model PaginatedList<mp_pharmacy>
+@{
+    ViewBag.Title = "Pharmacies";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")">Dashboard</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Pharmacies</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">All Pharmacies</div>
+                <div class="btn-actions-pane-right">
+
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="search.....">
+                        <div class="input-group-append">
+                            <button class="btn btn-info"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-condensed" style="border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pharmacy in Model)
+                        {
+                            <tr>
+                                <td><strong>@pharmacy.name</strong></td>
+                                <td>@pharmacy.address</td>
+                                <td>@pharmacy.email</td>
+                                <td>@pharmacy.phone</td>
+                               
+
+                            </tr>
+                         
+                        }
+
+
+
+                    </tbody>
+                </table>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+
+                <div style="margin-left:auto;margin-right:auto;margin-top:10px">
+                    <nav class="" aria-label="pagination">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item"><a href="@Url.Action("Manage","Pharmacy",new {page=Model.PageIndex - 1})" class="page-link @prevDisabled" @prevDisabled aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                            <li class="page-item"><a href="@Url.Action("Manage","Pharmacy",new {page=Model.PageIndex + 1})" class="page-link @nextDisabled" @nextDisabled aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <form asp-controller="Pharmacy" asp-action="Post">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        Add Pharmacy
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="control-label">Name of pharmacy</label>
+                        <input class="form-control" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email address</label>
+                        <input class="form-control" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Phone</label>
+                        <input class="form-control" name="phone" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Address</label>
+                        <textarea class="form-control" name="address" required></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success">Add Pharmacy</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section styles{
+    <style>
+        .hiddenRow {
+            padding: 0 !important;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/js/form_util.js"></script>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+}

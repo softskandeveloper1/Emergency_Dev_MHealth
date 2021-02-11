@@ -1,0 +1,417 @@
+﻿@using DAL.Utils;
+@{
+}
+
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">What is the gender of your child?</label>
+        @Html.DropDownList("child_gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">How are you related to your child?</label>
+        @Html.DropDownList("child_relationship_to", new SelectList(Options.Getlookups("child_relationship_to"), "id", "value", null), null, new { @class = "form-control", @required = "required", @id = "child_relationship_to" })
+    </div>
+    <div class="form-group" id="div_child_relationship_to_other" style="display:none">
+        <label class="control-label">Please specifiy</label>
+        <input type="text" name="child_relationship_to_other" id="child_relationship_to_other" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">How old is your child?</label>
+        <select class="form-control" name="child_age">
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+
+        </select>
+        @*<input type="text" name="relationship_duration" class=" form-control" required />*@
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">Where does your child live?</label>
+        @Html.DropDownList("where_child_lives", new SelectList(Options.Getlookups("where_child_lives"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">Does your child go to school?</label>
+        @Html.DropDownList("does_child_school", new SelectList(Options.Getlookups("does_child_school"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">Has your child ever been in counseling?</label>
+        @Html.DropDownList("child_in_counselling", new SelectList(Options.Getlookups("yesno"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">How do you rate your child’s physical health?</label>
+        @Html.DropDownList("child_physical_health_rating", new SelectList(Options.Getlookups("rating"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">How do you rate your child’s current eating habits?</label>
+        @Html.DropDownList("child_eating_rating", new SelectList(Options.Getlookups("rating"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">How do you rate your child’s current sleeping habits?</label>
+        @Html.DropDownList("child_sleep_rating", new SelectList(Options.Getlookups("rating"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">Is your child currently experiencing anxiety, panic attacks or have any phobias?</label>
+        @Html.DropDownList("child_experiencing_anxiety", new SelectList(Options.Getlookups("yesno"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <label class="control-label">Based on your observation, is your child currently experiencing overwhelming sadness, grief or depression?</label>
+        @Html.DropDownList("child_experiencing_sadness", new SelectList(Options.Getlookups("yesno"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Little interest or pleasure in doing things  </label>
+        @Html.DropDownList("little_pleasure", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Having anger outbursts, yelling and screaming or being violent towards others </label>
+        @Html.DropDownList("have_outburst_anger", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Trouble concentrating on things, such as having a conversation, doing homework or watching television</label>
+        @Html.DropDownList("trouble_concentrating", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Feeling down, depressed, or hopeless</label>
+        @Html.DropDownList("feeling_down", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Feeling tired or having little energy</label>
+        @Html.DropDownList("feeling_tired", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Feeling bad about self — feels like a failure or thinks they have let your family down </label>
+        @Html.DropDownList("child_feeling_bad", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+        <p class="comment">Over the last 2 weeks, how often has your child been bothered by any of the following problems?</p>
+        <label class="control-label">Moving or speaking so slowly that other people have noticed?  Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual </label>
+        @Html.DropDownList("child_fidgety", new SelectList(Options.Getlookups("rating_days"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+
+        <label class="control-label">Do you have any concerns about your child being suicidal?</label>
+        @Html.DropDownList("child_being_suicidal", new SelectList(Options.Getlookups("yesno"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+<fieldset class="child">
+
+    <div class="form-group">
+
+        <label class="control-label">Do you have concerns about your child in any of these issues? (Check all that applies)</label>
+        @*@Html.DropDownList("child_issue_concerns", new SelectList(Options.Getlookups("child_issue_concerns"), "id", "value", null), null, new { @class = "form-control", @required = "required", @multiple="multiple",@style="height:100px" })*@
+
+        <div>
+            @foreach (var item in Options.Getlookups("child_issue_concerns"))
+            {
+                @*<div class="custom-checkbox custom-control">
+                        <input type="checkbox" id="check_concerns_@item.id" name="child_issue_concerns" value="@item.id" class="custom-control-input"><label class="custom-control-label" for="check_concerns_@item.id">
+                            @item.value
+                        </label>
+                    </div>*@
+
+
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input checkbox-required" name="child_issue_concerns[]" id="check_concerns_@item.id">
+                    <label class="form-check-label" for="check_concerns_@item.id"> @item.value</label>
+                </div>
+
+            }
+        </div>
+        <div class="invalid-feedback" id="concern_error" style="display:none">
+            Please select a value.
+        </div>
+        <div class="form-group" id="div_child_issue_concerns_other" style="display:none">
+            <label class="control-label">Please specifiy</label>
+            <input type="text" name="child_issue_concerns_other" id="child_issue_concerns_other" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+<fieldset class="child">
+
+    <div class="form-group">
+
+        <label class="control-label">How would you rate your relationship with your child?</label>
+        @Html.DropDownList("child_relationship_rating", new SelectList(Options.Getlookups("rating"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+
+        <label class="control-label">How would you rate your financial status?</label>
+        @Html.DropDownList("financial_status", new SelectList(Options.Getlookups("rating"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+
+    <div class="form-group">
+
+        <label class="control-label">Do you have a gender preference for your child’s counselor?</label>
+        @Html.DropDownList("counselor_preference_child", new SelectList(Options.Getlookups("counselor_preference"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset class="child">
+    <div class="form-group">
+        <label class="control-label">What is your child's preferred language?</label>
+        @Html.DropDownList("child_preferred_language", new SelectList(Options.Getlookups("preferred_language"), "id", "value", null), null, new { @class = "form-control", @required = "required", id = "child_preferred_language" })
+    </div>
+
+    <div class="form-group" id="div_child_preferred_language_other" style="display:none">
+        <label class="control-label">Please specifiy</label>
+        <input type="text" name="child_preferred_language_other" id="child_preferred_language_other" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="f1-buttons">
+            <button type="button" class="btn btn-previous">Previous</button>
+            <button type="button" class="btn btn-next">Next</button><br><br>
+        </div>
+    </div>
+</fieldset>

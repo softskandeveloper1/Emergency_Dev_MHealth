@@ -1,0 +1,116 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using MHealth.Areas.Identity.Pages.Account.Manage;
+@model ChangePasswordModel
+@{
+    ViewBag.Title = "My Account";
+}
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">My Account</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <div class="card mb-2">
+            <div class="card-header  text-info">
+                <div class="card-header-title">Update profile picture</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 offset-md-4">
+                        <div class="text-center">
+                            <img id="user_image" src="@Url.Action("get_profile_image","User")" alt="your image" style="height:350px" />
+                            <div style="margin:20px">
+                                <form method="post" action="@Url.Action("ProfileImage","User")" enctype="multipart/form-data">
+                                    <div class="form-group">
+
+                                        <input type='file' id="imgInp" name="profile_image"/>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success">Update picture</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="card mb-2">
+            <div class="card-header text-info">
+                <div class="card-header-title">Change your password</div>
+            </div>
+            <div class="card-body">
+            
+                    <div class="row">
+                        @*<partial name="_StatusMessage" for="StatusMessage" />*@
+                        <div class="col-md-12">
+                            <form id="change-password-form" method="post">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Input.OldPassword"></label>
+                                    <input asp-for="Input.OldPassword" class="form-control" />
+                                    <span asp-validation-for="Input.OldPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.NewPassword"></label>
+                                    <input asp-for="Input.NewPassword" class="form-control" />
+                                    <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.ConfirmPassword"></label>
+                                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update password</button>
+                            </form>
+                        </div>
+                    </div>
+            
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#user_image').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

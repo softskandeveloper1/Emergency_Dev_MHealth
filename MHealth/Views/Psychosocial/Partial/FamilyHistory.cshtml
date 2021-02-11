@@ -1,0 +1,61 @@
+@using MHealth.Helper;
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<form id="family_history_form">
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+     <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="family_description" class=""> Describe the family in which you were raised </label>
+                <textarea class="form-control" required name="family_description" id="family_description"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+           <div class="position-relative form-group">
+                <label for="current_family_relationship" class="">Describe your current relationship with your family of origin </label>
+                <textarea class="form-control" required name="current_family_relationship" id="current_family_relationship"></textarea>
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="family_mental_health" class="">Is there any history of mental health or substance abuse problems in your family? </label>
+                <select class="form-control" name="family_mental_health" id="family_mental_health" asp-items="yes_no_dropdown" onchange="enableDisable('mental_health_descripiton', this.value)" required>
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="mental_health_descripiton" class="">Please explain</label>
+                 <textarea class="form-control" name="mental_health_descripiton" id="mental_health_descripiton"></textarea>
+            </div>
+        </div> 
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="family_mental_health" class="">Did you experience any physical, emotional, or sexual trauma in your childhood? </label>
+                <select class="form-control" name="childhood_trauma" id="childhood_trauma" asp-items="yes_no_dropdown" onchange="enableDisable('trauma_description', this.value)" required>
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="trauma_description" class="">Please explain</label>
+                 <textarea class="form-control"  name="trauma_description" id="trauma_description"></textarea>
+            </div>
+        </div> 
+    </div>
+     <div class="family-history-container">
+        <ol>
+        </ol>
+    </div>
+    <div class="d-block text-right card-footer">
+        <button type="button" id="family_history_submit" class="mt-3 btn btn-success">Save and Continue</button>
+    </div>
+</form>

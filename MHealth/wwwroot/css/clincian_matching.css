@@ -1,0 +1,93 @@
+﻿.tab-content.tab-pane.contact-box {
+    background-color: #ffffff;
+    border: 1px solid #e7eaec;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-box {
+    background-color: #ffffff;
+    border: 1px solid #e7eaec;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+    .contact-box > a {
+        color: inherit;
+    }
+
+    .contact-box.center-version {
+        border: 1px solid #e7eaec;
+        padding: 0;
+    }
+
+        .contact-box.center-version > a {
+            display: block;
+            background-color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .contact-box.center-version > div img {
+            width: 150px;
+            height: 150px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .contact-box.center-version address {
+            margin-bottom: 0;
+        }
+
+    .contact-box .contact-box-footer {
+        text-align: center;
+        background-color: #ffffff;
+        border-top: 1px solid #e7eaec;
+        padding: 15px 20px;
+    }
+
+a {
+    text-decoration: none !important;
+}
+
+
+.container-bar {
+    width: 90%;
+    background-color: #ddd;
+    border-radius: 5px;
+    line-height: 20px
+}
+
+.skills {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-top: 10px; /* Add top padding */
+    padding-bottom: 10px; /* Add bottom padding */
+    color: white; /* White text color */
+}
+
+.html {
+    width: 90%;
+    background-color: #4CAF50;
+}
+/* Green */
+.css {
+    width: 80%;
+    background-color: #4CAF50;
+}
+/* Blue */
+.js {
+    width: 65%;
+    background-color: #4CAF50;
+}
+/* Red */
+.php {
+    width: 60%;
+    background-color: #4CAF50;
+}
+/* Dark Grey */
+.chart_title {
+    text-align: left !important;
+    color: black;
+    margin-bottom: 0
+}

@@ -1,0 +1,61 @@
+@model IEnumerable<DAL.Models.mp_lookup>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+
+            <div>
+                Configuration
+                <div class="page-title-subheading">
+                    LookUp
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <a style="float: right;" asp-action="Create" class="btn btn-primary">Create New</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.value)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.deleted)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.deleted)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

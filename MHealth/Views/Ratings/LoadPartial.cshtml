@@ -1,0 +1,62 @@
+﻿@using  DAL.Models
+@model mp_clinician_rating
+@using DAL.Utils
+@{
+}
+
+<div class="alert alert-info fade show" role="alert"> We are interested in obtaining your comments about the services offered to you. Your feedback helps us to improve the quality and effectiveness of the treatment program. Please complete this questionnaire</div>
+<input type="hidden" name="client_id" value="@Model.client_id" />
+<input type="hidden" name="clinician_id" value="@Model.clinician_id" />
+<input type="hidden" name="appointment_id" value="@Model.appointment_id" />
+<input type="hidden" name="id" value="@Model.id" />
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            <tr>
+
+                <th>
+                    I was treated considerately and respectfully by my provider
+                </th>
+                <td>
+                    @Html.DropDownList("considerate", new SelectList(Options.Getlookups("clinician_survey"), "id", "value", null), "Select ...", new { @class = "form-control form-control-sm" })
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    My provider acted professionally
+                </th>
+                <td>
+                    @Html.DropDownList("professional", new SelectList(Options.Getlookups("clinician_survey"), "id", "value", null), "Select ...", new { @class = "form-control form-control-sm" })
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    My counselor understood my problems and concerns
+                </th>
+                <td>
+                    @Html.DropDownList("understand_problems", new SelectList(Options.Getlookups("clinician_survey"), "id", "value", null), "Select ...", new { @class = "form-control form-control-sm" })
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    My counselor and I worked well together
+                </th>
+                <td>
+                    @Html.DropDownList("worked_together", new SelectList(Options.Getlookups("clinician_survey"), "id", "value", null), "Select ...", new { @class = "form-control form-control-sm" })
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    I felt safe to talk about my issues in counseling
+                </th>
+                <td>
+                    @Html.DropDownList("felt_safe", new SelectList(Options.Getlookups("clinician_survey"), "id", "value", null), "Select ...", new { @class = "form-control form-control-sm" })
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,25 @@
+﻿@model DAL.Models.mp_clinician;
+@{
+    ViewBag.Title = "Thanks for applying";
+    Layout = "_Layout_guest_plain";
+}
+
+
+<div class="row">
+    <div class="col-lg-4">
+
+    </div>
+
+    <div class="col-lg-4">
+        <div class="widget-numbers" style="padding-top:30px">
+            <p style="font-size:1.8rem">
+                Hi <strong>@string.Format("{0} {1}", Model.last_name, Model.first_name)</strong>,<br />
+                Thanks for creating a profile with us, we are reviewing your profile and will get back to you as soon as possible.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+
+    </div>
+</div>

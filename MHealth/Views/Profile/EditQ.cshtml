@@ -1,0 +1,68 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model mp_profile
+@{
+    var appointment_type = (int)ViewBag.appointment_type;
+}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("ProfileInfo","Profile")">Profile</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Complete Questionaire</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <form asp-action="EditQ" asp-controller="Profile">
+
+            <input type="hidden" name="appointment_type" value="@ViewBag.appointment_type" />
+            <input type="hidden" name="appointment_category" value="@ViewBag.appointment_category" />
+            <input type="hidden" name="appointment_category_sub" value="@ViewBag.appointment_category_sub" />
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">Complete Questionaire</div>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="id" value="@Model.id" />
+                    <div class="form-group">
+                        <label class="control-label">What do you identify your self as?</label>
+                        @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", Model.gender), null, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">What is your religion?</label>
+                        @Html.DropDownList("religion", new SelectList(Options.Getlookups("religion"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">What tribe do you prefer to be identified as?</label>
+                        @Html.DropDownList("tribe", new SelectList(Options.Getlookups("tribe"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                    </div>
+                    @if (appointment_type == 2)
+                    {
+                        <div class="form-group">
+                            <label class="control-label">Please select your years of experience?</label>
+                            @Html.DropDownList("years_of_experience", new SelectList(Options.Getlookups("years_of_experience"), "id", "value", Model.gender), null, new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Which type of provider do you want?</label>
+                            @Html.DropDownList("counselor_preference", new SelectList(Options.Getlookups("counselor_preference"), "id", "value", Model.gender), null, new { @class = "form-control", @required = "required" })
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-success" type="submit">Update and Continue</button>
+            </div>
+
+        </form>
+    </div>
+</div>

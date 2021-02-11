@@ -1,0 +1,224 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model PaginatedList<mp_referral>
+@{
+    ViewBag.Title = "Referrals";
+}
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-12">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">Referrals</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-header text-info">
+                <div class="card-header-title">
+                    My Referrals
+                </div>
+                @if (User.IsInRole("clinician"))
+                {
+                    <div class="btn-actions-pane-right">
+                        <button type="button" onclick="new_referral()" class="btn btn-info">New Referral</button>
+                    </div>
+                    <form method="get" action="@Url.Action("Referrals","Referral")">
+                        <div class="btn-actions-pane-right" style="margin-left: 2%;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="search....." value="@ViewBag.query" name="query">
+                                <div class="input-group-append">
+                                    <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                }
+
+            </div>
+            <div class="card-body">
+                @if (User.IsInRole("clinician"))
+                {
+                    <div id="new_referral" style="display:none">
+                        <form asp-action="NewReferral" asp-controller="Referral" method="get">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Search for the member that you want to refer</label>
+                                        <select id="profile_id" class="form-control" name="profile_id" style="width:100%"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="submit">New Referral</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                }
+                <div class="table-responsive">
+                    @if (Model.Any())
+                    {
+
+                        <table class="align-middle mb-0 table table-condensed table-hover">
+                            <thead>
+                                <tr class="tb-dark">
+
+                                    <th>Provider</th>
+                                    <th>Member</th>
+                                    <th>Appointment type</th>
+                                    <th>Appointment category</th>
+                                    <th>Appointment activity</th>
+                                    <th>Referred by</th>
+                                    <th>Date referred</th>
+                                    @if (User.IsInRole("client"))
+                                    {
+                                        <th></th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var referral in Model)
+                                {
+                                    <tr class="tb-primary">
+
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <img width="40" class="rounded-circle" src="@Url.Action("get_profile_image","User",new { user_id = referral.clinician_.user_id })" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading"><a href="@Url.Action("Profile","Clinician",new { id = referral.clinician_.id })">@string.Format("{0} {1}", referral.clinician_.last_name, referral.clinician_.first_name)</a> </div>
+                                                        <div class="widget-subheading opacity-7">@(referral.clinician_.area_of_interest.HasValue ? Options.GetLookupName(referral.clinician_.area_of_interest.Value) : "")</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left mr-3">
+                                                        <div class="widget-content-left">
+                                                            <img width="40" class="rounded-circle" src="@Url.Action("get_profile_image","User",new { user_id = referral.profile_.user_id })" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading"><a href="@Url.Action("Profile","Clinician",new { id = referral.profile_.id })">@string.Format("{0} {1}", referral.profile_.last_name, referral.profile_.first_name)</a> </div>
+                                                        <div class="widget-subheading opacity-7">@referral.profile_.unique_id.ToString("D10")</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+
+                                        <td>@Options.GetAppointmentTypeName(referral.profile_match_.appointment_type_id)</td>
+                                        <td>@Options.GetAppointmentActivityName(referral.profile_match_.appointment_activity_id)</td>
+                                        <td>@Options.GetAppointmentSubActivityName(referral.profile_match_.appointment_activity_sub_id)</td>
+                                        <td>@ProfileUtil.get_profile_name(referral.created_by, "clinician")</td>
+
+                                        <td>@referral.created_at.ToString("dd MMM, yyyy hh:mm tt")</td>
+                                        @if (User.IsInRole("client"))
+                                        {
+                                            <td class="text-center">
+                                                <a href="@Url.Action("NewAppointment","Appointment",new { id = referral.profile_match_id })" class="btn btn-info">Book Appointment</a>
+                                            </td>
+                                        }
+
+
+                                    </tr>
+                                }
+
+
+
+
+                            </tbody>
+                        </table>
+
+
+
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                        <div style="margin-left:auto;margin-right:auto;margin-top:10px">
+                            <nav class="" aria-label="pagination">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a href="@Url.Action("Referrals","Referral",new {page=Model.PageIndex - 1})" class="page-link @prevDisabled" @prevDisabled aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+
+                                    <li class="page-item"><a href="@Url.Action("Referrals","Referral",new {page=Model.PageIndex + 1})" class="page-link @nextDisabled" @nextDisabled aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                    }
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/fn_table.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+
+        $('#profile_id').select2({
+            placeholder: 'Search by names or member id...',
+
+            ajax: {
+                url: function (params) {
+                    return "/api/profile/GetProfiles?query=" + params.term;
+                },
+                dataType: 'json',
+                quietMillis: 100,
+
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return { id: obj.id, text: obj.last_name + " " + obj.first_name + " - " + obj.unique_id.toString().padStart(10, '0') };
+                        })
+                    };
+                }
+
+            }
+        });
+
+        function new_referral() {
+            $("#new_referral").show();
+        }
+    </script>
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <style>
+        select {
+            height: 44px !important
+        }
+    </style>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+}

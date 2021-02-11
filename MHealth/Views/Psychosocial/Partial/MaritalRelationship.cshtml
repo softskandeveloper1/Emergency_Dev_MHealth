@@ -1,0 +1,113 @@
+@using MHealth.Helper;
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+    var gender_dropdown = ViewHelper.GetLookUpDropDown("gender");
+}
+<form id="marital_relationship_form">
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id"/>
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id"/>
+    <div class="position-relative row form-group">
+        <label class="col-sm-2" style="float: right;">Are You</label>
+        <div class="col-sm-10">                        
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status1" required value="1" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status1">Single</label>
+            </div>
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status2" required value="2" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status2">In a Relationship</label>
+            </div>
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status3" required value="3" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status3">Married</label>
+            </div> 
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status4" required value="4" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status4">Divorced</label>
+            </div> 
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status5" required value="5" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status5">Separated</label>
+            </div> 
+            <div class="custom-radio custom-control custom-control-inline">
+                <input type="radio" name="marital_status" id="marital_status6" required value="6" class="custom-control-input">
+                <label class="custom-control-label" for="marital_status6">Widowed</label>
+            </div> 
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="num_marriages" class="">How many times have you been married</label>
+                <input type="number" class="form-control" required name="num_marriages" id="num_marriages"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+           <div class="position-relative form-group">
+                <label for="" class="">Dates of previous marriages</label>
+                <textarea class="form-control" required ></textarea>
+            </div>
+        </div>                                      
+    </div>
+    <div class="form-row">
+        <div class="col-md-9">
+            <div class="position-relative form-group">
+                <label for="relationship_concern" class="">Do you have any concerns regarding your marriage or relationship</label>
+                <input type="text" class="form-control" required name="relationship_concern" id="relationship_concern"/>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="position-relative form-group">
+                <label for="effect_symptons" class="">Do you have any children</label>
+                 <select class="form-control" required asp-items="yes_no_dropdown" onchange="enableDisableTable('table_item', this.value)">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>  
+    </div>
+    <div>
+        <table class="table table-bordered" id="table_item">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Gender</td>
+                    <td>Date of Birth</td>
+                    <td><span class="btn btn-primary" onclick="add_row('table_item')"><i class="fa fa-plus"></i></span></td>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="name" class="form-control"></td>
+                        <td><select class="form-control" name="gender" asp-items="gender_dropdown"><option value="">--Select--</option></select></td>
+                        <td><input type="date" name="dob" class="form-control"></td>
+                        <td><span class="btn btn-danger" onclick="delete_row(this, 'table_item')"><i class="fa fa-trash"></i></span></td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="social_activities" class=""> Do you regularly engage in social activities </label>
+               <select class="form-control" name="social_activities" required id="social_activities" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>
+       <div class="col-md-6">
+            <div class="position-relative form-group">
+                <label for="support_network" class=""> Do you have a social support network </label>
+               <select class="form-control" name="support_network" required id="support_network" asp-items="yes_no_dropdown">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+        </div>     
+    </div>
+    <div class="marital-relationship-container">
+        <ol>
+        </ol>
+    </div>
+    <div class="d-block text-right card-footer">
+        <button type="button" id="marital_relationship_submit" class="mt-3 btn btn-success">Save and Continue</button>
+    </div>
+</form>

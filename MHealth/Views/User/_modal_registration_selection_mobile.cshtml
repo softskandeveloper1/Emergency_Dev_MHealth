@@ -1,0 +1,117 @@
+﻿@using  DAL.Utils;
+@{
+    var dount = 23;
+}
+
+
+<div class="modal fade" id="providerModal" tabindex="-1" role="dialog" aria-labelledby="providerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post" action="@Url.Action("NewApplicantMobile","Applicant")">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" style="color:white" id="providerModalLabel">PROVIDER REGISTRATION</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="div_provider_type">
+                        <label for="provider_type"  class="form-label">Are you registering as an individual provider, hospital or a clinic?</label>
+                        @Html.DropDownList("provider_type", new SelectList(Options.Getlookups("provider_type"), "id", "value", null), "Select...", new { @class = "form-control", @required = "required", id = "provider_type" })
+                    </div>
+
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">What type of service will you be providing? </label>
+                        @Html.DropDownList("appointment_type_id", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select ...", new { @class = "form-control", @required = "required", id = "appointment_type_id", @onchange = "load_appointment_activities('appointment_type_id','appointment_category_id')" })
+                    </div>
+                   
+                    <div class="position-relative form-group">
+                        <label class="form-label">What is the category of the service? </label>
+                        @*<select class="form-control" id="appointment_category_id" name="appointment_category_id" onchange="load_appointment_activities_sub('appointment_category_id','appointment_category_sub_id')" required></select>*@
+
+                        <select class="form-control" id="appointment_category_id" name="appointment_category_id" onchange="load_appointment_activities_sub_check('appointment_category_id','test')" required></select>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Please specify the class of service </label>
+                        @*<select class="form-control" id="appointment_category_sub_id" name="appointment_category_sub_id" required></select>*@
+                        <div id="test" style="border:1px #ccc solid; max-height:350px; overflow-y:scroll"></div>
+                    </div>
+
+
+
+
+                    @*<div class="form-group" id="div_area_of_interest" style="display:none">
+                        <label for="provider_type">What type of service will you be providing?</label>
+                        @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", null), "Select...", new { @class = "form-control", id = "area_of_interest" })
+                    </div>
+
+                    <div class="form-group" id="div_primary_care_type" style="display:none">
+                        <label for="provider_type">What type of primary care will you be providing?</label>
+                        @Html.DropDownList("primary_care_type", new SelectList(Options.Getlookups("primary_care_type"), "id", "value", null), "Select...", new { @class = "form-control", id = "primary_care_type" })
+                    </div>
+
+                    <div class="form-group" id="div_primary_care_specialty" style="display:none">
+                        <label for="provider_type">Which specialist care will you be intersted in providing?</label>
+                        @Html.DropDownList("primary_care_specialty", new SelectList(Options.Getlookups("primary_care_specialty"), "id", "value", null), "Select...", new { @class = "form-control", id = "primary_care_specialty" })
+                    </div>*@
+
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                    <button type="submit" class="btn btn-sm btn-primary">Continue</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="get" action="@Url.Action("RegisterMob","User")">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" style="color:white" id="clientModalLabel">MEMBER REGISTRATION</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">What type of appointment are you setting up? </label>
+                        @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select ...", new { @class = "form-control", @required = "required", id = "appointment_type", @onchange = "load_appointment_activities('appointment_type','appointment_category')" })
+                    </div>
+                    @*<div class="form-group" id="div_appointment_type">
+            <label for="appointment_type">Why are you here today? </label>
+            @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select...", new { @class = "form-control", @required = "required", id = "appointment_type" })
+
+        </div>*@
+                    <div class="position-relative form-group">
+                        <label class="form-label">What is the category of the appointment? </label>
+                        <select class="form-control" id="appointment_category" name="appointment_category" onchange="load_appointment_activities_sub('appointment_category','appointment_category_sub')" required></select>
+                    </div>
+
+                    <div class="position-relative form-group">
+                        <label class="form-label">Please specify the activity for the appointment </label>
+                        <select class="form-control" id="appointment_category_sub" name="appointment_category_sub" required></select>
+                    </div>
+
+                    <div class="form-group" id="div_appointment_category_sub_other" style="display:none">
+                        <label class="control-label">Please specifiy</label>
+                        <input type="text" name="appointment_category_sub_other" id="appointment_category_sub_other" class="form-control" />
+                    </div>
+
+                  
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                    <button type="submit" class="btn btn-sm btn-primary">Continue</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

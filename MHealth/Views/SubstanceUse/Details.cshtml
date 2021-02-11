@@ -1,0 +1,192 @@
+@model DAL.Models.mp_substance_use
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>mp_substance_use</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.profile_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.profile_id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tobacco)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tobacco)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tobacco_amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tobacco_amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tobacco_years)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tobacco_years)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.alcohol)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.alcohol)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.alcohol_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.alcohol_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.alcohol_freq)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.alcohol_freq)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.last_drink)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.last_drink)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.drink_amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.drink_amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.withdrawal_symptons)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.withdrawal_symptons)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.withdrawal_symptons_description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.withdrawal_symptons_description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.blackouts)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.blackouts)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.blackouts_freq)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.blackouts_freq)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.illicit_drugs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.illicit_drugs)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.drug_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.drug_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.drug_freq)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.drug_freq)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.date_of_last_use)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.date_of_last_use)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.substance_abuse_treatment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.substance_abuse_treatment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.agency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.agency)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.treatment_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.treatment_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.treatment_date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.treatment_date)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.support_programs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.support_programs)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.support_programs_description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.support_programs_description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.triggers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.triggers)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.triggers_description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.triggers_description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.use_legal_issues)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.use_legal_issues)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.legal_issues_description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.legal_issues_description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.created_by)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.created_by)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.created_at)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.created_at)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

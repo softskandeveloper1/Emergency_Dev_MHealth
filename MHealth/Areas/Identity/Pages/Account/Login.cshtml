@@ -1,0 +1,236 @@
+﻿@page
+@model LoginModel
+
+@using DAL.Utils
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "_Layout_guest";
+}
+
+
+
+
+@section styles{
+    <style>
+        body {
+            /*font-family: 'Tajawal';*/
+            background-color: white !important
+        }
+
+        /*#bg {
+            background: url(../../images/2.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }*/
+
+        body {
+            overflow-x: hidden
+        }
+
+        .carousel-indicators li {
+            background-color: green !important;
+        }
+
+        .carousel-indicators {
+            position: inherit;
+        }
+
+        .ad-slider {
+            margin: 10px;
+        }
+
+            .ad-slider > p {
+                /*color: white*/
+                font-size:1.2rem
+            }
+
+        a {
+            /*color: white*/
+
+        }
+
+        /*.card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            color: inherit;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid rgba(26,54,126,0.125);
+        }
+
+        .card-header, .card-title {
+            text-transform: uppercase;
+            color: white;
+            font-weight: bold;
+            font-size: .88rem;
+        }
+
+        .card {
+            background-color: rgba(0, 0, 0, 0.7);
+        }*/
+        .btn-lg{
+            font-size:1.2rem
+        }
+
+        h4 {
+            font-size: 2.5rem;
+        }
+    </style>
+}
+
+
+<section id="bg">
+    <div class="row">
+   
+        <div class="col-md-4 offset-md-4">
+            <div style="padding-bottom:200px">
+
+                <h3>New to MySpace MyTime?</h3>
+
+                <div class="dropdown">
+                    <button style="width: 100%; height:50px; font-size:1.2em" class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Get Started
+                    </button>
+                    <div class="dropdown-menu" style="width: 100%;" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="@Url.Action("reg_provider","User")">as a provider</a>
+                        <a class="dropdown-item" href="@Url.Action("reg_member","User")">as a member</a>
+                    </div>
+                </div>
+
+                <div class="card" style="display:none">
+                    <div class="card-body">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="ad-slider">
+
+                                        <p>New to MySpace MyTime?</p>
+                                        <a href="@Url.Action("reg_member","User")" class="mb-2 mr-2 btn btn-warning btn-lg btn-block">
+                                            Get Started
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="ad-slider">
+
+                                        <p>I am a provider and I want to provide support to people.</p>
+                                        <a href="@Url.Action("reg_provider","User")" class="mb-2 mr-2 btn btn-warning btn-lg btn-block">
+                                            Get Started
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:20px">
+                    <div class="card-header">
+                        <div class="card-header-title">Already a member? Login</div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="account" method="post">
+                            @*<h4>Use a local account to log in.</h4>*@
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.Email" class="sr-only" for="Email"></label>
+                                <input asp-for="Input.Email" class="form-control f1-email" placeholder="Email..." id="Email" style="height:44px" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.Password" class="sr-only" for="Password"></label>
+                                <input asp-for="Input.Password" class="form-control f1-password" id="Password" placeholder="Password..." style="height:44px" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.RememberMe">
+                                    <input style="width:13px" asp-for="Input.RememberMe" />
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </label>
+
+                                <div class="checkbox">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">Log in</button>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                                </p>
+                                @*<p>
+                            Don't have an account yet,
+                            <a class="btn btn-xs btn-success" href="@Url.Action("Register","User")">click here</a> to open your new account in just 30 seconds.
+
+                        </p>
+                        <p>
+                            Are you a clinician in the psychotherapy, psychiatry and primary care willing to join our team?
+                            <a class="btn btn-xs btn-warning" href="@Url.Action("NewApplicant","Applicant")">click here</a> to start the process of joining the team.
+
+                        </p>*@
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+@section scripts{
+    <script>
+        $('#appointment_type').on('change', function (e) {
+            if (this.value == 5) {
+                $("#div_therapy_type").show();
+            } else {
+                $("#div_therapy_type").hide();
+            }
+        });
+
+        $('#provider_type').on('change', function (e) {
+            if (this.value == 177) {
+                $("#div_area_of_interest").show();
+            } else {
+                $("#div_area_of_interest").hide();
+            }
+        });
+
+        $('#area_of_interest').on('change', function (e) {
+            if (this.value == 167) {
+                $("#div_primary_care_type").show();
+            } else {
+                $("#div_primary_care_type").hide();
+            }
+        });
+
+        $('#primary_care_type').on('change', function (e) {
+            if (this.value == 180) {
+                $("#div_primary_care_specialty").show();
+            } else {
+                $("#div_primary_care_specialty").hide();
+            }
+        });
+
+
+
+
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

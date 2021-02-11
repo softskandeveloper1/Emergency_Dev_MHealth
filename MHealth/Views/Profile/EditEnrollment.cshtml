@@ -1,0 +1,246 @@
+﻿@using DAL.Utils;
+@using DAL.Models;
+@model mp_enrollment;
+@{
+    ViewBag.Title = "Edit Questionaire";
+}
+
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <nav class="" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ProfileInfo","Profile")">Profile</a></li>
+                    <li class="active breadcrumb-item" aria-current="page">Edit Questionaire</li>
+
+                </ol>
+
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+      
+
+          
+
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <form asp-action="EditEnrollment" asp-controller="Profile">
+                        <div class="card-header">
+                            <div class="card-header-title">Edit Behavioral Questionaire</div>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" name="appointment_type" value="@ViewBag.appointment_type" />
+                            <input type="hidden" name="appointment_category" value="@ViewBag.appointment_category" />
+                            <input type="hidden" name="appointment_category_sub" value="@ViewBag.appointment_category_sub" />
+
+                            <div class="form-row">
+
+                                <input type="hidden" name="id" value="@Model.id" />
+                                <input type="hidden" name="profile_id" value="@Model.profile_id" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Do you consider yourself to be religious?</label>
+                                        @Html.DropDownList("religious", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.religious), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">What religion do you identify with? (Our counselors are from diverse backgrounds)</label>
+                                        @Html.DropDownList("religion", new SelectList(Options.Getlookups("religion"), "id", "value", Model.religion), "", new { @class = "form-control" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">What led you to seek help today?</label>
+                                        @Html.DropDownList("help_reason", new SelectList(Options.Getlookups("help_reason"), "id", "value", Model.help_reason), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Have you ever been in counseling or therapy before?</label>
+                                        @Html.DropDownList("earlier_counseling", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.earlier_counseling), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">How would you rate your current physical health?</label>
+                                        @Html.DropDownList("physical_health", new SelectList(Options.Getlookups("rating"), "id", "value", Model.physical_health), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">How would you rate your current eating habits?</label>
+                                        @Html.DropDownList("eating_habit", new SelectList(Options.Getlookups("rating"), "id", "value", Model.eating_habit), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">How would you rate your current sleeping habit?</label>
+                                        @Html.DropDownList("sleeping", new SelectList(Options.Getlookups("sleeping"), "id", "value", Model.sleeping), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Are you currently experiencing overwhelming sadness, grief, or depression?</label>
+                                        @Html.DropDownList("depression", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.depression), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <p>Over the last 2 weeks, how often have you been bothered by any of the following problems?</p>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Little interest or pleasure in doing things</label>
+                                        @Html.DropDownList("reduced_interest", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.reduced_interest), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Feeling down, depressed, or hopeless</label>
+                                        @Html.DropDownList("recent_depression", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.recent_depression), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Trouble falling or staying asleep, or sleeping too much</label>
+                                        @Html.DropDownList("sleeping_trouble", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.sleeping_trouble), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Feeling tired or having little energy</label>
+                                        @Html.DropDownList("tiredness", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.tiredness), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Poor appetite or overeating </label>
+                                        @Html.DropDownList("appetite", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.appetite), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Feeling bad about yourself — or that you are a failure or have let yourself or your family down</label>
+                                        @Html.DropDownList("feeling_bad", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.feeling_bad), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Trouble concentrating on things, such as reading the newspaper or watching television</label>
+                                        @Html.DropDownList("concentration_issue", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.concentration_issue), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Moving or speaking so slowly that other people could have noticed?  Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</label>
+                                        @Html.DropDownList("fidgety", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.fidgety), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Thoughts that you would be better off dead or of hurting yourself in some way </label>
+                                        @Html.DropDownList("suicidal", new SelectList(Options.Getlookups("rating_days"), "id", "value", Model.suicidal), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Why does today feel like the right time to begin counseling?</label>
+                                        @Html.DropDownList("today_feeling", new SelectList(Options.Getlookups("today_feeling"), "id", "value", Model.today_feeling), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Are you currently employed? </label>
+                                        @Html.DropDownList("employed", new SelectList(Options.Getlookups("employed"), "id", "value", Model.employed), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="control-label">How often do you drink alcohol?</label>
+                                        @Html.DropDownList("alcohol", new SelectList(Options.Getlookups("alcohol"), "id", "value", Model.alcohol), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Are you currently experiencing anxiety, panic attacks or phobias?</label>
+                                        @Html.DropDownList("anxiety", new SelectList(Options.Getlookups("yesno"), "id", "value", Model.anxiety), null, new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+      
+      </div>
+
+
+@section styles{ 
+<style>
+    .control-label{
+        font-weight:bold
+    }
+</style>
+}

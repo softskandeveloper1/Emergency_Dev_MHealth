@@ -1,0 +1,114 @@
+﻿@using DAL.Models;
+@model mp_appointment
+@{
+    ViewBag.Title = "Cancel Appointment";
+
+    var bank = (mp_profile_bank)ViewBag.bank;
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Cancel Appointment</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <partial name="_AlertPartial" />
+        <form asp-action="Cancel" asp-controller="Appointment" method="post">
+
+            <input type="hidden" name="appointment_id" value="@Model.id" />
+            @if (User.IsInRole("client"))
+            {
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header text-danger">
+                        <div class="card-header-title">
+                            Cancel Appointment
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info fade show" role="alert">Please confirm and update your account information that will be used to process your refund</div>
+
+
+                        @if (Model.mp_credit != null)
+                        {
+
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="form-label">Account name</label>
+                                    <input name="account_name" class="form-control" value="@bank.account_name" required>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="form-label">Account number</label>
+                                    <input name="account_number" class="form-control" value="@bank.account_number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label class="form-label">Name of bank</label>
+                                    <input name="bank_name" class="form-control" value="@bank.bank_name" required>
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="@bank.id" />
+                        }
+
+                        <div class="col-md-12">
+                            <div class="position-relative form-group">
+                                <label class="form-label">Please can you comment on why you want to cancel the appointment</label>
+                                <textarea class="form-control" name="comment"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-block text-center card-footer">
+                        @if (Model.status == 169 || Model.status == 234)
+                        {
+                            <button type="submit" class="btn-wide btn btn-danger">CANCEL APPOINTMENT</button>
+                        }
+                    </div>
+
+                </div>
+            }
+            else if (User.IsInRole("clinician"))
+            {
+
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header text-danger">
+                        <div class="card-header-title">
+                            Cancel Appointment
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Please can you comment on why you want to cancel the appointment</label>
+                            <textarea class="form-control" name="comment" required></textarea>
+                        </div>
+                    </div>
+                    <div class="d-block text-center card-footer">
+
+                        @if (Model.status == 169 || Model.status == 234)
+                        {
+                            <button type="submit" class="btn-wide btn btn-danger">CANCEL APPOINTMENT</button>
+                        }
+                    </div>
+                </div>
+
+
+            }
+
+
+        </form>
+
+  
+    </div>
+</div>

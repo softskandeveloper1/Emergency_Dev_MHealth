@@ -1,0 +1,499 @@
+@using MHealth.Helper;
+@{
+    var yes_no_na_dropdown = ViewHelper.GetLookUpDropDown("yesnona");
+}
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="head_brain_injury" class=""> Head/brain injuries or illnesses (e.g. Concussions) </label>
+            <select class="form-control" name="head_brain_injury" id="head_brain_injury" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="weight_loss" class="">Unexplained weight loss</label>
+            <select class="form-control" name="weight_loss" id="weight_loss" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select>                    
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="seizures" class="">Seizures, epilepsy </label>
+            <select class="form-control" name="seizures" id="seizures" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="stroke" class="">Stroke, Mini-stroke Paralysis or weakness</label>
+            <select class="form-control" name="stroke" id="stroke" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>                
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="eye_problems" class="">Eye problems </label>
+            <select class="form-control" name="eye_problems" id="eye_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="missing_use_of_arm" class="">Missing or limited use of arm, hand, finger, leg, foot, toe</label>
+            <select class="form-control" name="missing_use_of_arm" id="missing_use_of_arm" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hearing_problem" class="">Ear and or hearing problems</label>
+            <select class="form-control" name="hearing_problem" id="hearing_problem" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="heart_disease" class="">Heart disease, heart attack, bypass, or other heart problems</label>
+            <select class="form-control" name="heart_disease" id="heart_disease" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>  
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="tobacco_use" class="">Have you ever used or do you now use tobacco</label>
+            <select class="form-control" name="tobacco_use" id="tobacco_use" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fainting" class="">Fainting or passing out</label>
+            <select class="form-control" name="fainting" id="fainting" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="failed_drug_test" class="">Have you ever failed a drug test or been depend illegal substance</label>
+            <select class="form-control" name="failed_drug_test" id="failed_drug_test" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="uti" class="">UTI</label>
+            <select class="form-control" name="uti" id="uti" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fibrillation" class="">Atrial Fibrillation</label>
+            <select class="form-control" name="fibrillation" id="fibrillation" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="cirrhosis" class="">Cirrhosis</label>
+            <select class="form-control" name="cirrhosis" id="cirrhosis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="copd" class="">COPD</label>
+            <select class="form-control" name="copd" id="copd" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="diabetes_meletus" class="">Diabetes Meletus</label>
+            <select class="form-control" name="diabetes_meletus" id="diabetes_meletus" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hyperlipidemia" class="">Hyperlipidemia</label>
+            <select class="form-control" name="hyperlipidemia" id="hyperlipidemia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hypothyroidism" class="">Hypothyroidism</label>
+            <select class="form-control" name="hypothyroidism" id="hypothyroidism" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="oa_djd" class="">OA or DJD</label>
+            <select class="form-control" name="oa_djd" id="oa_djd" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="parkinson_disease" class="">Parkinson’s Disease</label>
+            <select class="form-control" name="parkinson_disease" id="parkinson_disease" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="bone_problems" class="">Bone, Muscle, Joint, or nerve problems</label>
+            <select class="form-control" name="bone_problems" id="bone_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="heart_procedures" class="">Pacemaker, stents, Implantable devices, or other heart procedures</label>
+            <select class="form-control" name="heart_procedures" id="heart_procedures" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="bleeding_problems" class="">Blood clots or bleeding problems</label>
+            <select class="form-control" name="bleeding_problems" id="bleeding_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="chronic_disease" class="">Chronic (long-term) infection or other chronic diseases</label>
+            <select class="form-control" name="chronic_disease" id="chronic_disease" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hbp" class="">High blood pressure</label>
+            <select class="form-control" name="hbp" id="hbp" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="high_cholesterol" class="">High cholesterol</label>
+            <select class="form-control" name="high_cholesterol" id="high_cholesterol" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="cancer" class="">Cancer</label>
+            <select class="form-control" name="cancer" id="cancer" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="sleep_disorders" class="">Sleep disorders, pauses in breathing while asleep</label>
+            <select class="form-control" name="sleep_disorders" id="sleep_disorders" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="mental_health_problems" class="">Anxiety, depression, nervousness, other mental health problems</label>
+            <select class="form-control" name="mental_health_problems" id="mental_health_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="illegal_drug_use" class="">Have you used an illegal substance with the past 2 yrs</label>
+            <select class="form-control" name="illegal_drug_use" id="illegal_drug_use" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="neck_problems" class="">Neck or back problems</label>
+            <select class="form-control" name="neck_problems" id="neck_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="cad" class="">CAD</label>
+            <select class="form-control" name="cad" id="cad" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ckd" class="">CKD</label>
+            <select class="form-control" name="ckd" id="ckd" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="cvs_tia" class="">CVS/TIA</label>
+            <select class="form-control" name="cvs_tia" id="cvs_tia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gerd" class="">GERD</label>
+            <select class="form-control" name="gerd" id="gerd" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hypertention" class="">Hypertension</label>
+            <select class="form-control" name="hypertention" id="hypertention" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="incontinence" class="">Incontinence</label>
+            <select class="form-control" name="incontinence" id="incontinence" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="obesity" class="">Obesity</label>
+            <select class="form-control" name="obesity" id="obesity" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="prostate" class="">Prostate</label>
+            <select class="form-control" name="prostate" id="prostate" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="sleep_test" class="">Have you ever had a sleep test</label>
+            <select class="form-control" name="sleep_test" id="sleep_test" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="kidney_probems" class="">Kidney problems, kidney stones, or pain/problems with urination</label>
+            <select class="form-control" name="kidney_probems" id="kidney_probems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="spent_a_night_in_hospital" class="">Have you ever spent a night in the hospital</label>
+            <select class="form-control" name="spent_a_night_in_hospital" id="spent_a_night_in_hospital" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="chronic_cough" class="">Chronic cough, shortness of breath, or other breathing problems</label>
+            <select class="form-control" name="chronic_cough" id="chronic_cough" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="digestive_problems" class="">Stomach, liver, or digestive problems</label>
+            <select class="form-control" name="digestive_problems" id="digestive_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="had_broken_bone" class="">Have you ever had a broken bone</label>
+            <select class="form-control" name="had_broken_bone" id="had_broken_bone" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="lung_disease" class="">Lung disease</label>
+            <select class="form-control" name="lung_disease" id="lung_disease" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="sugar_problems" class="">Diabetes or blood sugar problems</label>
+            <select class="form-control" name="sugar_problems" id="sugar_problems" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="drink_alchohol" class="">Do you currently drink alcohol</label>
+            <select class="form-control" name="drink_alchohol" id="drink_alchohol" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="memory_loss" class="">Dizziness, headaches, numbness, tingling, or memory loss</label>
+            <select class="form-control" name="memory_loss" id="memory_loss" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="asthma" class="">Asthma</label>
+            <select class="form-control" name="asthma" id="asthma" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="chf" class="">CHF</label>
+            <select class="form-control" name="chf" id="chf" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="constipation" class="">Constipation</label>
+            <select class="form-control" name="constipation" id="constipation" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="dementia" class="">Dementia</label>
+            <select class="form-control" name="dementia" id="dementia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gout" class="">Gout</label>
+            <select class="form-control" name="gout" id="gout" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="hyperthyroidism" class="">Hyperthyroidism</label>
+            <select class="form-control" name="hyperthyroidism" id="hyperthyroidism" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="multiple_selerosis" class="">Multiple Sclerosis</label>
+            <select class="form-control" name="multiple_selerosis" id="multiple_selerosis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="osteoporosis" class="">Osteoporosis</label>
+            <select class="form-control" name="osteoporosis" id="osteoporosis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="tbi" class="">TBI</label>
+            <select class="form-control" name="tbi" id="tbi" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>

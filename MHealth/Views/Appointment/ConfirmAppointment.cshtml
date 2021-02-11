@@ -1,0 +1,185 @@
+﻿@using DAL.Models
+@model mp_appointment;
+@using DAL.Utils;
+@using MHealth.Data;
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@inject UserManager<ApplicationUser> _userManager;
+@{
+    ViewData["Title"] = "Confirm Appointment";
+    var service_cost = (mp_service_costing)ViewBag.service_cost;
+    var publicKey = Configuration.GetSection("PayStackSettings")["PublicKey"];
+    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+    decimal cost = 0;
+    if (service_cost != null)
+    {
+        cost = service_cost.cost;
+    }
+
+}
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">Make payment</li>
+            </ol>
+
+        </nav>
+    </div>
+
+</div>
+
+@if (Model != null)
+{
+
+    <partial name="_AlertPartial" />
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    Make Payment
+                </div>
+                <form asp-controller="Appointment" asp-action="ConfirmAppointment" method="post" id="frm_confirmation">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Clinician</label>
+                            <input type="text" class="form-control" value="@(Model.clinician_.first_name + " " + Model.clinician_.last_name)" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">What type of appointment are you setting up? </label>
+                            @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", Model.appointment_type), null, new { @class = "form-control", @disabled = "disabled" })
+                        </div>
+
+                        @*<div class="form-group">
+                                <label class="form-label">What is the category of the appointment? </label>
+
+                                @Html.DropDownList("appointment_category", new SelectList(Options.GetAppointmentActivities(Model.appointment_type_id), "id", "name", Model.appointment_activity_id), null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Please specify the activity for the appointment </label>
+                                @Html.DropDownList("appointment_category_sub", new SelectList(Options.GetAppointmentSubActivities(Model.appointment_activity_id), "id", "name", Model.appointment_activity_sub_id), null, new { @class = "form-control", @disabled = "disabled" })
+
+                            </div>*@
+
+                        <input type="hidden" name="transaction_reference" id="transaction_reference" />
+
+                        <input type="hidden" id="clinician_id" value="@Model.clinician_id" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Select your service</label>
+                                    @Html.DropDownList("appointment_service", new SelectList(Options.GetAppointmentServices(), "id", "name", Model.appointment_service), null, new { @class = "form-control", @required = "required", id = "appointment_service", @disabled = "disabled" })
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="col-12">
+                                    <label class="form-label">Provider cost for selected service</label>
+                                </div>
+                                <div class="position-relative form-group input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">@("N")</span></div>
+                                    <input type="hidden" name="appointment_id" id="appointment_id" value="@Model.id" />
+                                    <input name="amount" type="number" id="amount" class="form-control" value="@cost" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-block text-center card-footer">
+                        @if (cost != 0)
+                        {
+                            <button class="btn-wide btn btn-primary" type="button" onclick="payWithPaystack()">@string.Format("Pay {0}", cost)</button>
+                        }
+
+                        <div class="dropdown" style="display:none">
+                            <button class="btn btn-success btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Pay and Continue appointment
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <button class="dropdown-item" type="button">Pay using your HMO</button>
+                                <button type="button" class="dropdown-item" onclick="payWithPaystack()">Pay directly</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="mb-3 text-center card card-body">
+                <h5 class="card-title">Error Encountered</h5>Looks like something went wrong with you appointment, please retry.
+                <a class="btn btn-danger text-white mt-3" asp-controller="Profile" asp-action="Clinicians">Try Again</a>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+
+
+@section scripts{
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        function payWithPaystack() {
+            var handler = PaystackPop.setup({
+                key: '@publicKey',
+                email: '@user.Email',
+                amount: $("#amount").val() * 100,
+                ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "AppointmentId",
+                            variable_name: "appointment_id",
+                            value: $("#appointment_id").val()
+                        }
+                    ]
+                },
+                callback: function (response) {
+                    if (response.status == "success") {
+                        $("#transaction_reference").val(response.reference);
+                        $("#frm_confirmation").submit();
+                    } else {
+                        alert(response.Message)
+                    }
+
+                },
+                onClose: function () {
+                    //alert('window closed');
+                }
+            });
+            handler.openIframe();
+        }
+
+        function get_clinician_cost() {
+            $.ajax({
+                type: "GET",
+                url: "/api/servicecost/GetClinicianServiceCost?appointment_type_id="+$("#appointment_type").val()+"&service_id="+$("#appointment_service").val()+"&clinician_id="+$("#clinician_id").val(),
+
+                success: function (data) {
+                    if (data != null) {
+                        $("#amount").val(data.cost);
+                    }
+                }
+            });
+        }
+    </script>
+}

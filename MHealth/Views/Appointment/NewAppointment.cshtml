@@ -1,0 +1,342 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@using Microsoft.Extensions.Configuration
+@using MHealth.Data;
+@using Microsoft.EntityFrameworkCore;
+@inject UserManager<ApplicationUser> _userManager;
+@inject IConfiguration Configuration
+@model mp_profile_match
+@{
+    ViewBag.Title = "New Appointment";
+    var days = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    var schedules = (IEnumerable<mp_clinician_availability>)ViewBag.schedules;
+    var publicKey = Configuration.GetSection("PayStackSettings")["PublicKey"];
+    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                <li class="active breadcrumb-item" aria-current="page">New Appointment</li>
+            </ol>
+
+        </nav>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <partial name="_AlertPartial" />
+
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header text-info">
+                <div class="card-header-title">
+                    Provider Information
+                </div>
+                <ul class="nav">
+                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-0" class="active nav-link">Profile</a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#tab-eg5-1" class="nav-link">Availability</a></li>
+                    @*<li class="nav-item"><a data-toggle="tab" href="#tab-eg5-2" class="nav-link">Tab 3</a></li>*@
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center">
+
+
+                                    <div class="circular_image">
+                                        <img src="@Url.Action("get_profile_image","User",new { user_id = Model.clinician_.user_id })" alt="avatar">
+                                    </div>
+                                    <h6>@string.Format("{0} {1}", Model.clinician_.last_name, Model.clinician_.first_name)</h6>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8">
+                                <h6>About</h6>
+                                <p>
+                                    @Model.clinician_.about
+                                </p>
+                                @if (Model.clinician_.education_level.HasValue)
+                                {
+                                    <h6>
+                                        Education
+                                    </h6>
+                                    <p>
+                                        @Options.GetLookupName(Model.clinician_.education_level.Value)
+                                    </p>
+                                }
+                                @if (Model.clinician_.area_of_interest.HasValue)
+                                {
+                                    <h6>
+                                        Area of Interset
+                                    </h6>
+                                    <p>
+                                        @Options.GetLookupName(Model.clinician_.area_of_interest.Value)
+                                    </p>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-eg5-1" role="tabpanel">
+
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var schedule in schedules.OrderBy(x => x.start_time))
+                                {
+                                    // var day_value = schedules.FirstOrDefault(e => e.day_name == day);
+                                    //if (day_value != null)
+                                    //{
+                                    <tr>
+                                        <th>@schedule.day_name @schedule.start_time.ToString("dd MMM, yyyy")</th>
+                                        <td>@schedule.start_time.ToString("hh:mm tt")</td>
+                                        <td>@schedule.end_time.ToString("hh:mm tt")</td>
+
+                                    </tr>
+                                    @* } *@
+                                    @*else
+                                        {
+                                            <tr>
+                                                <th>@day</th>
+
+                                                <td></td>
+                                                <td></td>
+
+                                            </tr>
+                                        }*@
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card mb-3">
+            <form asp-action="NewAppointment" asp-controller="Appointment">
+                <input type="hidden" name="profile_match" value="@Model.id" />
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        Appointment Information
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">What type of appointment are you setting up? </label>
+                                @Html.DropDownList("appointment_type_id", new SelectList(Options.GetAppointmentTypes(), "id", "name", Model.appointment_type_id), null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                            <input type="hidden" name="appointment_type" id="appointment_type" value="@Model.appointment_type_id" />
+                            <input type="hidden" name="appointment_activity_id" value="@Model.appointment_activity_id" />
+                            <input type="hidden" name="appointment_activity_sub_id" value="@Model.appointment_activity_sub_id" />
+                            <div class="form-group">
+                                <label class="form-label">What is the category of the appointment? </label>
+
+                                @Html.DropDownList("appointment_activity", new SelectList(Options.GetAppointmentActivities(Model.appointment_type_id), "id", "name", Model.appointment_activity_id), null, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Please specify the activity for the appointment </label>
+                                @Html.DropDownList("appointment_category_sub", new SelectList(Options.GetAppointmentSubActivities(Model.appointment_activity_id), "id", "name", Model.appointment_activity_sub_id), null, new { @class = "form-control", @disabled = "disabled", @id = "appointment_category_sub" })
+
+                            </div>
+                            <input type="hidden" name="clinician_id" id="clinician_id" value="@Model.clinician_id" />
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Select your service</label>
+                                        @Html.DropDownList("appointment_service", new SelectList(Options.GetAppointmentServices(Model.appointment_activity_sub_id), "id", "name", null), "Select service...", new { @class = "form-control", @required = "required", id = "appointment_service", @onchange = "get_clinician_cost()" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @*<div class="form-group">
+                                            <label class="form-label">Provider cost for selected service</label>
+                                            <input type="text" class="form-control" name="cost" id="cost" value="&#8358; 5000" readonly />
+                                        </div>*@
+
+
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <div class="col-12">
+                                                <label class="form-label">Provider cost for selected service</label>
+                                            </div>
+                                            <div class="position-relative form-group input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text">&#8358;</span></div>
+
+                                                <input name="cost" type="number" id="cost" class="form-control" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Select the date for the appointment</label>
+                                        <div id="datepicker1" class="input-group date" data-date-format="mm-dd-yyyy">
+                                            <input class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" name="date" required style="border-radius:.25rem !important" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">What time do you want the session to start?</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times"></i></span></div>
+                                            <input name="time" type="text" required class="form-control  timepicker" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-block text-center card-footer">
+
+                    <div class="dropdown" style="display:none">
+                        <button class="btn btn-success btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pay and Book appointment
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" type="button">Pay using your HMO</button>
+                            <button type="button" class="dropdown-item" onclick="payWithPaystack()">Pay directly</button>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn-wide btn btn-success">Book appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css">
+    @*<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet">*@
+    <style>
+        h6 {
+            font-weight: bold;
+            color: black
+        }
+
+        input, select {
+            font-size: 0.8rem !important
+        }
+    </style>
+}
+
+@section scripts{
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+
+        function payWithPaystack() {
+            var handler = PaystackPop.setup({
+                key: '@publicKey',
+                email: '@user.Email',
+                amount: 10000,
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Mobile Number",
+                            variable_name: "mobile_number",
+                            value: "+2348012345678"
+                        }
+                    ]
+                },
+                callback: function (response) {
+                    alert('success. transaction ref is ' + response.reference);
+                },
+                onClose: function () {
+                    alert('window closed');
+                }
+            });
+            handler.openIframe();
+        }
+
+
+        function get_clinician_cost() {
+            $.ajax({
+                type: "GET",
+                url: "/api/ServiceCost/GetClinicianServiceCost?appointment_activity_sub_id=" + $("#appointment_category_sub").val() + "&service_id=" + $("#appointment_service").val() + "&clinician_id=" + $("#clinician_id").val(),
+
+                success: function (data) {
+                    if (data != null) {
+                        $("#cost").val(data.cost);
+                    } else {
+                        $("#cost").val(0);
+                    }
+                }
+            });
+
+            //url: "/api/ServiceCost/GetClinicianServiceCost?appointment_type_id="+$("#appointment_type").val()+"&service_id="+$("#appointment_service").val()+"&clinician_id="+$("#clinician_id").val(),
+
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+
+
+
+        });
+
+        $(function () {
+            $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 15,
+                minTime: '1',
+                maxTime: '12:00pm',
+                // defaultTime: '11',
+                startTime: '7:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                zindex: 9999999
+            });
+            // datepicker('update', new Date());
+        });
+    </script>
+
+}

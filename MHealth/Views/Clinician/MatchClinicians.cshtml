@@ -1,0 +1,141 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model IQueryable<mp_clinician>
+@{
+}
+
+<style>
+    .circular_image {
+        width: 50%;
+        height: 50%;
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc
+    }
+
+        .circular_image img {
+            width: 100%;
+        }
+</style>
+<input type="hidden" name="clinician_id" id="clinician_id" />
+@if (Model.Any())
+{
+    foreach (var clinician in Model)
+    {
+        <div class="col-md-12">
+            <div class="contact-box center-version">
+                <div class="tab-content text-center">
+                    <div class="tab-pane active" id="profile_@clinician.id">
+                        <div>
+                            @*<img alt="image" class="img-circle" src="@Url.Action("get_profile_image","User",new {user_id=clinician.user_id})">*@
+                            <div class="text-center">
+                                <div class="circular_image">
+                                    <img src="@Url.Action("get_profile_image","User",new {user_id=clinician.user_id})" alt="avatar">
+                                </div>
+                            </div>
+                         
+                            <h3 class="m-b-xs"><strong>@string.Format("{0} {1}", clinician.last_name, clinician.first_name)</strong></h3>
+
+                            <div class="font-bold">@Options.GetLookupName(clinician.area_of_interest.Value)</div>
+                            <address class="m-t-md" style="margin:5px">
+                                @clinician.about
+                            </address>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="availability_@clinician.id">
+                        <div class="">
+                            <div class="">
+                                <label class="chart_title">Monday</label>
+                                <div class="container" style="padding-left:0;padding-right:0">
+                                    <div class="skills html">8am to 10pm</div>
+                                </div>
+
+                                <label class="chart_title">Tuesday</label>
+                                <div class="container" style="padding-left:0;padding-right:0">
+                                    <div class="skills css">6am to 6pm</div>
+                                </div>
+
+                                <label class="chart_title">Wednesday</label>
+                                <div class="container" style="padding-left:0;padding-right:0">
+                                    <div class="skills js">11am to 5pm</div>
+                                </div>
+
+                                <label class="chart_title">Thursday</label>
+                                <div class="container" style="padding-left:0;padding-right:0">
+                                    <div class="skills php">11am to 3pm</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-next" style="margin:10px;padding:10px" onclick="add_clinician('@clinician.id')">Select</button>
+                </div>
+
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="#profile_@clinician.id" style="margin-top:0" data-toggle="tab" class="btn btn-xs btn-white"><i class="fa fa-user"></i> Profile </a>
+                        <a href="#availability_@clinician.id" style="margin-top:0" data-toggle="tab" class="btn btn-xs btn-white"><i class="fa fa-calendar"></i> Availability</a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+
+<script>
+    jQuery(document).ready(function () {
+          // next step
+    $('.btn-next').on('click', function() {
+    	var parent_fieldset = $(this).parents('fieldset');
+    	var next_step = true;
+    	// navigation steps / progress steps
+    	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+    	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+    	
+    	// fields validation
+    	parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+    		if( $(this).val() == "" ) {
+    			$(this).addClass('input-error');
+    			next_step = false;
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
+    	// fields validation
+    	
+    	if( next_step ) {
+    		parent_fieldset.fadeOut(400, function() {
+    			// change icons
+    			current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+    			// progress bar
+    			bar_progress(progress_line, 'right');
+    			// show next step
+	    		$(this).next().fadeIn();
+	    		// scroll window to beginning of the form
+    			scroll_to_class( $('.f1'), 20 );
+	    	});
+    	}
+    	
+    });
+    });
+
+    function add_clinician(id) {
+        $("#clinician_id").val(id);
+        hide_info();
+    }
+</script>
+

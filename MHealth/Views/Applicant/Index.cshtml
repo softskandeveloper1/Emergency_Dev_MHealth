@@ -1,0 +1,117 @@
+@using MHealth.Helper;
+@using DAL.Models;
+@model IEnumerable<mp_applicant>
+@{
+    ViewData["Title"] = "Applicants";
+    var lookups = ViewHelper.GetAllLookUps();
+
+    var dic_table_status = new Dictionary<string, string>();
+    dic_table_status.Add("Pending", "tb-primary");
+    dic_table_status.Add("Awaiting Interview", "tb-info");
+    dic_table_status.Add("Hired", "tb-success");
+    dic_table_status.Add("Incomplete", "tb-warning");
+    dic_table_status.Add("Stopped", "tb-danger");
+
+
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="pe-7s-news-paper icon-gradient bg-grow-early">
+                </i>
+            </div>
+            <div>
+                Applicants
+                <div class="page-title-subheading">
+                    All clinicians that have applied
+                </div>
+            </div>
+        </div>
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        {
+            @await Html.PartialAsync("../Shared/_quick_nav")
+        }
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div class="card-header">All Applicants
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm btn-group">
+                        <button class="active btn btn-focus">All</button>
+                        <button class="btn btn-focus">
+                            Incomplete
+                        </button>
+                        <button class="btn btn-focus">Pending</button>
+                        <button class="btn btn-focus">Hired</button>
+                        <button class="btn btn-focus">Awaiting Interview</button>
+                        <button class="btn btn-focus">Stopped</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="align-middle mb-0 table table-borderless table-striped">
+                        <thead>
+                            <tr class="tb-dark">
+                                @* <th class="text-center">#</th> *@
+                                <th>Name</th>
+                                <th class="text-center">Phone</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Country</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Registration Progress</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                
+                                <tr class="@dic_table_status.FirstOrDefault(e=>e.Key==item.statusNavigation.value).Value">
+                                    @* <td class="text-center text-muted">#</td> *@
+                                    <td>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                @*<div class="widget-content-left mr-3">
+                                                    <div class="widget-content-left">
+                                                        <img width="40" class="rounded-circle" src="@Url.Action("get_applicant_image","Applicant",new {applicant_id=item.id})" alt="">
+                                                    </div>
+                                                </div>*@
+                                                <div class="widget-content-left flex2">
+                                                    <div class="widget-heading"><a href="@Url.Action("Applicant","Applicant",new { id = item.id })"> @item.GetApplicantFullName()</a></div>
+                                                    <div class="widget-subheading opacity-7">@(item.gender == 1 ? "Male" : "Female"), @item.countryNavigation.name, @item.stateNavigation?.name</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@item.phone</td>
+                                    <td class="text-center">@item.email</td>
+                                    <td class="text-center">@item.countryNavigation.name</td>
+                                    <td class="text-center">
+                                        @item.statusNavigation.value
+                                    </td>
+                                    <td class="text-center">
+                                      
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Applicant" asp-route-id="@item.id" class="btn btn-primary btn-sm">Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           
+           
+        </div>
+    </div>
+</div>
+
+@section styles{ 
+<link href="~/css/table.css" type="text/css" rel="stylesheet" />
+
+}

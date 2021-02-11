@@ -1,0 +1,423 @@
+﻿@model DAL.Models.mp_couple_intake
+@using DAL.Utils;
+
+@{
+
+    ViewData["Title"] = "Couple Intake";
+    Layout = "_Layout_guest";
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+
+            <div>
+                Couple Counselling
+                <div class="page-title-subheading">
+                    Initial Intake Form
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">New Couple</h5>
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="partner_name" class="control-label">Partner Name</label>
+                                <input asp-for="partner_name" class="form-control">
+                                <span asp-validation-for="partner_name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="length_of_relationship" class="control-label">Length of time in current relationship</label>
+                                <input asp-for="length_of_relationship" class="form-control">
+                                <span asp-validation-for="length_of_relationship" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="counseling_reason" class="control-label">Reason for opting for counselling</label>
+                                <input asp-for="counseling_reason" class="form-control">
+                                <span asp-validation-for="counseling_reason" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="counselling_expectation" class="control-label">What do you hope to accomplish through counselling</label>
+                                <input asp-for="counselling_expectation" class="form-control">
+                                <span asp-validation-for="counselling_expectation" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="action_towards_issues" class="control-label">What have you already done to deal with the difficulties?</label>
+                                <input asp-for="action_towards_issues" class="form-control">
+                                <span asp-validation-for="action_towards_issues" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="biggest_strength" class="control-label">What are your biggest strengths as a couple?</label>
+                                <input asp-for="biggest_strength" class="form-control" />
+                                <span asp-validation-for="biggest_strength" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="relationship_happiness_rating" class="form-label">Please rate your current level of relationship happiness based on your current feelings about the relationship</label>
+
+                                <select asp-for="relationship_happiness_rating" class="form-control">
+
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+
+                                <span asp-validation-for="relationship_happiness_rating" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="improvement_suggestion" class="control-label">
+                                    Please suggest something you could personally do to improve the
+                                    relationship regardless of what your partner does.
+                                </label>
+                                <input asp-for="improvement_suggestion" type="text" class="form-control" style="width:100%;" />
+
+                                <span asp-validation-for="improvement_suggestion" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling" class="form-label">Have you received prior couples counseling related to any of the above problems</label>
+                                <select asp-for="earlier_counselling" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="earlier_counselling" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_when" class="control-label">If yes, when:</label>
+                                <input type="date" name="earlier_counselling_when" class="form-control" />
+                                <span asp-validation-for="earlier_counselling_when" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_where" class="control-label">Where:</label>
+                                <input asp-for="earlier_counselling_where" class="form-control" />
+                                <span asp-validation-for="earlier_counselling_where" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_whom" class="control-label">By whom:</label>
+                                <input asp-for="earlier_counselling_whom" class="form-control" />
+                                <span asp-validation-for="earlier_counselling_whom" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_length" class="control-label">Length of treatment:</label>
+                                <input asp-for="earlier_counselling_length" class="form-control" />
+                                <span asp-validation-for="earlier_counselling_length" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_problems_treated" class="control-label">Problems treated:</label>
+                                <input asp-for="earlier_counselling_problems_treated" class="form-control" />
+                                <span asp-validation-for="earlier_counselling_problems_treated" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="earlier_counselling_outcome" class="control-label">What was the outcome ?</label>
+                                <select asp-for="earlier_counselling_outcome" class="form-control">
+
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="earlier_counselling_outcome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="individual_counselling" class="control-label">Have either you or your partner been in individual counseling before?</label>
+                                <select asp-for="individual_counselling" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="individual_counselling" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="position-relative form-group">
+                                <label asp-for="individual_counselling_summary" class="control-label">If so, give a brief summary of concerns that you addressed.</label>
+                                <textarea asp-for="individual_counselling_summary" class="form-control"></textarea>
+                                <span asp-validation-for="individual_counselling_summary" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <label asp-for="drink_alcohol" class="control-label">Do either you or your partner drink alcohol to intoxication or take drugs to intoxication?</label>
+                            <select asp-for="drink_alcohol" class="form-control">
+                                <option value="1">No</option>
+                                <option value="2">Yes</option>
+                            </select>
+                            <span asp-validation-for="drink_alcohol" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="position-relative form-group">
+                                <label asp-for="drink_alcohol_summary" class="control-label">If yes for either, who, how often and what drugs or alcohol?</label>
+                                <textarea asp-for="drink_alcohol_summary" class="form-control"></textarea>
+                                <span asp-validation-for="drink_alcohol_summary" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label asp-for="violence" class="control-label">
+                                    Have either of you struck, physically restrained, used violence against or injured
+                                    the other person?
+                                </label>
+                                <select asp-for="violence" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="violence" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="position-relative form-group">
+                                <label asp-for="violence_summary" class="control-label">If yes for either, who, how often and what happened.</label>
+                                <textarea asp-for="violence_summary" class="form-control"></textarea>
+                                <span asp-validation-for="violence_summary" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="threatened_divorce" class="control-label">
+                                    Has either of you threatened to separate or divorce (if married) as a result of the current relationship problems?
+                                </label>
+                                <select asp-for="threatened_divorce" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="threatened_divorce" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="threatened_divorce_who" class="control-label">
+                                    If yes, who?
+                                </label>
+                                <select asp-for="threatened_divorce_who" class="form-control">
+                                    <option value="1">Me</option>
+                                    <option value="2">Partner</option>
+                                    <option value="3">Both of us</option>
+                                </select>
+                                <span asp-validation-for="threatened_divorce_who" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="consulted_lawyer" class="control-label">
+                                    If married, have either you or your partner consulted with a lawyer about divorce?
+                                </label>
+                                <select asp-for="consulted_lawyer" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="consulted_lawyer" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="consulted_lawyer_who" class="control-label">
+                                    If yes, who?
+                                </label>
+                                <select asp-for="consulted_lawyer_who" class="form-control">
+                                    <option value="1">Me</option>
+                                    <option value="2">Partner</option>
+                                    <option value="3">Both of us</option>
+                                </select>
+                                <span asp-validation-for="consulted_lawyer_who" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="withdrawal_from_relationship" class="control-label">
+                                    Do you perceive that either you or your partner has withdrawn from the relationship?
+                                </label>
+                                <select asp-for="withdrawal_from_relationship" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                                <span asp-validation-for="withdrawal_from_relationship" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="withdrawal_from_relationship_who" class="control-label">
+                                    If yes, who?
+                                </label>
+                                <select asp-for="withdrawal_from_relationship_who" class="form-control">
+                                    <option value="1">Me</option>
+                                    <option value="2">Partner</option>
+                                    <option value="3">Both of us</option>
+                                </select>
+                                <span asp-validation-for="withdrawal_from_relationship_who" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label asp-for="sexual_relationship" class="control-label">
+                                    How frequently have you had sexual relations during the last month?
+                                </label>
+                                <input type="number" min="0" name="sexual_relationship" class="form-control" />
+                                <span asp-validation-for="sexual_relationship" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group range-slider">
+                                <label asp-for="sexual_rel_enjoyment" class="control-label">
+                                    How enjoyable is your sexual relationship? (rate from 1 to 10)
+                                </label>
+                                <div>
+                                    <span class="float-left">(extremely unpleasant)</span>
+                                    <span class="float-right pr-5">(extremely pleasant)</span>
+                                </div>
+                                <input type="range" name="sexual_rel_enjoyment" max="10" min="0" step="1" value="0" class="range-slider__range" />
+
+                                <span class="range-slider__value">0</span>
+                                <span asp-validation-for="sexual_rel_enjoyment" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group range-slider">
+                                <label asp-for="satified_with_sexual_rel_freq" class="control-label">
+                                    How satisfied are you with the frequency of your sexual relations? (rate from 1 to 10)
+                                </label>
+                                <div>
+                                    <span class="float-left">(extremely unsatisfied)</span>
+                                    <span class="float-right pr-5">(extremely satisfied)</span>
+                                </div>
+                                <input type="range" name="satified_with_sexual_rel_freq" max="10" min="0" step="1" value="0" class="range-slider__range" />
+
+                                <span class="range-slider__value">0</span>
+                                <span asp-validation-for="satified_with_sexual_rel_freq" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group range-slider">
+                                <label asp-for="stress_level" class="control-label">
+                                    What is your current level of stress (overall)? (rate from 1 to 10)
+                                </label>
+                                <div>
+                                    <span class="float-left">(no stress)</span>
+                                    <span class="float-right pr-5">(high stress)</span>
+                                </div>
+                                <input type="range" name="stress_level" max="10" min="0" step="1" value="0" class="range-slider__range" />
+
+                                <span class="range-slider__value">0</span>
+                                <span asp-validation-for="stress_level" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label asp-for="rank_relationship_concerns" class="control-label">Rank order the top three concerns that you have in your relationship with your partner (1st being the most problematic):</label>
+                                <textarea asp-for="rank_relationship_concerns" class="form-control"></textarea>
+                                <span asp-validation-for="rank_relationship_concerns" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group range-slider">
+                                <label asp-for="relationship_satisfaction_start" class="control-label">
+                                    How satisfied were you at the beginning of your relationship ? (rate from 1 to 10)
+                                </label>
+                                <div>
+                                    <span class="float-left">(no satisfaction)</span>
+                                    <span class="float-right pr-5">(extremely satisfied)</span>
+                                </div>
+                                <input type="range" name="relationship_satisfaction_start" max="10" min="0" step="1" value="0" class="range-slider__range" />
+
+                                <span class="range-slider__value">0</span>
+                                <span asp-validation-for="relationship_satisfaction_start" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group range-slider">
+                                <label asp-for="relationship_satisfaction_now" class="control-label">
+                                    How satisfied are you now over your relationship ? (rate from 1 to 10)
+                                </label>
+                                <div>
+                                    <span class="float-left">(no satisfactionss)</span>
+                                    <span class="float-right pr-5">(complete satisfaction)</span>
+                                </div>
+                                <input type="range" name="relationship_satisfaction_now" max="10" min="0" step="1" value="0" class="range-slider__range" />
+
+                                <span class="range-slider__value">0</span>
+                                <span asp-validation-for="relationship_satisfaction_now" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link href="~/css/range.css" rel="stylesheet" />
+
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/applicant.js"></script>
+    <script src="~/lib/datepicker/daterangepicker.js"></script>
+    <script src="~/js/range.js"></script>
+}

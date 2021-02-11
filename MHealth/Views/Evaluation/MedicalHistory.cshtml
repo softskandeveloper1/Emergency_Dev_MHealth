@@ -1,0 +1,79 @@
+@using MHealth.Helper;
+@model DAL.Models.mp_psychosocial
+
+@{
+    ViewData["Title"] = "Create";
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Adult Psychosocial Assessment
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mb-3 card">
+    <div class="card-header">
+        <ul class="nav nav-justified">
+            <li class="nav-item"><a data-toggle="tab" href="#medical-history" class="nav-link active show">Medical History</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#health-history" class="nav-link">Health History</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#system_review" class="nav-link">Review of Systems</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#mental_status" class="nav-link">Mental Status</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#social-history" class="nav-link">Social History</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#physical_exam" class="nav-link">Physical Examination</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <form asp-action="MedicalHistory">
+            <div class="tab-content">
+                <div class="tab-pane active show" id="medical-history" role="tabpanel">
+                    @await Html.PartialAsync("Partial/MedicalHistory")     
+                </div>
+                <div class="tab-pane" id="health-history" role="tabpanel">
+                    @await Html.PartialAsync("Partial/HealthHistory")
+                </div>
+                <div class="tab-pane" id="system_review" role="tabpanel">               
+                    @await Html.PartialAsync("Partial/SystemReview")
+                </div>
+                <div class="tab-pane" id="mental_status" role="tabpanel">
+                    @await Html.PartialAsync("Partial/MentalStatus")
+                </div>
+                <div class="tab-pane" id="social-history" role="tabpanel">
+                    @await Html.PartialAsync("Partial/SocialHistory")
+                </div>
+                <div class="tab-pane" id="physical_exam" role="tabpanel">
+                    @* @await Html.PartialAsync("Partial/SubstanceUse") *@
+                </div>
+            </div>   
+        </form>
+    </div>
+</div>
+@section Styles{
+    <style>
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+    <script src="~/js/adult-mental.js"></script>
+    <script>
+        $("form textarea").on("invalid", function(){
+            var invalid_input = $(this).closest('.tab-pane').index();
+            var all_tabs = $('.tab-pane');
+            var tabs_id = all_tabs[invalid_input].id;
+            
+            var activeTabLink = $('.nav-link.active.show');
+            var activeTab = $('.tab-pane.active.show');
+            showTabWithInvalidInput(activeTab[0].id, tabs_id)
+        });
+
+        function showTabWithInvalidInput(currentTab, invalidTab) {
+            $('#'+currentTab).removeClass('active');
+            $('#'+invalidTab).addClass('active');
+            $('#'+invalidTab).addClass('show');
+        }
+    </script>
+}

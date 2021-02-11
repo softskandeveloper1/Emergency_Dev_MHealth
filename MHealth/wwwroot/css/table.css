@@ -1,0 +1,26 @@
+﻿.tb-dark {
+    background-color: #2d545e !important;
+    color: white;
+}
+.tb-info {
+    background-color: #51d0de !important;
+    color: white;
+}
+.tb-warning {
+    background-color: #fff5d7 !important;
+}
+
+
+.tb-danger {
+    background-color: #de493c !important;
+    color: white
+}
+
+.tb-primary {
+    background-color: #CAE4DB !important;
+ 
+}
+.tb-success {
+    background-color: #4ABDAC !important;
+    color: white
+}

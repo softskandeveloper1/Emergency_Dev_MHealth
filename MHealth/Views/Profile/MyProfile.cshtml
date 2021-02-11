@@ -1,0 +1,727 @@
+﻿@model DAL.Models.mp_profile
+@using DAL.Utils;
+@{
+    ViewData["Title"] = "My Profile";
+    IQueryable<DAL.Models.mp_appointment> mp_appointments = ViewBag.appointment;
+    var x = Model.mp_enrollment;
+
+    var disabled = "disabled";
+
+    if (User.Identity.Name == Model.email)
+    {
+        disabled = "";
+    }
+}
+
+@*<div class="app-page-title">
+        <div class="page-title-wrapper">
+
+            <div class="page-title-heading">
+
+                <div>
+                    My Profile
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Profile")">Home</a></li>
+                @*<li class="breadcrumb-item"><a href="@Url.Action("ProfileInfo","Profile")">Profile</a></li>*@
+                <li class="active breadcrumb-item" aria-current="page">@Model.first_name @Model.last_name - <strong>[@Model.unique_id.ToString("D10")]</strong></li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<partial name="_AlertPartial" />
+
+<div class="row">
+    <div class="col-md-3 offset-md-2">
+        <div class="main-card mb-3 card" style="margin-bottom:10px !important">
+            <div class="circular_image">
+                <img src="@Url.Action("get_profile_image","User")" alt="avatar">
+            </div>
+
+            <div class="card-body" style="text-align:center">
+                <h5 class="card-title" style="font-weight:bolder;color:red">@Model.unique_id.ToString("D10")</h5>
+                <h5 class="card-title">@(Model.first_name + "  " + Model.last_name)</h5><h6 class="card-subtitle">@Model.address</h6>
+                <h6 class="card-subtitle">@Options.GetStateName(Model.state), @Model.city</h6>
+                <h6 class="card-subtitle"><i class="fa fa-calendar-day"></i> @Model.dob.ToString("dd MMM, yyyy")</h6>
+
+
+
+                <div class="table-responsive" style="display:none">
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Unique ID</th>
+                                <td class="answer">@Model.unique_id</td>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>@Model.last_name @Model.first_name</td>
+                            </tr>
+                            <tr>
+                                <th>Preferred name</th>
+                                <td>@Model.preferred_name</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>@Model.phone</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@Model.email</td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>@Model.address</td>
+                            </tr>
+                            <tr>
+                                <th>City, State</th>
+                                <td>@Model.city, </td>
+                            </tr>
+                            <tr>
+                                <th>Date of birth</th>
+                                <td>@Model.dob.ToString("dd MMM, yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th>Education level</th>
+                                <td>@Options.GetLookupName(Model.education_level.Value)</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">About</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    @Model.about
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" style="display:none">
+                    <div class="col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">@Model.phone</div>
+                                                <div class="widget-subheading">Phone</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">@Options.GetLookupName(@Model.marital_status) </div>
+                                                <div class="widget-subheading">Marital status</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">@Model.email</div>
+                                                <div class="widget-subheading">Email</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">@Options.GetLookupName(@Model.education_level.Value)</div>
+                                                <div class="widget-subheading">Education level</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" style="display:none">
+                    <div class="col-lg-12">
+                        <label style="font-weight:bold">About</label>
+                        <p style="text-align:left">@Model.about</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom:30px">
+            <div class="card-header">
+                <div class="card-header-title">
+                    What do you want to do today?
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="ad-slider">
+                                    <h4 class="ad-slider-title">Individual Counseling</h4>
+                                    <p>We will match you to an available counselor who fits the type of issues you are dealing with, your goals and preferences. Different counselors have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you.</p>
+                                    <button @disabled data-toggle="modal" onclick="select_appointment('1')" data-target="#appModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                        Get started
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="ad-slider">
+                                    <h4 class="ad-slider-title">Couples Counseling</h4>
+                                    <p>We will match you to an available counselor who fits the type of issues you are dealing with, your goals and preferences. Different counselors have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you.</p>
+                                    <button @disabled data-toggle="modal" onclick="select_appointment('1')" data-target="#appModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                        Get started
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="ad-slider">
+                                    <h4 class="ad-slider-title">Family Counseling</h4>
+                                    <p>We will match you to an available counselor who fits the type of issues you are dealing with, your goals and preferences. Different counselors have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you.</p>
+                                    <button @disabled data-toggle="modal" onclick="select_appointment('1')" data-target="#appModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                        Get started
+                                    </button>
+
+
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="ad-slider">
+                                    <h4 class="ad-slider-title">Child/Adolescent Counseling</h4>
+                                    <p>We will match you to an available counselor who fits the type of issues you are dealing with, your goals and preferences. Different counselors have different approaches and areas of focus, so it's important to find the right person who can achieve the best results for you.</p>
+                                    <button @disabled data-toggle="modal" onclick="select_appointment('1')" data-target="#appModal" class="mb-2 mr-2 btn btn-info btn-lg btn-block">
+                                        Get started
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="mb-3 card" style="margin-bottom:10px !important;display:none">
+            <div class="card-header-tab card-header" style="display:none">
+                <div class="card-header-title">
+                    <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                    Daily Inspiration
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="panel-quote">
+                    <div class="quote-progress"></div>
+                    <div>
+                        <blockquote>
+                            @*<div class="social-share">
+                                    <a href="#" id="quote-tweet" title="Tweet this quote" target="_blank">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </div>*@
+                            <p class="quote"></p>
+                            <p class="author">- <span class="author-name"></span></p>
+                        </blockquote>
+                        @*<div class="quote-nav">
+                                <button class="previous">
+                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                </button>
+                                <button class="random">
+                                    <i class="fa fa-random" aria-hidden="true"></i>
+                                </button>
+                                <button class="next">
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <a href="@Url.Action("MySessions","Appointment",new { apttype = 1 })">
+                    <div class="card mb-2 widget-content">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Behavioral</div>
+                                <div class="widget-subheading">sessions</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-success"><span>@mp_appointments.Count(e => e.appointment_type == 1 && e.status == 170)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="@Url.Action("MySessions","Appointment",new { apttype = 2 })">
+                    <div class="card mb-2 widget-content">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Medical</div>
+                                <div class="widget-subheading">sessions</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-warning"><span>@mp_appointments.Count(e => e.appointment_type == 2 && e.status == 170)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="@Url.Action("MySessions","Appointment",new { apttype = 3 })">
+                    <div class="card mb-2 widget-content">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Diagnostic</div>
+                                <div class="widget-subheading">sessions</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-info"><span>@mp_appointments.Count(e => e.appointment_type == 3 && e.status == 170)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-card card">
+            <div class="card-header">
+                My Appointments
+
+                @if (User.Identity.Name == Model.email)
+                {
+                    <div class="btn-actions-pane-right">
+
+                        <div class="dropdown d-inline-block">
+
+                            <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn-transition btn-sm btn btn-info" style="font-size:.875rem"> New Appointment</button>
+                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                @foreach (var apt in Options.GetAppointmentTypes())
+                                {
+                                    <button type="button" tabindex="0" data-toggle="modal" onclick="select_appointment('@apt.id')" data-target="#appModal" class="dropdown-item">@apt.name</button>
+                                }
+
+
+                            </div>
+                        </div>
+
+                        @*<div role="group" class="btn-group-sm btn-group">
+                                <a asp-controller="clinician" asp-action="clinicians" class="mb-2 mr-2 btn-transition btn-sm btn btn-info"><i class="fa fa-plus"></i> New Appointment</a>
+
+                            </div>*@
+                    </div>
+                }
+
+            </div>
+            <div class="table-responsive">
+                <table class="align-middle mb-0 table table-borderless table-striped">
+                    <thead>
+                        @*<tr>
+
+                                <th>Name</th>
+                                <th class="text-center">Status</th>
+
+                                <th>Time</th>
+                                <th class="text-center">Duration</th>
+                            </tr>*@
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in mp_appointments.Where(e => e.status == 234 || e.status == 169).OrderByDescending(e => e.start_date))
+                        {
+                            <tr class="tb-success">
+                                <th colspan="2">
+                                    @appointment.appointment_typeNavigation.name
+                                </th>
+                                <td>
+                                    @if (appointment.status == 234)
+                                    {
+                                        <a href="@Url.Action("CSession","App",new { appointment_id = appointment.id })" @disabled class="btn btn-warning btn-sm">Start Session <i class="fa fa-play"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("ConfirmAppointment","Appointment",new { id = appointment.id })" @disabled class="btn btn-danger btn-sm">Complete booking <i class="fa fa-money-bill"></i></a>
+                                    }
+
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details","Appointment",new { id = appointment.id })" id="PopoverCustomT-2" @disabled class="btn btn-primary btn-sm">Details</a>
+                                    @*@if (@Options.GetLookupName(appointment.status) == "Pending")
+                                        {
+                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm"><i class="pe-7s-edit"></i> Edit</button>
+                                            <button type="button" id="PopoverCustomT-1" class="btn btn-danger btn-sm"><i class="pe-7s-trash"></i></button>
+                                        }
+                                        else
+                                        {
+
+                                            }*@
+                                </td>
+                            </tr>
+                            <tr class="tb-primary">
+
+                                <td>
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left mr-3">
+                                                <div class="widget-content-left">
+                                                    <img width="40" class="rounded-circle" src="@Url.Action("get_profile_image","User",new { user_id = appointment.clinician_.user_id })" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="widget-content-left flex2">
+                                                <div class="widget-heading">@(appointment.clinician_.first_name + " " + appointment.clinician_.last_name)</div>
+                                                @*<div class="widget-subheading opacity-7">@(appointment.clinician_.phone)</div>
+                                                    <div class="widget-subheading opacity-7">@appointment.clinician_.email</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="badge  @Options.GetStatusBadgeColor(Options.GetLookupName(appointment.status))">@Options.GetLookupName(appointment.status)</div>
+                                </td>
+
+                                <td>
+                                    @appointment.start_date.ToString("dd MMM, yyyy hh:mm tt")
+                                </td>
+                                <td class="text-center">
+                                    @appointment.appointment_serviceNavigation.time_minutes mins
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section styles{
+    <link href="~/css/table.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/button.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/quote_slider.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&display=swap" rel="stylesheet">
+    <style>
+        .question {
+            font-weight: bolder;
+        }
+
+        .answer {
+            font-style: italic;
+            color: #d92550 !important
+        }
+
+        .q_info {
+            border-bottom: 1px #ccc solid
+        }
+
+        .card {
+            color: black
+        }
+
+        .card-subtitle {
+            color: black;
+        }
+
+        .carousel-indicators li {
+            background-color: green !important;
+        }
+
+        .carousel-indicators {
+            position: inherit;
+        }
+
+        .ad-slider {
+            margin: 10px;
+        }
+
+        .btn-lg {
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            border-radius: .3rem;
+        }
+
+        .ad-slider-title {
+            text-align: center
+        }
+
+        .apt-wizard {
+            display: none
+        }
+    </style>
+
+
+}
+
+@section scripts{
+
+
+    <div class="modal fade" id="appModal" tabindex="-1" role="dialog" aria-labelledby="appModalLabel" aria-hidden="true">
+        <form action="/" method="get" id="frm_new_appointment">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="appModalLabel">Setup new Appointment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="step-1" class="apt-wizard" style="display:block">
+                            <div class="position-relative form-group">
+                                <label class="form-label">What type of appointment are you setting up? </label>
+                                @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), null, new { @class = "form-control", @required = "required", id = "appointment_type", @onchange = "load_appointment_activities('appointment_type','appointment_category')" })
+                            </div>
+
+                            <div class="position-relative form-group">
+                                <label class="form-label">What is the category of the appointment? </label>
+                                <select class="form-control" id="appointment_category" name="appointment_category" onchange="load_appointment_activities_sub('appointment_category','appointment_category_sub')"></select>
+                            </div>
+                            <input type="hidden" name="match_id" id="match_id" />
+                            <div class="position-relative form-group">
+                                <label class="form-label">Please specify the activity for the appointment </label>
+                                <select class="form-control" id="appointment_category_sub" name="appointment_category_sub"></select>
+                            </div>
+                            <div class="position-relative form-group">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="checkValidation()">Continue</button>
+                            </div>
+                        </div>
+                        <div id="appointment_exists" class="apt-wizard">
+                            <div class="position-relative form-group">
+                                <label class="form-label">Do you want to continue with the provider that you had appointment with earlier? </label>
+                                <select class="form-control" id="earlier_appointment">
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="position-relative form-group">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="appointment_exists()">Continue</button>
+                            </div>
+                        </div>
+                        <div id="questionaire_exist" class="apt-wizard">
+                            <div class="position-relative form-group">
+                                <label class="form-label">You already completed an assessment for this, do want to continue with this? </label>
+                                <select class="form-control" id="sel_questionaire_exist">
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="position-relative form-group">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="questionaire_exist()">Continue</button>
+                            </div>
+
+                        </div>
+                        <div id="questionaire_not_exist" class="apt-wizard">
+                            <label class="form-label">We do not have enough information to match to a provider, please can you fill the following information for proper matching </label>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" onclick="questionaire_not_exist()">Continue</button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    @*<div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>*@
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header tb-success">
+                    <h5 class="modal-title" id="exampleModalLabel">Start Family counselling</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/option_util.js"></script>
+    <script>
+        var listQuotes = [
+            { quote: "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.", author: "Buddha" },
+            { quote: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", author: "Albert Einstein" },
+            { quote: "Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.", author: "Bernard M. Baruch" },
+            { quote: "A room without books is like a body without a soul.", author: "Marcus Tullius Cicero" },
+            { quote: "You only live once, but if you do it right, once is enough.", author: "Mae West" },
+            { quote: "Be the change that you wish to see in the world.", author: "Mahatma Gandhi" },
+            { quote: "If you want to know what a man's like, take a good look at how he treats his inferiors, not his equals.", author: "J.K. Rowling, Harry Potter and the Goblet of Fire" },
+            { quote: "No one can make you feel inferior without your consent.", author: "Eleanor Roosevelt, This is My Story" },
+            { quote: "If you tell the truth, you don't have to remember anything.", author: "Mark Twain" },
+            { quote: "You've gotta dance like there's nobody watching, Love like you'll never be hurt, Sing like there's nobody listening, And live like it's heaven on earth.", author: "William W. Purkey" },
+            { quote: "Be yourself; everyone else is already taken.", author: "Oscar Wilde" }
+        ];
+
+        var currentQuote = 0;
+        var progress = setInterval(timerProgress, 40);
+        var progressWidth = 0;
+
+        // var timeDisplayed = 10000;
+        // var timer = setInterval(changeQuote, timeDisplayed);
+
+        function timerProgress() {
+            $(".quote-progress").width(progressWidth + "%");
+            if (progressWidth < 100) {
+                progressWidth += 0.1;
+            } else {
+                changeQuote();
+                progressWidth = 0;
+            }
+        }
+
+        function setQuote() {
+            $(".quote").html('"' + listQuotes[currentQuote].quote + '"');
+            $(".author-name").html(listQuotes[currentQuote].author);
+            tweetQuote();
+        }
+
+        function getRandomQuote() {
+            currentQuote = Math.round(Math.random() * (listQuotes.length));
+            setQuote();
+        }
+
+        function changeQuote() {
+            // $("blockquote").fadeToggle( "slow", "linear" );
+            if (currentQuote < listQuotes.length - 1) {
+                currentQuote++;
+            } else {
+                currentQuote = 0;
+            }
+            setQuote();
+        }
+
+        $(".previous").click(function () {
+            if (currentQuote > 0) {
+                currentQuote--;
+            } else {
+                currentQuote = listQuotes.length - 1;
+            }
+            setQuote();
+            progressWidth = 0;
+        });
+
+        $(".next").click(function () {
+            changeQuote();
+            progressWidth = 0;
+        });
+
+        $(".random").click(function () {
+            getRandomQuote();
+            progressWidth = 0;
+        });
+
+        /* Twitter API */
+        window.twttr = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+
+        function tweetQuote() {
+            $('#quote-tweet').attr('href', 'https://twitter.com/intent/tweet?hashtags=quote,inspiration&text=' + encodeURIComponent('"' + listQuotes[currentQuote].quote + '" ' + listQuotes[currentQuote].author));
+        }
+
+        setQuote();
+
+        function checkValidation() {
+            if ($('#appointment_category').val() == "Select" || $('#appointment_category').val() == "" || $('#appointment_category').val() == null) {
+                alert('Please select category of the appointment');
+                return false;
+            }
+            if ($('#appointment_category_sub').val() == "Select" || $('#appointment_category_sub').val() == "" || $('#appointment_category_sub').val() == null) {
+                alert('Please specify the activity for the appointment');
+                return false;
+            }
+            check_earlier_appointment();
+        }
+    </script>
+}

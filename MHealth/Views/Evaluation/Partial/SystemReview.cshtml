@@ -1,0 +1,461 @@
+@using MHealth.Helper;
+@{
+    var yes_no_na_dropdown = ViewHelper.GetLookUpDropDown("yesnona");
+}
+<b>Fatigue</b>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fatigue_weight_loss" class="">Weight loss</label>
+            <select class="form-control" name="fatigue_weight_loss" id="fatigue_weight_loss" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fatigue_fever" class="">Fever</label>
+            <select class="form-control" name="fatigue_fever" id="fatigue_fever" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fatigue_chills" class="">Chills</label>
+            <select class="form-control" name="fatigue_chills" id="fatigue_chills" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="fatigue_night_sweat" class="">Night Sweat</label>
+            <select class="form-control" name="fatigue_night_sweat" id="fatigue_night_sweat" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>CV</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_chest_pain" class="">Chest pain</label>
+            <select class="form-control" name="cv_chest_pain" id="cv_chest_pain" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_edema" class="">Edema</label>
+            <select class="form-control" name="cv_edema" id="cv_edema" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_pnd" class="">PND</label>
+            <select class="form-control" name="cv_pnd" id="cv_pnd" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_orthopnea" class="">Orthopnea</label>
+            <select class="form-control" name="cv_orthopnea" id="cv_orthopnea" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_palpitations" class="">Palpitations</label>
+            <select class="form-control" name="cv_palpitations" id="cv_palpitations" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="cv_claudication" class="">Claudication</label>
+            <select class="form-control" name="cv_claudication" id="cv_claudication" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>GU</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gu_dysuria" class="">Dysuria</label>
+            <select class="form-control" name="gu_dysuria" id="gu_dysuria" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gu_frequency" class="">Frequency</label>
+            <select class="form-control" name="gu_frequency" id="gu_frequency" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gu_hematuria" class="">Hematuria</label>
+            <select class="form-control" name="gu_hematuria" id="gu_hematuria" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gu_discharge" class="">Discharge</label>
+            <select class="form-control" name="gu_discharge" id="gu_discharge" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gu_mensutral" class="">Menstrual problem</label>
+            <select class="form-control" name="gu_mensutral" id="gu_mensutral" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Endo</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="endo_polyuria" class="">Polyuria</label>
+            <select class="form-control" name="endo_polyuria" id="endo_polyuria" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="endo_polydipsia" class="">Polydipsia</label>
+            <select class="form-control" name="endo_polydipsia" id="endo_polydipsia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="endo_polyphagia" class="">Polyphagia</label>
+            <select class="form-control" name="endo_polyphagia" id="endo_polyphagia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="endo_heat_cold" class="">Heat/cold into Derm</label>
+            <select class="form-control" name="endo_heat_cold" id="endo_heat_cold" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="endo_pruritis" class="">rash Pruritis</label>
+            <select class="form-control" name="endo_pruritis" id="endo_pruritis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Eyes</b>
+<div class="form-row">
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="eyes_visual_change" class="">Visual change</label>
+            <select class="form-control" name="eyes_visual_change" id="eyes_visual_change" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="eyes_pain" class="">Pain</label>
+            <select class="form-control" name="eyes_pain" id="eyes_pain" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="eyes_redness" class="">Redness</label>
+            <select class="form-control" name="eyes_redness" id="eyes_redness" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Respiratory</b>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="respiratory_cough" class="">Cough</label>
+            <select class="form-control" name="respiratory_cough" id="respiratory_cough" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="respiratory_wheezing" class="">Wheezing</label>
+            <select class="form-control" name="respiratory_wheezing" id="respiratory_wheezing" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="respiratory_hypersomnolence" class="">Hypersomnolence</label>
+            <select class="form-control" name="respiratory_hypersomnolence" id="respiratory_hypersomnolence" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="respiratory_night_sweat" class="">Night Sweat</label>
+            <select class="form-control" name="respiratory_night_sweat" id="respiratory_night_sweat" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Musc-Skel</b>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="musc_arthritis" class="">Arthritis</label>
+            <select class="form-control" name="musc_arthritis" id="musc_arthritis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="musc_joint_swelling" class="">Joint Swelling</label>
+            <select class="form-control" name="musc_joint_swelling" id="musc_joint_swelling" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="musc_myalgias" class="">Myalgias</label>
+            <select class="form-control" name="musc_myalgias" id="musc_myalgias" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="musc_backpain" class="">Backpain</label>
+            <select class="form-control" name="musc_backpain" id="musc_backpain" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Neuro</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="neuro_weaken" class="">Weaken</label>
+            <select class="form-control" name="neuro_weaken" id="neuro_weaken" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="neuro_seizures" class="">Seizures</label>
+            <select class="form-control" name="neuro_seizures" id="neuro_seizures" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="neuro_paresthesia" class="">Paresthesia’s</label>
+            <select class="form-control" name="neuro_paresthesia" id="neuro_paresthesia" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="neuro_tremor" class="">Tremor</label>
+            <select class="form-control" name="neuro_tremor" id="neuro_tremor" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="neuro_syncope" class="">Syncope</label>
+            <select class="form-control" name="neuro_syncope" id="neuro_syncope" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>ENT</b>
+<div class="form-row">
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_headaches" class="">Headaches</label>
+            <select class="form-control" name="ent_headaches" id="ent_headaches" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_hoarseness" class="">Hoarseness</label>
+            <select class="form-control" name="ent_hoarseness" id="ent_hoarseness" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_sore_throat" class="">Sore throat</label>
+            <select class="form-control" name="ent_sore_throat" id="ent_sore_throat" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_epistasis" class="">Epistasis</label>
+            <select class="form-control" name="ent_epistasis" id="ent_epistasis" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_sinus" class="">Sinus Symptom</label>
+            <select class="form-control" name="ent_sinus" id="ent_sinus" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_hearing_loss" class="">Hearing loss</label>
+            <select class="form-control" name="ent_hearing_loss" id="ent_hearing_loss" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="ent_tinnitus" class="">Tinnitus</label>
+            <select class="form-control" name="ent_tinnitus" id="ent_tinnitus" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>GL</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gl_adb_pain" class="">Abd pain</label>
+            <select class="form-control" name="gl_adb_pain" id="gl_adb_pain" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gl_nausea" class="">Nausea/Vomit</label>
+            <select class="form-control" name="gl_nausea" id="gl_nausea" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="gl_diarrhea" class="">Diarrhea</label>
+            <select class="form-control" name="gl_diarrhea" id="gl_diarrhea" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gl_heartburn" class="">Heartburn</label>
+            <select class="form-control" name="gl_heartburn" id="gl_heartburn" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="gl_blood_stool" class="">Blood stool</label>
+            <select class="form-control" name="gl_blood_stool" id="gl_blood_stool" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>
+<hr><b>Heme/Lymph</b>
+<div class="form-row">
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="heme_bleeding" class="">Bleeding</label>
+            <select class="form-control" name="heme_bleeding" id="heme_bleeding" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="heme_bruising" class="">Bruising</label>
+            <select class="form-control" name="heme_bruising" id="heme_bruising" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="position-relative form-group">
+            <label for="heme_clotting" class="">Clotting</label>
+            <select class="form-control" name="heme_clotting" id="heme_clotting" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="heme_lymph" class="">Lymph & Swell</label>
+            <select class="form-control" name="heme_lymph" id="heme_lymph" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="position-relative form-group">
+            <label for="heme_night_sweat" class="">Night Sweat</label>
+            <select class="form-control" name="heme_night_sweat" id="heme_night_sweat" asp-items="yes_no_na_dropdown">
+                <option value="">--Select--</option>
+            </select> 
+        </div>
+    </div>
+</div>

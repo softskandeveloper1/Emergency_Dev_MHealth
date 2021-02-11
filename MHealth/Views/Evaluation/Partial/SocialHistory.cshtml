@@ -1,0 +1,63 @@
+@using MHealth.Helper;
+@{
+    var yes_no_na_dropdown = ViewHelper.GetLookUpDropDown("yesnona");
+    var marital_dropdown = ViewHelper.GetLookUpDropDown("marital_status");
+}
+<p><b>Social History</b><hr></p>
+<div class="form-row">
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="marital_status" class=""> Marital Status </label>
+            <select class="form-control" name="marital_status" id="marital_status" asp-items="marital_dropdown" >
+                <option value="">--Select--</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="smoking" class=""> Smoking </label>
+            <select class="form-control"  name="smoking" id="smoking">
+                <option value="">--Select--</option>
+                <option value="NEVER">NEVER</option>
+                <option value="IN THE PAST">IN THE PAST</option>
+                <option value="BUT NOT NOW">BUT NOT NOW</option>
+                <option value="CURRENTLY">CURRENTLY</option>
+            </select>
+        </div>
+    </div>
+     <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="alchohol" class=""> Alchohol </label>
+            <select class="form-control" name="alchohol" id="alchohol">
+                <option value="">--Select--</option>
+                <option value="NEVER">NEVER</option>
+                <option value="IN THE PAST">IN THE PAST</option>
+                <option value="BUT NOT NOW">BUT NOT NOW</option>
+                <option value="CURRENTLY">CURRENTLY</option>
+            </select>
+        </div>
+    </div>                
+</div>
+<b>Drug History</b>
+<hr>
+<div class="form-row">
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="past_drug_use" class=""> Drug Used in the past </label>
+            <select class="form-control" name="past_drug_use" id="past_drug_use" asp-items="yes_no_na_dropdown" >
+                <option value="">--Select--</option>
+            </select>
+        </div>
+    </div> 
+    <div class="col-md-4">
+        <div class="position-relative form-group">
+            <label for="current_drug_use" class=""> Drug used currently </label>
+            <select class="form-control" name="current_drug_use" id="current_drug_use" asp-items="yes_no_na_dropdown" >
+                <option value="">--Select--</option>
+            </select>
+        </div>
+    </div>        
+</div>
+<div class="col-md=12">
+    <button type="submit" class="mt-3 btn btn-primary">Save</button>
+</div>  

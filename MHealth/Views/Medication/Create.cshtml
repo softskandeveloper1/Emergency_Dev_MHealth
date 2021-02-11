@@ -1,0 +1,72 @@
+@model DAL.Models.mp_medication
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>mp_medication</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="profile_id" class="control-label"></label>
+                <select asp-for="profile_id" class ="form-control" asp-items="ViewBag.profile_id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="medication" class="control-label"></label>
+                <input asp-for="medication" class="form-control" />
+                <span asp-validation-for="medication" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dosage" class="control-label"></label>
+                <input asp-for="dosage" class="form-control" />
+                <span asp-validation-for="dosage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="physician" class="control-label"></label>
+                <input asp-for="physician" class="form-control" />
+                <span asp-validation-for="physician" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="last_dose" class="control-label"></label>
+                <input asp-for="last_dose" class="form-control" />
+                <span asp-validation-for="last_dose" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="taking_as_prescribed" class="control-label"></label>
+                <input asp-for="taking_as_prescribed" class="form-control" />
+                <span asp-validation-for="taking_as_prescribed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="created_at" class="control-label"></label>
+                <input asp-for="created_at" class="form-control" />
+                <span asp-validation-for="created_at" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="created_by" class="control-label"></label>
+                <input asp-for="created_by" class="form-control" />
+                <span asp-validation-for="created_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

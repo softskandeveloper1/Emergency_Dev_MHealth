@@ -1,0 +1,215 @@
+﻿@using  DAL.Utils;
+@using  DAL.Models;
+@{
+    ViewBag.Title = "Settings";
+    var children = (IQueryable<mp_children>)ViewBag.children;
+    var bank = (mp_profile_bank)ViewBag.bank;
+    var profile_hmo = (mp_profile_hmo)ViewBag.profile_hmo;
+}
+
+    <div class="row" style="margin-top:-15px">
+        <div class="col-lg-12">
+            <nav class="" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                    <li class="active breadcrumb-item" aria-current="page">Settings</li>
+
+                </ol>
+
+            </nav>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="main-card mb-3 card">
+            <div class="card-header bg-info">
+                My Children
+                <div class="btn-actions-pane-right">
+                    <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <table class="mb-0 table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Date of birth</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (children.Any())
+                        {
+                            var count = 1;
+                            foreach (var child in children)
+                            {
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@child.name</td>
+                                    <td>@Options.GetLookupName(child.gender.Value)</td>
+                                    <td>@child.dob.ToString("yyyy-MM-dd")</td>
+                                    <td><a href="@Url.Action("Delete","Children",new { id = child.id })" class="btn btn-sm" type="button"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                count = count + 1;
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="main-card mb-3 card">
+            <form method="post" action="@Url.Action("UpdateHMO","Profile")">
+                <div class="card-header  bg-info">
+                    My Insurance
+
+                </div>
+                <div class="card-body">
+                    <input name="id" type="hidden" value="@profile_hmo.id">
+                    <div class="position-relative row form-group">
+                        <label for="exampleEmail" class="col-sm-3 col-form-label">Health Maintenance Organization</label>
+                        <div class="col-sm-9"><input name="hmo_name" id="hmo_name" placeholder="enter your HMO" type="text" value="@profile_hmo.hmo_name" class="form-control"></div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="exampleEmail" class="col-sm-3 col-form-label">Name of organization</label>
+                        <div class="col-sm-9"><input name="organization_name" id="organization_name" placeholder="enter your organization name" type="text" value="@profile_hmo.organization_name" class="form-control"></div>
+                    </div>
+
+                    <div class="position-relative row form-group">
+                        <label for="exampleEmail" class="col-sm-3 col-form-label">Insurance number</label>
+                        <div class="col-sm-9"><input name="insurance_number" id="insurance_number" value="@profile_hmo.insurance_number" placeholder="enter your insurance number" type="text" class="form-control"></div>
+                    </div>
+                    <input type="hidden" name="id" value="@profile_hmo.id" />
+                    <div class="position-relative row form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success" type="submit">Save and Update</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="main-card mb-3 card ">
+            <form method="post" action="@Url.Action("UpdateBank","Profile")">
+
+                <div class="card-header bg-info">
+                    Bank Information
+
+                </div>
+                <div class="card-body">
+                    <input name="id" type="hidden" value="@bank.id">
+                    <div class="col-md-12">
+                        <div class="position-relative form-group">
+                            <label class="form-label">Account name</label>
+                            <input name="account_name" class="form-control" value="@bank.account_name" required>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="position-relative form-group">
+                            <label class="form-label">Account number</label>
+                            <input name="account_number" class="form-control" value="@bank.account_number" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="position-relative form-group">
+                            <label class="form-label">Name of bank</label>
+                            <input name="bank_name" class="form-control" value="@bank.bank_name" required>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="@bank.id" />
+
+                    <div class="position-relative row form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success" type="submit">Save and Update</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" asp-controller="Children" asp-action="Add">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add a child</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Name of child</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" class="form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Gender</label>
+                            <div class="col-sm-9">
+
+                                @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-3 col-form-label">Date of birth</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="pe-7s-date"></i></span></div>
+                                    <input name="dob" type="text" class="form-control  daterange-single">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script>
+    $(document).ready(function () {
+           $("#datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+    });
+</script>
+}
+
+@section styles{
+    <style>
+        .col-form-label {
+            font-weight: bold
+        }
+    </style>
+}

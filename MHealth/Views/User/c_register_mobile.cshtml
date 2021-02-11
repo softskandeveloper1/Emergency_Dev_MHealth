@@ -1,0 +1,137 @@
+﻿@using DAL.Utils;
+@{
+    var user_type = (int)ViewBag.user_type;
+    Layout = "_Layout_mob";
+}
+
+
+@if (user_type == 1)
+{
+    ViewBag.Title = "Member registration";
+    <div class="row" style="margin-top:80px">
+        <div class="col-md-4 offset-md-4">
+            <form method="get" action="@Url.Action("RegisterMob","User")">
+                <div class="card">
+                    <div class="card-header text-info">
+                        <div class="card-header-title">
+                            MEMBER REGISTRATION
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">What type of appointment are you setting up? </label>
+                            @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select ...", new { @class = "form-control", @required = "required", id = "appointment_type", @onchange = "load_appointment_activities('appointment_type','appointment_category')" })
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">What is the category of the appointment? </label>
+                            <select class="form-control" id="appointment_category" name="appointment_category" onchange="load_appointment_activities_sub('appointment_category','appointment_category_sub')" required></select>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Please specify the activity for the appointment </label>
+                            <select class="form-control" id="appointment_category_sub" name="appointment_category_sub" required></select>
+                        </div>
+
+                        <div class="form-group" id="div_appointment_category_sub_other" style="display:none">
+                            <label class="control-label">Please specifiy</label>
+                            <input type="text" name="appointment_category_sub_other" id="appointment_category_sub_other" class="form-control" />
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer">
+
+                        <button type="submit" class="btn btn-lg btn-primary">Continue</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else if (user_type == 2)
+{
+    ViewBag.Title = "Provider registration";
+    <div class="row"  style="margin-top:80px">
+        <div class="col-md-4 offset-md-4">
+            <form method="post" action="@Url.Action("NewApplicantMobile","Applicant")">
+                <div class="card">
+                    <div class="card-header text-info">
+                        <div class="card-header-title">
+                            PROVIDER REGISTRATION
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group" id="div_provider_type">
+                            <label for="provider_type" class="form-label">Are you registering as an individual provider, hospital or a clinic?</label>
+                            @Html.DropDownList("provider_type", new SelectList(Options.Getlookups("provider_type"), "id", "value", null), "Select...", new { @class = "form-control", @required = "required", id = "provider_type" })
+                        </div>
+
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">What type of service will you be providing? </label>
+                            @Html.DropDownList("appointment_type_id", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select ...", new { @class = "form-control", @required = "required", id = "appointment_type_id", @onchange = "load_appointment_activities('appointment_type_id','appointment_category_id')" })
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">What is the category of the service? </label>
+
+
+                            <select class="form-control" id="appointment_category_id" name="appointment_category_id" onchange="load_appointment_activities_sub_check('appointment_category_id','test')" required style=""></select>
+                        </div>
+
+                        <div class="position-relative form-group">
+                            <label class="form-label">Please specify the class of service </label>
+
+                            <div id="test" style="border:1px #ccc solid; max-height:350px; overflow-y:scroll; min-height:44px"></div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer">
+
+                        <button type="submit" class="btn btn-lg btn-primary">Continue</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+    <script src="~/js/option_util.js"></script>
+    <script>
+        $('#appointment_category_sub').on('change', function (e) {
+            var optionSelected = $("option:selected", this);
+            if (optionSelected.text() == "Other") {
+                $("#div_appointment_category_sub_other").show();
+                $("#appointment_category_sub_other").attr("required", "required");
+
+            } else {
+                $("#div_appointment_category_sub_other").hide();
+                $("#appointment_category_sub_other").removeAttr("required");
+                $("#appointment_category_sub_other").val("");
+            }
+        });
+    </script>
+}
+
+@section styles{
+    <style>
+        .form-label {
+            font-weight: bold
+        }
+    </style>
+}

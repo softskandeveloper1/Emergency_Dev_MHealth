@@ -1,0 +1,40 @@
+@using MHealth.Helper;
+@{
+    var yes_no_dropdown = ViewHelper.GetLookUpDropDown("yesno");
+}
+<div class="form-row">
+    <div class="col-md-12">
+       <div class="position-relative form-group">
+            <label for="visit_reason" class=""> Reason for Visit </label>
+            <textarea class="form-control" required name="visit_reason" id="visit_reason"></textarea>
+        </div>
+    </div>                                      
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <div class="position-relative form-group">
+            <label for="allergy" class="">Allergies</label>
+            <textarea cols="2" class="form-control" required name="allergy" id="allergy"></textarea>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="position-relative form-group">
+            <label for="medication" class="">Medication</label>
+             <textarea cols="2" class="form-control" required name="medication" id="medication"></textarea>
+        </div>
+    </div> 
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <div class="position-relative form-group">
+            <label for="food" class="">Food</label>
+            <textarea class="form-control" required name="food" id="food"></textarea>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="position-relative form-group">
+            <label for="complain" class="">Complain</label>
+             <textarea class="form-control" required name="complain" id="complain"></textarea>
+        </div>
+    </div> 
+</div>

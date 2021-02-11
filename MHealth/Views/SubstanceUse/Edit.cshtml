@@ -1,0 +1,174 @@
+@model DAL.Models.mp_substance_use
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>mp_substance_use</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="profile_id" class="control-label"></label>
+                <input asp-for="profile_id" class="form-control" />
+                <span asp-validation-for="profile_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tobacco" class="control-label"></label>
+                <input asp-for="tobacco" class="form-control" />
+                <span asp-validation-for="tobacco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tobacco_amount" class="control-label"></label>
+                <input asp-for="tobacco_amount" class="form-control" />
+                <span asp-validation-for="tobacco_amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tobacco_years" class="control-label"></label>
+                <input asp-for="tobacco_years" class="form-control" />
+                <span asp-validation-for="tobacco_years" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="alcohol" class="control-label"></label>
+                <input asp-for="alcohol" class="form-control" />
+                <span asp-validation-for="alcohol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="alcohol_type" class="control-label"></label>
+                <input asp-for="alcohol_type" class="form-control" />
+                <span asp-validation-for="alcohol_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="alcohol_freq" class="control-label"></label>
+                <input asp-for="alcohol_freq" class="form-control" />
+                <span asp-validation-for="alcohol_freq" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="last_drink" class="control-label"></label>
+                <input asp-for="last_drink" class="form-control" />
+                <span asp-validation-for="last_drink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="drink_amount" class="control-label"></label>
+                <input asp-for="drink_amount" class="form-control" />
+                <span asp-validation-for="drink_amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="withdrawal_symptons" class="control-label"></label>
+                <input asp-for="withdrawal_symptons" class="form-control" />
+                <span asp-validation-for="withdrawal_symptons" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="withdrawal_symptons_description" class="control-label"></label>
+                <input asp-for="withdrawal_symptons_description" class="form-control" />
+                <span asp-validation-for="withdrawal_symptons_description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="blackouts" class="control-label"></label>
+                <input asp-for="blackouts" class="form-control" />
+                <span asp-validation-for="blackouts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="blackouts_freq" class="control-label"></label>
+                <input asp-for="blackouts_freq" class="form-control" />
+                <span asp-validation-for="blackouts_freq" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="illicit_drugs" class="control-label"></label>
+                <input asp-for="illicit_drugs" class="form-control" />
+                <span asp-validation-for="illicit_drugs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="drug_type" class="control-label"></label>
+                <input asp-for="drug_type" class="form-control" />
+                <span asp-validation-for="drug_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="drug_freq" class="control-label"></label>
+                <input asp-for="drug_freq" class="form-control" />
+                <span asp-validation-for="drug_freq" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_of_last_use" class="control-label"></label>
+                <input asp-for="date_of_last_use" class="form-control" />
+                <span asp-validation-for="date_of_last_use" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="substance_abuse_treatment" class="control-label"></label>
+                <input asp-for="substance_abuse_treatment" class="form-control" />
+                <span asp-validation-for="substance_abuse_treatment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="agency" class="control-label"></label>
+                <input asp-for="agency" class="form-control" />
+                <span asp-validation-for="agency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="treatment_type" class="control-label"></label>
+                <input asp-for="treatment_type" class="form-control" />
+                <span asp-validation-for="treatment_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="treatment_date" class="control-label"></label>
+                <input asp-for="treatment_date" class="form-control" />
+                <span asp-validation-for="treatment_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="support_programs" class="control-label"></label>
+                <input asp-for="support_programs" class="form-control" />
+                <span asp-validation-for="support_programs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="support_programs_description" class="control-label"></label>
+                <input asp-for="support_programs_description" class="form-control" />
+                <span asp-validation-for="support_programs_description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="triggers" class="control-label"></label>
+                <input asp-for="triggers" class="form-control" />
+                <span asp-validation-for="triggers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="triggers_description" class="control-label"></label>
+                <input asp-for="triggers_description" class="form-control" />
+                <span asp-validation-for="triggers_description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="use_legal_issues" class="control-label"></label>
+                <input asp-for="use_legal_issues" class="form-control" />
+                <span asp-validation-for="use_legal_issues" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="legal_issues_description" class="control-label"></label>
+                <input asp-for="legal_issues_description" class="form-control" />
+                <span asp-validation-for="legal_issues_description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="created_by" class="control-label"></label>
+                <input asp-for="created_by" class="form-control" />
+                <span asp-validation-for="created_by" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="created_at" class="control-label"></label>
+                <input asp-for="created_at" class="form-control" />
+                <span asp-validation-for="created_at" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

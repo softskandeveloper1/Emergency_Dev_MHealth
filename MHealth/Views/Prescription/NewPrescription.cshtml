@@ -1,0 +1,302 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model mp_profile
+@{
+    ViewBag.Title = "New prescription";
+}
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Clinician")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">New prescription</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        @if (!string.IsNullOrEmpty(Model.first_name))
+        {
+            <div class="card">
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        New Prescription
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+
+
+                                <div class="circular_image">
+                                    <img src="@Url.Action("get_profile_image","User",new { user_id = Model.user_id })" alt="avatar">
+                                </div>
+                                <h6>@string.Format("{0} {1}", Model.last_name, Model.first_name)</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>Member ID</th>
+                                        <td class="answer">@Model.unique_id.ToString("D10")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Preferred name</th>
+                                        <td>@Model.preferred_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date of birth</th>
+                                        <td>@Model.dob.ToString("dd MMM, yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>@Options.GetLookupName(Model.gender)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Education level</th>
+                                        <td>@Options.GetLookupName(Model.education_level.Value)</td>
+                                    </tr>
+                                    <tr>
+                                        @*<th colspan="2">About</th>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    @Model.about
+                                                </td>
+                                            </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <form asp-action="PostPrescription" asp-controller="Prescription" method="post" id="frm_new_prescription">
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <input type="hidden" name="profile_id" value="@Model.id" />
+                                    <table class="table table-bordered" id="tb_prescription">
+                                        <thead>
+                                            <tr>
+                                                <th>Drug</th>
+                                                <th>Dosage</th>
+                                                <th><button class="btn btn-sm btn-circle btn-success" type="button" onclick="add_row_pre('tb_prescription')"><i class="fa fa-plus"></i> Add Drug</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @*@Html.DropDownList("drug", new SelectList(DrugUtil.GetDrugs(), "id", "name", null), null, new { @class = "form-control" })*@
+                                                    <input type="text" class="form-control" name="drug" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="dosage" />
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-circle btn-danger" type="button" onclick="delete_row(this,'tb_prescription')"><i class="fa fa-trash"></i> Remove</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-12">Pharmacy  <a class="btn btn-sm btn-circle btn-success pull-right" target="_blank" href="/Pharmacy/Manage"><i class="fa fa-plus"></i> Add New Pharmacy</a></label>
+                                    <select id="pharmacy" name="pharmacy_id" class="form-control"></select>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="tbl_pharmacy_info" style="display:none;">
+                                        <thead>
+                                            <tr>
+                                                <th>Address</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span id="lblAddress"></span>
+                                                </td>
+                                                <td>
+                                                    <span id="lblEmail"></span>
+                                                </td>
+                                                <td>
+                                                    <span id="lblPhone"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Comments</label>
+                                    <textarea class="form-control" name="comment"></textarea>
+                                </div>
+                                <div class="form-group" id="div_spinner" style="display:none">
+                                    <div class="text-center">
+                                        <img id="loader" src="~/assets/images/loaders/30.gif" style="height:20px" />
+                                        <h5>Submitting prescription, please wait...</h5>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit">Post Prescription</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="card">
+                <div class="card-header text-info">
+                    <div class="card-header-title">
+                        New Prescription
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="NewPrescription" asp-controller="Prescription">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Search members</label>
+                                    <select id="profile_id" class="form-control" name="profile_id"></select>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit">Create prescription</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/fn_table.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+
+        function add_row_pre(tb) {
+
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+            $trNew.find('input').each(function () {
+                $(this).val("");
+            });
+
+            $trLast.after($trNew);
+        };
+
+        $('#pharmacy').select2({
+            placeholder: 'Search pharmacies...',
+
+            ajax: {
+                url: function (params) {
+                    return "/api/pharmacy/GetPharmacies?query=" + params.term;
+                },
+                dataType: 'json',
+                quietMillis: 100,
+
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return { id: obj.id, text: obj.name + " - " + obj.phone };
+                        })
+                    };
+                }
+
+            }
+        });
+
+        $('#pharmacy').on("select2:selecting", function (e) {
+            debugger
+            var id = e.params.args.data.id;
+            $.ajax({
+                url: '/api/pharmacy/GetById?id=' + id,
+                type: 'get',
+            }).done(function (response) {
+                $('#lblAddress').text(response.address);
+                $('#lblEmail').text(response.email);
+                $('#lblPhone').text(response.phone);
+                $("#tbl_pharmacy_info").show();
+            });
+        });
+
+        $('#profile_id').select2({
+            placeholder: 'Search by names or member id...',
+
+            ajax: {
+                url: function (params) {
+                    return "/api/profile/GetProfiles?query=" + params.term;
+                },
+                dataType: 'json',
+                quietMillis: 100,
+
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (obj) {
+                            return { id: obj.id, text: obj.last_name + " " + obj.first_name + " - " + obj.unique_id.toString().padStart(10, '0') };
+                        })
+                    };
+                }
+
+            }
+        });
+
+        $("#frm_new_prescription").submit(function (e) {
+
+            e.preventDefault();
+            $('#div_spinner').show();
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function (data) {
+                    alert("Prescription submitted successfully.");
+                    window.location.href = "/Prescription/Prescriptions";
+                },
+                error: function (data) {
+                    $('#div_spinner').hide();
+                    alert("Prescription submitted unsuccessfully!");
+                }
+            });
+
+
+        });
+    </script>
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <style>
+        select {
+            height: 44px !important
+        }
+    </style>
+}

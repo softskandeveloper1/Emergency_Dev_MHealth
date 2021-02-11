@@ -1,0 +1,547 @@
+@using MHealth.Helper;
+@using DAL.Utils;
+@using DAL.Models;
+@{
+    ViewData["Title"] = "Create";
+    var yes_no_na_dropdown = ViewHelper.GetLookUpDropDown("yesnona");
+    var marital_dropdown = ViewHelper.GetLookUpDropDown("marital_status");
+
+    var med_history = (mp_phc_health_history)ViewBag.med_history;
+    var mental_status = (mp_phc_mental_status)ViewBag.mental_status;
+    var social_history = (mp_phc_social_history)ViewBag.social_history;
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="main-card card">
+            <div class="card-header">
+                MEDICAL HISTORY AND PHYSICAL
+            </div>
+            <div class="card-body">
+                <form id="primary_care_medical_form">
+                    <input type="hidden" name="profile_id" value="@ViewBag.profile_id" />
+                    <input type="hidden" name="appointment_id" value="@ViewBag.appointment_id" />
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="head_brain_injury" class=""> Head/brain injuries or illnesses (e.g. Concussions) </label>
+                                @*<select class="form-control" name="head_brain_injury" id="head_brain_injury" asp-items="yes_no_na_dropdown">
+                                        <option value="">--Select--</option>
+                                    </select>*@
+
+                                @Html.DropDownList("head_brain_injury", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.head_brain_injury), "--Select--", new { @class = "form-control", id = "head_brain_injury" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="weight_loss" class="">Unexplained weight loss</label>
+                                @*<select class="form-control" name="weight_loss" id="weight_loss" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("weight_loss", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.weight_loss), "--Select--", new { @class = "form-control", id = "weight_loss" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="seizures" class="">Seizures, epilepsy </label>
+                                @*<select class="form-control" name="seizures" id="seizures" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("seizures", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.seizures), "--Select--", new { @class = "form-control", id = "seizures" })
+                            </div>
+                        </div>
+                  
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="stroke" class="">Stroke, Mini-stroke Paralysis or weakness</label>
+                                @*<select class="form-control" name="stroke" id="stroke" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("stroke", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.stroke), "--Select--", new { @class = "form-control", id = "stroke" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="eye_problems" class="">Eye problems </label>
+                                @*<select class="form-control" name="eye_problems" id="eye_problems" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("eye_problems", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.eye_problems), "--Select--", new { @class = "form-control", id = "eye_problems" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="missing_use_of_arm" class="">Missing or limited use of arm, hand, finger, leg, foot, toe</label>
+                                @*<select class="form-control" name="missing_use_of_arm" id="missing_use_of_arm" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("missing_use_of_arm", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.missing_use_of_arm), "--Select--", new { @class = "form-control", id = "missing_use_of_arm" })
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="hearing_problem" class="">Ear and or hearing problems</label>
+                                @*<select class="form-control" name="hearing_problem" id="hearing_problem" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("hearing_problem", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.hearing_problem), "--Select--", new { @class = "form-control", id = "hearing_problem" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="heart_disease" class="">Heart disease, heart attack, bypass, or other heart problems</label>
+                                @*<select class="form-control" name="heart_disease" id="heart_disease" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("heart_disease", new SelectList(Options.Getlookups("yesnona"), "id", "value", med_history.heart_disease), "--Select--", new { @class = "form-control", id = "heart_disease" })
+                            </div>
+                        </div>
+                    </div>
+                    <p><b>Mental Status</b><hr></p>
+                    <b>Appearance</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="dressing_grooming" class=""> Dressing and grooming </label>
+                                <input class="form-control" name="dressing_grooming" id="dressing_grooming" value="@mental_status.dressing_grooming" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="facial_expression" class=""> Facial expressions </label>
+                                <input class="form-control" name="facial_expression" id="facial_expression" value="@mental_status.facial_expression" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="eye_contacts" class=""> Eye contacts </label>
+                                <input class="form-control" name="eye_contacts" id="eye_contacts" value="@mental_status.eye_contacts"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="dressing_grooming_comment" class=""> Dressing and grooming comment </label>
+                                <textarea class="form-control" name="dressing_grooming_comment" id="dressing_grooming_comment">@mental_status.dressing_grooming_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="facial_expression_comment" class=""> Facial expressions comment </label>
+                                <textarea class="form-control" name="facial_expression_comment" id="facial_expression_comment">@mental_status.facial_expression_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="eye_contacts_comment" class=""> Eye contacts comment </label>
+                                <textarea class="form-control" name="eye_contacts_comment" id="eye_contacts_comment">@mental_status.eye_contacts_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Motor Behaviour</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="motor_activity" class=""> Motor activity </label>
+                                <input class="form-control" name="motor_activity" id="motor_activity" value="@mental_status.motor_activity" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="anxiety_level" class=""> Level of anxiety </label>
+                                <input class="form-control" name="anxiety_level" id="anxiety_level" value="@mental_status.anxiety_level" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="agitation_level" class=""> Level of agitation </label>
+                                <input class="form-control" name="agitation_level" id="agitation_level" value="@mental_status.agitation_level" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="motor_activity_comment" class=""> Motor activity comment </label>
+                                <textarea class="form-control" name="motor_activity_comment" id="motor_activity_comment">@mental_status.motor_activity_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="anxiety_level_comment" class=""> Level of anxiety comment </label>
+                                <textarea class="form-control" name="anxiety_level_comment" id="anxiety_level_comment">@mental_status.anxiety_level_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="agitation_level_comment" class=""> Level of agitation comment </label>
+                                <textarea class="form-control" name="agitation_level_comment" id="agitation_level_comment">@mental_status.agitation_level_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Speech</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="production_of_speech" class=""> Production of speech </label>
+                                <input class="form-control" name="production_of_speech" id="production_of_speech" value="@mental_status.production_of_speech" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="rate_of_speech" class="">Rate of speech</label>
+                                <input class="form-control" name="rate_of_speech" id="rate_of_speech" value="@mental_status.rate_of_speech" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="volume" class=""> Volume </label>
+                                <input class="form-control" name="volume" id="volume" value="@mental_status.volume" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="production_of_speech_comment" class=""> Production of speech comment </label>
+                                <textarea class="form-control" name="production_of_speech_comment" id="production_of_speech_comment">@mental_status.production_of_speech_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="rate_of_speech_comment" class=""> Rate of speech comment </label>
+                                <textarea class="form-control" name="rate_of_speech_comment" id="rate_of_speech_comment">@mental_status.rate_of_speech_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="volume_comment" class=""> Volume comment </label>
+                                <textarea class="form-control" name="volume_comment" id="volume_comment">@mental_status.volume_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Mood and Affect</b>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="mood" class=""> Mood </label>
+                                <input class="form-control" name="mood" id="mood" value="@mental_status.mood" />
+                            </div>
+                        </div>     
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="mood_comment" class=""> Mood comment </label>
+                                <textarea class="form-control" name="mood_comment" id="mood_comment">@mental_status.mood_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="affect" class=""> Affect </label>
+                                <input class="form-control" name="affect" id="affect" value="@mental_status.affect" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="affect_comment" class="">Affect comment </label>
+                                <textarea class="form-control" name="affect_comment" id="affect_comment">@mental_status.affect_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Thought Process</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="flow_of_thought" class="">Flow of thought</label>
+                                <input class="form-control" name="flow_of_thought" id="flow_of_thought" value="@mental_status.flow_of_thought" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="perceptual_function" class=""> Perceptual function </label>
+                                <input class="form-control" name="perceptual_function" id="perceptual_function" value="@mental_status.perceptual_function" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="hallucinations" class=""> Hallucinations </label>
+                                <input class="form-control" name="hallucinations" id="hallucinations" value="@mental_status.hallucinations" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="flow_of_thought_comment" class=""> Flow of thought comment </label>
+                                <textarea class="form-control" name="flow_of_thought_comment" id="flow_of_thought_comment">@mental_status.flow_of_thought_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="perceptual_function_comment" class=""> Perceptual function comment </label>
+                                <textarea class="form-control" name="perceptual_function_comment" id="perceptual_function_comment">@mental_status.perceptual_function_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="hallucinations_comment" class=""> Hallucinations comment </label>
+                                <textarea class="form-control" name="hallucinations_comment" id="hallucinations_comment">@mental_status.hallucinations_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="delusion" class="">Delusions</label>
+                                <input class="form-control" name="delusion" id="delusion" value="@mental_status.delusion" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="thought_content" class=""> Thought content </label>
+                                <input class="form-control" name="thought_content" id="thought_content" value="@mental_status.thought_content"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="suicidal_behaviour" class=""> Suicidal Behavior </label>
+                                <input class="form-control" name="suicidal_behaviour" id="suicidal_behaviour" value="@mental_status.suicidal_behaviour" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="delusion_comment" class=""> Delusion Comment </label>
+                                <textarea class="form-control" name="delusion_comment" id="delusion_comment">@mental_status.delusion_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="thought_content_comment" class=""> Thought content comment </label>
+                                <textarea class="form-control" name="thought_content_comment" id="thought_content_comment">@mental_status.thought_content_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="suicidal_behaviour_comment" class=""> suicidal behaviour comment </label>
+                                <textarea class="form-control" name="suicidal_behaviour_comment" id="suicidal_behaviour_comment">@mental_status.suicidal_behaviour_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="depression" class=""> Depression </label>
+                                <input class="form-control" name="depression" id="depression" value="@mental_status.depression"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="depression_comment" class=""> Depression comment </label>
+                                <textarea class="form-control" name="depression_comment" id="depression_comment">@mental_status.depression_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Bodily Functions (Describe)</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="appetite" class="">Appetite</label>
+                                <input class="form-control" name="appetite" id="appetite" value="@mental_status.appetite" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="sleep" class="">Sleep </label>
+                                <input class="form-control" name="sleep" id="sleep" value="@mental_status.sleep" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="elimination" class=""> Elimination </label>
+                                <input class="form-control" name="elimination" id="elimination" value="@mental_status.elimination" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="commons" class=""> Commons </label>
+                                <textarea class="form-control" name="commons" id="commons">@mental_status.commons</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="sleep_comment" class=""> Sleep comment </label>
+                                <textarea class="form-control" name="sleep_comment" id="sleep_comment">@mental_status.sleep_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="elimination_comment" class=""> Elimination comment </label>
+                                <textarea class="form-control" name="elimination_comment" id="elimination_comment">@mental_status.elimination_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <b>Intellectual Functioning</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="state_of_conciousness" class="">State of Consciousness</label>
+                                <input class="form-control" name="state_of_conciousness" id="state_of_conciousness" value="@mental_status.state_of_conciousness" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="sensorium" class=""> Sensorium (Oriented) </label>
+                                <input class="form-control" name="sensorium" id="sensorium" value="@mental_status.sensorium" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="memory" class=""> Memory </label>
+                                <input class="form-control" name="memory" id="memory" value="@mental_status.memory" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="state_of_conciousness_comment" class=""> State of Consciousness comment </label>
+                                <textarea class="form-control" name="state_of_conciousness_comment" id="state_of_conciousness_comment">@mental_status.state_of_conciousness_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="sensorium_comment" class=""> Sensorium comment </label>
+                                <textarea class="form-control" name="sensorium_comment" id="sensorium_comment">@mental_status.sensorium_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="memory_comment" class=""> Memory comment </label>
+                                <textarea class="form-control" name="memory_comment" id="memory_comment">@mental_status.memory_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="judgement_insight" class=""> Judgement and Insight </label>
+                                <input class="form-control" name="judgement_insight" id="judgement_insight" value="@mental_status.judgement_insight" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="impulse_control" class="">Impulse Control</label>
+                                <input class="form-control" name="impulse_control" id="impulse_control" value="@mental_status.impulse_control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="insight" class=""> Insight </label>
+                                <input class="form-control" name="insight" id="insight" value="@mental_status.insight" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="judgement_insight_comment" class=""> Judgement and Insight comment </label>
+                                <textarea class="form-control" name="judgement_insight_comment" id="judgement_insight_comment">@mental_status.judgement_insight_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="impulse_control_comment" class=""> Impulse Control comment </label>
+                                <textarea class="form-control" name="impulse_control_comment" id="impulse_control_comment">@mental_status.impulse_control</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="insight_comment" class=""> Insight comment </label>
+                                <textarea class="form-control" name="insight_comment" id="insight_comment">@mental_status.insight_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="judgement" class=""> Judgement </label>
+                                <input class="form-control" name="judgement" id="judgement" value="@mental_status.judgement" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="interview_reaction" class=""> Reaction to interview </label>
+                                <textarea class="form-control" name="interview_reaction" id="interview_reaction">@mental_status.interview_reaction</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="judgement_comment" class=""> Judgement comment </label>
+                                <textarea class="form-control" name="judgement_comment" id="judgement_comment">@mental_status.judgement_comment</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative form-group">
+                                <label for="interview_reaction_comment" class=""> Reaction to interview comment </label>
+                                <textarea class="form-control" name="interview_reaction_comment" id="interview_reaction_comment">@mental_status.interview_reaction_comment</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <p><b>Social History</b><hr></p>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="marital_status" class=""> Marital Status </label>
+                                @*<select class="form-control" name="marital_status" id="marital_status" required asp-items="marital_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+                                @Html.DropDownList("marital_status", new SelectList(Options.Getlookups("marital_status"), "id", "value", social_history.marital_status), "--Select--", new { @class = "form-control", id = "marital_status" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="smoking" class=""> Smoking </label>
+                                @*<select class="form-control" name="smoking" id="smoking">
+            <option value="">--Select--</option>
+            <option value="NEVER">NEVER</option>
+            <option value="IN THE PAST">IN THE PAST</option>
+            <option value="BUT NOT NOW">BUT NOT NOW</option>
+            <option value="CURRENTLY">CURRENTLY</option>
+        </select>*@
+
+                                @Html.DropDownList("smoking", new SelectList(Options.Getlookups("drug_use"), "id", "value", social_history.smoking), "--Select--", new { @class = "form-control", id = "smoking" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="alchohol" class=""> Alchohol </label>
+                                @*<select class="form-control" name="alchohol" id="alchohol">
+                                    <option value="">--Select--</option>
+                                    <option value="NEVER">NEVER</option>
+                                    <option value="IN THE PAST">IN THE PAST</option>
+                                    <option value="BUT NOT NOW">BUT NOT NOW</option>
+                                    <option value="CURRENTLY">CURRENTLY</option>
+                                </select>*@
+
+                                @Html.DropDownList("alcohol", new SelectList(Options.Getlookups("alcohol"), "id", "value", social_history.alchohol), "--Select--", new { @class = "form-control", id = "alcohol" })
+                            </div>
+                        </div>
+                    </div>
+                    <b>Drug History</b>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="past_drug_use" class=""> Drug Used in the past </label>
+                                @*<select class="form-control" name="past_drug_use" id="past_drug_use" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+
+                                @Html.DropDownList("past_drug_use", new SelectList(Options.Getlookups("yesnona"), "id", "value", social_history.past_drug_use), "--Select--", new { @class = "form-control", id = "past_drug_use" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="position-relative form-group">
+                                <label for="current_drug_use" class=""> Drug used currently </label>
+                                @*<select class="form-control" name="current_drug_use" id="current_drug_use" asp-items="yes_no_na_dropdown">
+                                    <option value="">--Select--</option>
+                                </select>*@
+
+                                @Html.DropDownList("current_drug_use", new SelectList(Options.Getlookups("yesnona"), "id", "value", social_history.current_drug_use), "--Select--", new { @class = "form-control", id = "current_drug_use" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-block text-right card-footer">
+                        <button type="button" id="primary_care_medical_button" class="mt-3 btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

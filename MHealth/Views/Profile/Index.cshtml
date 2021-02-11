@@ -1,0 +1,131 @@
+@model IEnumerable<DAL.Models.mp_profile>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.last_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.first_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.preferred_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.city)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dob)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.profile_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.education_level)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.marital_status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_at)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.updated_at)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.preferred_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.city)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dob)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.profile_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.education_level)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.marital_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created_at)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.updated_at)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

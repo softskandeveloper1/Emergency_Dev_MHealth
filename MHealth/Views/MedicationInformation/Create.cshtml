@@ -1,0 +1,95 @@
+﻿@using DAL.Utils;
+@{
+    ViewData["Title"] = "Medication Information";
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+ Client Medication Information
+                <div class="page-title-subheading">
+                    Record Medication
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">New Medication</h5>
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label for="table_item" class="text-center">(Include all current medications - Psych/Non-Psych/Prescription/OTC/Herbal)</label>
+                            <table class="table table-responsive" id="table_item">
+                                <thead>
+                                    <tr>
+                                        <th>Medication</th>
+                                        <th>Dosage</th>
+                                        <th>Frequency</th>
+                                        <th>Reported Side Effects</th>
+                                        <th>Prescriber</th>
+                                        <th>Status</th>
+                                        <th><span class="btn btn-primary" onclick="add_row('table_item')"><i class="fa fa-plus"></i></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="medication" class="form-control" required></td>
+                                        <td><input type="text" name="dosage" class="form-control"></td>
+                                        <td><input type="text" name="frequency" class="form-control"></td>
+                                        <td><input type="text" name="side_effects" class="form-control"></td>
+                                        <td><input type="text" name="prescriber" class="form-control"></td>
+                                        <td><select class="form-control" name="status" required><option value="">--Select--</option></select></td>
+                                        <td><span class="btn btn-danger" onclick="delete_row(this, 'table_item')"><i class="fa fa-trash"></i></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function add_row(tb) {
+
+            var $tableBody = $('#' + tb).find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            $trNew.find('input').each(function () {
+                $(this).val("");
+            });
+            $trLast.after($trNew);
+        }
+
+        function delete_row(row, tb) {
+            var rows = $("#" + tb + " tbody tr").length;
+            if (rows > 1) {
+                $(row).parent().parent().remove();
+            } else {
+                clear_row(row);
+            }
+        }
+
+        function clear_row(row) {
+            $(row).parent().parent().find("input").each(function () {
+                $(this).val("");
+            });
+            $(row).parent().parent().find("select").each(function () {
+                $(this).val("");
+            });
+        }
+    </script>
+
+
+}

@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Consent";
+    Layout = "_Layout_guest";
+}
+
+   
+
+
+<div class="row" style="margin-top:10px">
+    <div class="col-md-8 offset-md-2">
+        <div class="alert alert-warning fade show" role="alert" style="font-size:1rem">Thank you for creating a profile with us, please read the following carefully conditions carefully to continue into your profile</div>
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                Read and accept to continue - Telehealth Practice Policy
+            </div>
+            <div class="card-body">
+                <h5>Introduction</h5>
+                <p>
+                    Psychotherapy or medication management services may be available to established and new clients via interactive videoconferencing software, labeled “telehealth” in all CHS written materials. CHS provider or management can change the decision regarding client’s appropriateness for telehealth services at any time without notice. Management can also change the decision regarding provider’s appropriateness to provide telehealth services at any time without notice.
+                    <br />
+                    Clients must be appropriate for telehealth services, as determined by the provider, by meeting the following requirements:
+                    <ul>
+                        <li>
+                            Client is determined to be low risk (i.e. little concern of self-harm or harm to others)
+                        </li>
+                        <li>Client agrees to only engage in a telehealth session while physically located in state where provider is licensed and will verbally provide geographical location at start of each session.</li>
+                        <li>Client has access to and can be trusted to use a private, quiet space where they will not be disturbed for the duration of session.  They also agree to immediately notify provider if their privacy is compromised at any time.</li>
+                        <li>Client responds well to the virtual session and is able to adapt to less reliance on body language cues, takes turns to speak, speaks clearly and loud enough for microphone to pick up, etc. Considerations of how telephone conversations go with the client can help determine this quality. </li>
+                        <li>
+                            Client can understand and use the technology effectively, including ability to troubleshoot problems.
+                        </li>
+                        <li>
+                            Client has a reliable internet connection and reliable hardware (i.e. computer, microphone, speakers, and webcam)
+                        </li>
+                        <li>
+                            Client understands and agrees to plan for addressing technical difficulties during a session
+                        </li>
+                        <li>
+                            Client is engaging in a treatment modality that can be effectively conducted via telehealth
+                        </li>
+                        <li>
+                            Client has provided verbal consent for telehealth services
+                        </li>
+                    </ul>
+                 
+                </p>
+              
+                <p>
+                    CHS providers must meet the following requirements in order to provide telehealth services:
+                    <ul>
+                        <li>
+                        Provider sets up free account on approved videoconferencing platform.
+                        </li>
+                        <li>
+                            Provider uses CHS office space or personal space for telehealth sessions
+                        </li>
+                        <li>
+                            Provider keeps an open phone line in addition to the videoconferencing software connection for all telehealth sessions
+                        </li>
+                        <li>
+                            Provider completes telehealth specific informed consent with each client, and documents this conversation.  Allow questions and continually update informed consent as needed for duration of treatment.
+                        </li>
+                        <li>
+                            Provider gathers emergency contact information for each client, updates at regular intervals with the client, and keeps within easy access for all telehealth sessions
+                        </li>
+                        <li>
+                            Provider creates a technical troubleshooting plan with each client, and is able to successfully implement it when needed
+                        </li>
+                        <li>
+                            Provider asks questions of client as needed to ensure privacy on client’s end of connection, and provider will terminate session if reasonable suspicion of compromised privacy occurs at any time. Consider use of a safe word to allow client to notify you in the event there is a breach of privacy, but they cannot openly communicate.
+                        </li>
+                        <li>
+                            Provider agrees to be fully dressed in professional and appropriate attire for all telehealth sessions, despite entire body not being visible on camera. Provider will consider clothing colors and patterns. Bright colors and white clothes reflect lots of light and are not the best choices. Cooler colors and muted earth tones or blues appear best on camera. Patterns and stripes can create distracting optical illusions.
+                        </li>
+                        <li>
+                            Provider agrees to maintain appropriate lighting in the space.  Primary light source should be close behind the camera and coming from the same direction your camera is pointing.  Balance room with light(s) on the other side.  Be aware of how bright natural light impacts camera view on the client end (e.g. can wash out expressions and features if not balanced). Provider will report any lighting concerns in CHS offices to management.
+                        </li>
+                        <li>
+                            Provider agrees to be mindful of eye gaze and body movements for the duration of each session. Look into the camera lens rather than the computer screen as much as possible. Avoid rocking in chair.
+                        </li>
+                        <li>
+                            Provider agrees to be mindful of sounds for the duration of each session (tapping and other small sounds are amplified by microphones).
+                        </li>
+                        <li>
+                            Provider completes additional insurance specific forms to become eligible provider
+                        </li>
+                        <li>
+                            Provider obtains Business Associate Agreement for videoconferencing program and provides copy to management.
+                        </li>
+                        <li>
+                            Provider maintains all legal requirements and ethical standards as based on their practicing license, including HIPAA compliance
+                        </li>
+                    </ul>
+                </p>
+
+               
+                <p>
+                    In addition to the above, the following are provider specific requirements for personal spaces to be used for telehealth:
+                    <ul>
+                        <li>Use of a password protected computer or tablet with a microphone and webcam. Smart phone use is not preferred, and it is strongly recommended that a device with a large screen be used to allow provider to see details in regard to facial expressions and other nonverbal communications.</li>
+                        <li>
+                            Strong and reliable internet connection. Use of internet bandwidth of at least 10 MBPS.
+                            Ethernet connection is strongly preferred to WiFi.
+                        </li>
+                        <li>
+                            Cloud storage is disabled on your device(s)
+                        </li>
+                        <li>
+                            In addition to the provider's internet connection, there is also an open telephone line (for use in the event of technology problems or emergency)
+                        </li>
+                        <li>
+                            Provider is able to ensure privacy on his/her/their end (e.g. close/lock the door, put up a sign, use a sound machine outside if others are present, close windows if in close proximity to a neighbor, point camera away from door in the event it is opened)
+                        </li>
+                        <li>
+                            Provider is able to ensure a quiet space (e.g. dogs barking, construction or motor vehicle noise, lawnmowers)
+                        </li>
+                        <li>
+                            Provider will maintain a professional and neutral background view (replicate CHS office space)
+                        </li>
+                    </ul>
+                </p>
+
+               
+            </div>
+
+            <div class="d-block text-center card-footer">
+                <form asp-action="Consent" method="post">
+                    <div class="custom-checkbox custom-control">
+                        <input type="checkbox" id="consent_checkbox" name="consent_checkbox" class="custom-control-input"><label class="custom-control-label" for="consent_checkbox">
+    By signing below, you indicate that you understand and will abide by all written policies for all telehealth services provided at CHS.
+</label>
+                    </div>
+                    @*<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>*@
+                    <button class="btn-wide btn btn-success" type="submit">Accept consent</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section styles{
+<style>
+    .custom-control-label{
+        font-size:1rem;
+        font-weight:bold
+    }
+    p,li{
+        /*font-size:1rem*/
+    }
+    h5{
+        font-weight:bold
+    }
+</style>
+}

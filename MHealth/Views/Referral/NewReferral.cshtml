@@ -1,0 +1,349 @@
+﻿@using DAL.Models;
+@using DAL.Utils;
+@model mp_profile
+@{
+    ViewBag.Title = "New Referral";
+}
+<div class="row" style="margin-top:-15px">
+    <div class="col-md-8 offset-md-2">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("MyProfile","Clinician")">Home</a></li>
+
+                <li class="active breadcrumb-item" aria-current="page">New Referral</li>
+
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        @if (!string.IsNullOrEmpty(Model.first_name))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header text-info">
+                            <div class="card-header-title">
+                                Member Information
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-center">
+
+
+                                        <div class="circular_image">
+                                            <img src="@Url.Action("get_profile_image","User",new { user_id = Model.user_id })" alt="avatar">
+                                        </div>
+                                        <h6>@string.Format("{0} {1}", Model.last_name, Model.first_name)</h6>
+                                    </div>
+                                    <table class="table table-bordered table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th>Member ID</th>
+                                                <td class="answer">@Model.unique_id.ToString("D10")</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Preferred name</th>
+                                                <td>@Model.preferred_name</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date of birth</th>
+                                                <td>@Model.dob.ToString("dd MMM, yyyy")</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Gender</th>
+                                                <td>@Options.GetLookupName(Model.gender)</td>
+                                            </tr>
+                                            @if (Model.education_level.HasValue)
+                                            {
+                                                <tr>
+                                                    <th>Education level</th>
+                                                    <td>@Options.GetLookupName(Model.education_level.Value)</td>
+                                                </tr>
+                                            }
+
+                                            <tr>
+                                                @*<th colspan="2">About</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            @Model.about
+                                                        </td>
+                                                    </tr>*@
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header text-info">
+                            <div class="card-header-title">
+                                Search providers
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <form action="/api/clinician/GetClinicians" method="post" id="frm_search">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <input type="text" name="name" id="name" autocomplete="off" class="form-control form-control-sm" placeholder="search by provider name" />
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            @Html.DropDownList("appointmentType", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "select service type", new { @class = "form-control form-control-sm", id = "appointmentType", @onchange = "load_appointment_activities('appointmentType','appointmentCategory')" })
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control form-control-sm" id="appointmentCategory" name="appointmentCategory" onchange="load_appointment_activities_sub('appointmentCategory','appointmentActivity')"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control form-control-sm" id="appointmentActivity" name="appointmentActivity"></select>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button class="btn btn-success" type="submit">New Referral</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="clinician_search">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+
+
+
+
+    </div>
+</div>
+
+<div style="display:none" id="template">
+
+</div>
+
+
+@section scripts{
+    <script src="~/js/fn_table.js"></script>
+    <script src="~/lib/select2/js/select2.min.js"></script>
+    <script src="~/js/option_util.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#frm_search").submit(function (e) {
+
+                $("#clinician_search").empty();
+                e.preventDefault();
+
+                var frm_data = {
+                    name: $("#name").val(),
+                    appointmentType: check_empty($("#appointmentType").val()),
+                    appointmentCategory: check_empty($("#appointmentCategory").val()),
+                    appointmentActivity: check_empty($("#appointmentActivity").val())
+                };
+
+                var form = $(this);
+                var url = form.attr('action');
+                //var formData = JSON.stringify(form.serializeArray());
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    contentType: "application/json",
+                    //data: form.serialize(),
+                    data: JSON.stringify(frm_data),
+                    success: function (data) {
+                        //alert("Prescription submitted successfully.");
+                        //window.location.href = "/Prescription/Prescriptions";
+
+                        if (data.length == 0) {
+                            var div = '<div class="row row-border">';
+                            div += '<h3>No records found!</h3></div>';
+                            $("#clinician_search").append(div);
+                        }
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            var div = '<div class="row row-border">';
+                            div += '<div class="col-md-12"><a href="" class="btn btn-warning pull-right" data-toggle="modal" onclick=select_provider("' + data[i].id + '") data-target="#appModal" >Select</a><a href="/Clinician/Profile?id=' + data[i].id + '" target="_blank" class="btn btn-primary">View Profile</a></div>';
+                            div += '<div class="col-md-4"> <div class="text-center"><div class="circular_image">';
+                            div += '<img  src=/user/get_profile_image?user_id="' + data[i].user_id + '" alt="avatar"></div>';
+                            div += '<h6>' + data[i].fullName + '</h6></div></div>';
+                            div += '<div class="col-md-8"><h6>About</h6>';
+                            div += '<p>' + data[i].about + '</p>';
+                            div += '<h6>Area of Interest</h6>';
+                            div += '<p> ' + data[i].title + '</p>';
+                            div += '<h6>Address</h6>';
+                            div += '<p> ' + data[i].address + '</p>';
+                            div += '</div></div>';
+
+                            $("#clinician_search").append(div);
+
+                        }
+
+
+                    }
+
+                });
+
+
+            });
+
+
+            $("#frm_new_referral").submit(function (e) {
+
+                e.preventDefault();
+
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (data) {
+
+                        $("#step-1").hide();
+                        $("#step-2").show();
+                        $("#btn_continue").hide();
+                    }
+                });
+
+
+            });
+        });
+
+
+
+        function check_empty(value) {
+            if (value == null || value == "" || value == "Select") {
+                return null;
+            } else {
+                return Number(value);
+            }
+        }
+
+        function select_provider(provider_id) {
+            $("#clinician_id").val(provider_id);
+        }
+    </script>
+    @if (!string.IsNullOrEmpty(Model.first_name))
+    {
+        <div class="modal fade" id="appModal" tabindex="-1" role="dialog" aria-labelledby="appModalLabel" aria-hidden="true">
+            <form action="@Url.Action("PostReferral","Referral")" method="post" id="frm_new_referral">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title" id="appModalLabel">Refer a member to a provider</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="profile_id" value="@Model.id" id="profile_id" />
+                            <input type="hidden" name="clinician_id" id="clinician_id" />
+                            <div id="step-1" class="apt-wizard" style="display:block">
+                                <div class="position-relative form-group">
+                                    <label class="form-label">What type of appointment are you setting up for member? </label>
+                                    @Html.DropDownList("appointment_type", new SelectList(Options.GetAppointmentTypes(), "id", "name", null), "Select appointment type", new { @class = "form-control", @required = "required", id = "appointment_type", @onchange = "load_appointment_activities('appointment_type','appointment_category')" })
+                                </div>
+
+                                <div class="position-relative form-group">
+                                    <label class="form-label">What is the category of the appointment? </label>
+                                    <select class="form-control" id="appointment_category" name="appointment_category" onchange="load_appointment_activities_sub('appointment_category','appointment_category_sub')"></select>
+                                </div>
+                                <input type="hidden" name="match_id" id="match_id" />
+                                <div class="position-relative form-group">
+                                    <label class="form-label">Please specify the activity for the appointment </label>
+                                    <select class="form-control" id="appointment_category_sub" name="appointment_category_sub"></select>
+                                </div>
+                                <div class="position-relative form-group">
+                                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" onclick="">Continue</button>*@
+                                </div>
+                            </div>
+
+                            <div id="step-2" style="display:none">
+                                <h3>Your have successfully referred the @string.Format("{0} {1}", Model.last_name, Model.first_name)</h3>
+                                <div class="form-group">
+                                    <a href="@Url.Action("MyProfile","Clinician")" class="btn btn-success btn-lg" style="width:100%">Back Home</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="@Url.Action("Referrals","Referral")" class="btn btn-info btn-lg" style="width:100%">Go to Referrals</a>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn_continue">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <style>
+        select {
+            /*height: 44px !important*/
+        }
+
+        .row-border {
+            border: solid 1px #ccc;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin: 5px
+        }
+    </style>
+}
