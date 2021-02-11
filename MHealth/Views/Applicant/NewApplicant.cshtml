@@ -106,7 +106,7 @@
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
-                                        <label asp-for="preferred_name" class="control-label">Other Name (as written in certificate)<span class="required">*</span></label>
+                                        <label asp-for="preferred_name" class="control-label">Preferred Name (as written in certificate)<span class="required">*</span></label>
                                         <input asp-for="preferred_name" class="form-control" required>
                                         <span asp-validation-for="preferred_name" class="text-danger"></span>
                                     </div>
@@ -217,7 +217,7 @@
                             @if (ViewBag.provider_type != 177)
                             {
                                 <div class="form-group">
-                                    <label class="control-label">Please select your area of interest<span class="required">*</span></label>
+                                    <label class="control-label">Please select your area of specialty<span class="required">*</span></label>
                                     @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
                                 </div>
                             }
@@ -259,7 +259,7 @@
 
                                 <div class="col-md-12">
                                     <div class="position-relative form-group">
-                                        <label class="control-label">Year Qualified as a specialist </label>
+                                        <label class="control-label">Designated Year </label>
                                         <input maxlength="200" type="date" required="required" name="year_qualified_specialist" class="form-control" />
                                     </div>
                                 </div>

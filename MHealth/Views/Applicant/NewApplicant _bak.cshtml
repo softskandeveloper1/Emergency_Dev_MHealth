@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="position-relative form-group">
+                    <div class="position-relative form-group" style="display:none;">
                         <label asp-for="marital_status" class="control-label">Marital Status</label>
                         @*<select asp-for="marital_status" class="form-control">
                                 <option value="1">Single</option>
@@ -144,7 +144,7 @@
                                 <option value="4">Widowed</option>
                             </select>*@
                         @Html.DropDownList("marital_status", new SelectList(Options.Getlookups("marital_status"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
-                        <span asp-validation-for="marital_status" class="text-danger"></span>
+                        <span asp-validation-for="marital_status" class="text-danger"></span>                         
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@
 <fieldset class="individual">
 
     <div class="form-group">
-        <label class="control-label">What is your gender?</label>
+        <label class="control-label">What is your Gender?</label>
         @Html.DropDownList("gender", new SelectList(Options.Getlookups("gender"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
     </div>
     <div class="form-group">
@@ -20,7 +20,7 @@
 
 <fieldset>
     <div class="form-group">
-        <label class="control-label">Our therapists work with only people who are 13 or older. Are you 13years and older?</label>
+        <label class="control-label">Are you 18 years and older?</label>
         <select class="form-control" id="eligible">
             <option value="1">Yes</option>
             <option value="2">No</option>
@@ -94,7 +94,7 @@
 
 <fieldset>
     <div class="form-group">
-        <label class="control-label">Do you consider yourself to be religious?</label>
+        <label class="control-label">Religious Preference</label>
         @Html.DropDownList("religious", new SelectList(Options.Getlookups("yesno"), "id", "value", null), "Select..", new { @class = "form-control f1-religious", @required = "required", id = "religious" })
     </div>
     <div class="form-group" id="div_religion" style="display:none">

@@ -189,7 +189,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label">Please select your area of interest<span class="required">*</span></label>
+                                    <label class="control-label">Please select your area of specialty<span class="required">*</span></label>
                                     @Html.DropDownList("area_of_interest", new SelectList(Options.Getlookups("area_of_interest"), "id", "value", null), null, new { @class = "form-control", @required = "required" })
                                 </div>
 
@@ -223,7 +223,7 @@
 
                                     <div class="col-md-12">
                                         <div class="position-relative form-group">
-                                            <label class="control-label">Year Qualified as a specialist </label>
+                                            <label class="control-label">Designated Year </label>
                                             <div id="datepicker" class="input-group date datepicker" data-date-format="mm-dd-yyyy">
                                                 <input class="form-control" type="text" readonly required="required" name="year_qualified_specialist" />
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>

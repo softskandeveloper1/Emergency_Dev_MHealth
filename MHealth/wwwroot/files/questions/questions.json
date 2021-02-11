@@ -68,7 +68,7 @@
 	},
 	{
 		"id": "religious",
-		"question": "Do you consider yourself to be religious?",
+		"question": "Religious Preference",
 		"comment": "",
 		"q_type": "list",
 		"lookup_category": "yesno",

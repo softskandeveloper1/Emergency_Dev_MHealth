@@ -120,7 +120,7 @@
                                 <td>@Model.year_qualified_doctor</td>
                             </tr>
                             <tr>
-                                <th>Year qualified as a specialist</th>
+                                <th>Designated Year</th>
                                 <td>@Model.year_qualified_specialist</td>
                             </tr>
                             <tr>
@@ -174,7 +174,7 @@
                             @if (Model.area_of_interest.HasValue)
                             {
                             <tr>
-                                <th>Area of interest</th>
+                                <th>Area of specialty</th>
                                 <td>@Options.GetLookupName(Model.area_of_interest.Value)</td>
                             </tr>
                             }

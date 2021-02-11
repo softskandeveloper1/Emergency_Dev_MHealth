@@ -1,4 +1,5 @@
 ﻿@using DAL.Utils;
+
 @{
     ViewBag.Title = "Register";
     Layout = "_Layout_guest";
@@ -243,7 +244,7 @@
                     {
                         <fieldset>
                             <div class="form-group">
-                                <label class="control-label">What do you identify your self as?</label>
+                                <label class="control-label">What do you identify yourself as?</label>
                                 <select name="gender" class="form-control">
                                     @foreach (var lookup in Options.Getlookups("gender"))
                                     {
@@ -463,6 +464,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Email</label>
                                     <input maxlength="200" type="text" required="required" id="email" name="email" onkeyup="update_username(this.value)" class="form-control" placeholder="Enter your email address" />
+                                    
                                 </div>
                             </div>
                         </div>
@@ -530,7 +532,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">School Name</label>
-                                    <input maxlength="200" type="text" required="required" name="school_name" class="form-control" placeholder="Enter your school name" />
+                                    <input maxlength="200" type="text" name="school_name" class="form-control" placeholder="Enter your school name" />
                                 </div>
                             </div>
                         </div>
@@ -538,7 +540,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Can you tell us more about yourself</label>
-                                    <textarea class="form-control" name="about" required></textarea>
+                                    <textarea class="form-control" name="about" ></textarea>
                                 </div>
                             </div>
                         </div>
@@ -598,11 +600,18 @@
                     </fieldset>
 
                     <fieldset>
+                        
                         <legend>Enter your account credentials</legend>
 
+                        
                         <div class="form-group">
                             <label class="control-label">Email</label>
                             <input maxlength="200" type="email" required="required" name="username" id="username" class="form-control" placeholder="Enter your email" style="height:44px" autocomplete="anyrandomstring" />
+                        </div>
+                        <div>
+                            <label>Must contain 0-9</label><br />
+                            <label>At least 1 lower case a-Z</label><br />
+                            <label>At least 1 uppercase A-Z and special character.</label><br />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Password</label>
